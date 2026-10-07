@@ -1,6 +1,6 @@
 # NEXAOP
-- [ ] Increase surface contrast, editorial spacing and agent presence without touching the current logo, copy or logic.
-- [ ] Verify tests, preview compilation and desktop/mobile interactions after the new aesthetic pass.
+- [x] Increase surface contrast, editorial spacing and agent presence without touching the current logo, copy or logic.
+- [x] Verify 21 tests, successful preview compilation, five viewport widths and desktop/mobile interactions after the new aesthetic pass.
 - [x] Refine surfaces, spacing, hero, cards, agents, pricing, dashboard and footer while preserving current logo and functionality.
 - [x] Verify 21 passing tests, clean build/runtime signals, five viewport widths, dashboard controls, plan dialog, full diagnostic results and reset.
 - [x] Replace reconstructed logos with the supplied official asset without unrelated changes.
