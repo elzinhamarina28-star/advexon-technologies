@@ -10,11 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AgentesRouteImport } from './routes/agentes'
 import { Route as AthenaRouteImport } from './routes/athena'
+import { Route as PainelRouteImport } from './routes/painel'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentesRoute = AgentesRouteImport.update({
+  id: '/agentes',
+  path: '/agentes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AthenaRoute = AthenaRouteImport.update({
@@ -22,31 +29,44 @@ const AthenaRoute = AthenaRouteImport.update({
   path: '/athena',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PainelRoute = PainelRouteImport.update({
+  id: '/painel',
+  path: '/painel',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agentes': typeof AgentesRoute
   '/athena': typeof AthenaRoute
+  '/painel': typeof PainelRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agentes': typeof AgentesRoute
   '/athena': typeof AthenaRoute
+  '/painel': typeof PainelRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agentes': typeof AgentesRoute
   '/athena': typeof AthenaRoute
+  '/painel': typeof PainelRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/athena'
+  fullPaths: '/' | '/agentes' | '/athena' | '/painel'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/athena'
-  id: '__root__' | '/' | '/athena'
+  to: '/' | '/agentes' | '/athena' | '/painel'
+  id: '__root__' | '/' | '/agentes' | '/athena' | '/painel'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentesRoute: typeof AgentesRoute
   AthenaRoute: typeof AthenaRoute
+  PainelRoute: typeof PainelRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +78,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/agentes': {
+      id: '/agentes'
+      path: '/agentes'
+      fullPath: '/agentes'
+      preLoaderRoute: typeof AgentesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/athena': {
       id: '/athena'
       path: '/athena'
@@ -65,12 +92,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AthenaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/painel': {
+      id: '/painel'
+      path: '/painel'
+      fullPath: '/painel'
+      preLoaderRoute: typeof PainelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentesRoute: AgentesRoute,
   AthenaRoute: AthenaRoute,
+  PainelRoute: PainelRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
