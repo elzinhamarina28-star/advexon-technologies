@@ -12,10 +12,11 @@ export function calculateScore(answers: Answers) {
  for (const category of categories) {
   let total = 0; let weight = 0;
   for (const q of questions) {
-   const selected = answers[q.id]?.[0];
+   const picked = answers[q.id] ?? [];
+   const selected = picked[0];
    const w = q.weights[category] ?? 0;
    if (selected === undefined || !q.scores || !w) continue;
-   const value = q.scores[selected];
+   const value = q.scoreMultiple ? q.scoreMultiple(picked) : q.scores[selected];
    if (value === undefined) continue;
    total += value * w; weight += w;
   }

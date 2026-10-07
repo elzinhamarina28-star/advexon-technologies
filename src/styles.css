@@ -620,3 +620,10 @@ h1,h2,h3,p { margin: 0; letter-spacing: 0; }
  .detail-row { flex-direction:column; gap:8px; padding:20px 0; }
 }
 @media(max-width:370px) { .hero h1 { font-size:48px; } .hero-label { font-size:8px; } .plan-price strong { font-size:44px; } }
+/* Footer logo on dark surface + diagnostic result additions */
+.brand-full { width:210px; background:none; border-radius:0; }
+.footer .brand-full { filter:drop-shadow(0 10px 28px color-mix(in srgb, var(--violet) 22%, transparent)); }
+.result-details > .result-help { grid-column:1 / -1; border-top:1px solid var(--border); padding-top:24px; }
+.result-explanation { max-width:520px; margin:14px auto 0; color:var(--muted-foreground); font-size:14px; line-height:1.6; text-align:center; }
+.result-note { font-size:11px; color:var(--muted-foreground); opacity:.8; margin-top:6px; font-style:italic; }
+@media(max-width:600px) { .brand-full { width:170px; } .result-explanation { font-size:13px; } }
