@@ -78,7 +78,7 @@ h1,h2,h3,p { margin: 0; letter-spacing: 0; }
 .microcopy { font-size:10px; color:var(--muted-foreground); }
 .hero-mockup { position:relative; width:min(1050px,100%); margin:45px auto 0; text-align:left; }
 .mockup-caption { display:flex; justify-content:center; align-items:center; gap:6px; color:var(--muted-foreground); font-size:9px; margin-top:14px; }
-.dashboard { background:var(--card); border:1px solid var(--border); border-radius:13px; box-shadow:var(--mockup-shadow); overflow:hidden; display:grid; grid-template-columns:174px 1fr; min-height:466px; font-size:10px; }
+.dashboard { background:var(--card); border:1px solid var(--border); border-radius:13px; box-shadow:var(--mockup-shadow); overflow:hidden; display:grid; grid-template-columns:192px 1fr; min-height:466px; font-size:10px; }
 .dashboard-side { background:color-mix(in oklch,var(--background) 50%,var(--card)); border-right:1px solid var(--border); padding:24px 16px; display:flex; flex-direction:column; }
 .dashboard-side .brand { font-size:15px; gap:7px; margin-bottom:25px; }
 .dashboard-side .brand-symbol { transform:scale(.72); width:22px; }
