@@ -11,4 +11,5 @@
 
 - [x] Client dashboard page (/painel) with session score, demo indicators, agents, opportunities.
 - [x] Dedicated agents page (/agentes); links from diagnostic result and footer.
-- [ ] Live ATHENA reply test with Gemini (blocked: owner must add/confirm GEMINI_API_KEY in Secrets).
+- [ ] Live ATHENA reply via Gemini (blocked: Gemini returned 503 "high demand"; retry later).
+- [x] /planos route; integration flags in shared/integrations.ts (auth, database, Kiwify, WhatsApp off).
