@@ -8,3 +8,11 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Application architecture
+- Keep the requested single-scroll marketing experience at the index route with semantic hash anchors; its public sections intentionally share one page.
+- Isolate marketing, diagnostic, product-preview, agents, pricing, comparison and shared modules under src/features to prepare independent SaaS evolution.
+- Store agent and plan definitions in typed configuration; new agents and checkout destinations must not require rewriting presentation logic.
+- Keep diagnostic questions, weights, score classification and recommendations separate from UI; scores measure operational maturity with normalized category averages, while volume acts as workload context and preference answers guide recommendations.
+- Diagnostic results and optional report downloads are browser-local with no persistence or delivery service; this keeps the requested phase free of backend connections.
+- Express brand presentation through semantic CSS tokens and shared Button variants for consistent theming.
