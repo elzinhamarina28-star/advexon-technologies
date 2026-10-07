@@ -1,4 +1,4 @@
-export const ATHENA_MODEL = 'gpt-4o-mini';
+export const ATHENA_MODEL = 'gemini-3.7-flash';
 export const ATHENA_MAX_MESSAGES = 30;
 export const ATHENA_MAX_CHARS = 2000;
 

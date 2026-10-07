@@ -8,27 +8,33 @@ const schema = z.object({
 
 export type AthenaReply = { ok: true; reply: string } | { ok: false; error: string };
 
+const NO_ACCESS = 'A ATHENA está sem acesso ao serviço de IA no momento.';
+
 export const askAthena = createServerFn({ method: 'POST' })
   .inputValidator((data: unknown) => schema.parse(data))
   .handler(async ({ data }): Promise<AthenaReply> => {
-    const apiKey = process.env['OPENAI_API_KEY'];
+    const apiKey = process.env['GEMINI_API_KEY'];
     if (!apiKey) return { ok: false, error: 'A ATHENA ainda não está configurada. A chave de acesso precisa ser adicionada.' };
     try {
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${ATHENA_MODEL}:generateContent`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: ATHENA_MODEL, temperature: 0.4, max_tokens: 500, messages: [{ role: 'system', content: ATHENA_SYSTEM_PROMPT }, ...data.messages] }),
+        headers: { 'x-goog-api-key': apiKey, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          systemInstruction: { parts: [{ text: ATHENA_SYSTEM_PROMPT }] },
+          contents: data.messages.map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })),
+          generationConfig: { temperature: 0.4, maxOutputTokens: 800 },
+        }),
       });
       if (!res.ok) {
         const body = await res.text().catch(() => '');
         console.error('ATHENA upstream error', res.status, body);
-        if (body.includes('insufficient_quota')) return { ok: false, error: 'A conta da OpenAI ligada à ATHENA está sem créditos. Adicione créditos na OpenAI para continuar.' };
-        if (res.status === 401) return { ok: false, error: 'A chave de acesso da ATHENA é inválida.' };
-        if (res.status === 429) return { ok: false, error: 'Muitas solicitações ou limite da conta atingido. Tente novamente em instantes.' };
+        if (res.status === 400 && body.includes('API_KEY_INVALID')) return { ok: false, error: 'A chave de acesso da ATHENA é inválida.' };
+        if (res.status === 401 || res.status === 403) return { ok: false, error: NO_ACCESS };
+        if (res.status === 429) return { ok: false, error: 'Muitas solicitações ou limite de uso atingido. Tente novamente em instantes.' };
         return { ok: false, error: 'A ATHENA está indisponível no momento. Tente novamente.' };
       }
-      const json = (await res.json()) as { choices?: { message?: { content?: string } }[] };
-      const reply = json.choices?.[0]?.message?.content?.trim();
+      const json = (await res.json()) as { candidates?: { content?: { parts?: { text?: string }[] } }[] };
+      const reply = json.candidates?.[0]?.content?.parts?.map(p => p.text ?? '').join('').trim();
       return reply ? { ok: true, reply } : { ok: false, error: 'A ATHENA não conseguiu responder. Tente reformular.' };
     } catch (e) {
       console.error('ATHENA request failed', e);
