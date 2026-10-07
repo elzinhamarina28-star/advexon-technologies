@@ -8,3 +8,7 @@
 - [x] Confirm responsive rendering at 1440, 1280, 1024, 390 and 360 pixels, passing tests and clean build/runtime signals.- [x] ATHENA V1 playground (/athena) with server-side model call and session-only history.
 - [x] OPENAI_API_KEY secret saved.
 - [ ] Live ATHENA reply test (blocked: OpenAI account has no credits).
+
+- [x] Client dashboard page (/painel) with session score, demo indicators, agents, opportunities.
+- [x] Dedicated agents page (/agentes); links from diagnostic result and footer.
+- [ ] Live ATHENA reply test with Gemini (blocked: owner must add/confirm GEMINI_API_KEY in Secrets).
