@@ -20,7 +20,9 @@ export const askAthena = createServerFn({ method: 'POST' })
         body: JSON.stringify({ model: ATHENA_MODEL, temperature: 0.4, max_tokens: 500, messages: [{ role: 'system', content: ATHENA_SYSTEM_PROMPT }, ...data.messages] }),
       });
       if (!res.ok) {
-        console.error('ATHENA upstream error', res.status, await res.text().catch(() => ''));
+        const body = await res.text().catch(() => '');
+        console.error('ATHENA upstream error', res.status, body);
+        if (body.includes('insufficient_quota')) return { ok: false, error: 'A conta da OpenAI ligada à ATHENA está sem créditos. Adicione créditos na OpenAI para continuar.' };
         if (res.status === 401) return { ok: false, error: 'A chave de acesso da ATHENA é inválida.' };
         if (res.status === 429) return { ok: false, error: 'Muitas solicitações ou limite da conta atingido. Tente novamente em instantes.' };
         return { ok: false, error: 'A ATHENA está indisponível no momento. Tente novamente.' };
