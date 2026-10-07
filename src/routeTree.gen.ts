@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AgentesRouteImport } from './routes/agentes'
 import { Route as AthenaRouteImport } from './routes/athena'
 import { Route as PainelRouteImport } from './routes/painel'
+import { Route as PlanosRouteImport } from './routes/planos'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +35,25 @@ const PainelRoute = PainelRouteImport.update({
   path: '/painel',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlanosRoute = PlanosRouteImport.update({
+  id: '/planos',
+  path: '/planos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agentes': typeof AgentesRoute
   '/athena': typeof AthenaRoute
   '/painel': typeof PainelRoute
+  '/planos': typeof PlanosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agentes': typeof AgentesRoute
   '/athena': typeof AthenaRoute
   '/painel': typeof PainelRoute
+  '/planos': typeof PlanosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/agentes': typeof AgentesRoute
   '/athena': typeof AthenaRoute
   '/painel': typeof PainelRoute
+  '/planos': typeof PlanosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/agentes' | '/athena' | '/painel'
+  fullPaths: '/' | '/agentes' | '/athena' | '/painel' | '/planos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/agentes' | '/athena' | '/painel'
-  id: '__root__' | '/' | '/agentes' | '/athena' | '/painel'
+  to: '/' | '/agentes' | '/athena' | '/painel' | '/planos'
+  id: '__root__' | '/' | '/agentes' | '/athena' | '/painel' | '/planos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +76,7 @@ export interface RootRouteChildren {
   AgentesRoute: typeof AgentesRoute
   AthenaRoute: typeof AthenaRoute
   PainelRoute: typeof PainelRoute
+  PlanosRoute: typeof PlanosRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PainelRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/planos': {
+      id: '/planos'
+      path: '/planos'
+      fullPath: '/planos'
+      preLoaderRoute: typeof PlanosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   AgentesRoute: AgentesRoute,
   AthenaRoute: AthenaRoute,
   PainelRoute: PainelRoute,
+  PlanosRoute: PlanosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
