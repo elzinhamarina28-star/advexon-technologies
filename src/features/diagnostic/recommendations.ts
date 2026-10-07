@@ -54,6 +54,7 @@ export function recommend(answers: Answers) {
   findings: findings.slice(0, 5),
   opportunities: unique,
   weakest,
+  bottleneck: bottleneckText,
   firstAgent,
   agentReason,
   help: help[weakest],
