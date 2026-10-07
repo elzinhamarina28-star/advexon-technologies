@@ -1,11 +1,11 @@
 {
-  "version": 1,
   "asset_id": "f3617af2-1fab-46d8-a015-8f27355b224a",
-  "project_id": "f43effd3-7124-41b0-96aa-735bccda154c",
-  "url": "/__l5e/assets-v1/f3617af2-1fab-46d8-a015-8f27355b224a/nexaop-official.png",
-  "r2_key": "a/v1/f43effd3-7124-41b0-96aa-735bccda154c/f3617af2-1fab-46d8-a015-8f27355b224a/nexaop-official.png",
-  "original_filename": "nexaop-official.png",
-  "size": 1146080,
   "content_type": "image/png",
-  "created_at": "2026-10-07T14:10:45Z"
+  "created_at": "2026-10-07T14:10:45Z",
+  "original_filename": "nexaop-official.png",
+  "project_id": "3c598ee6-2138-49bf-8143-8569038d0e88",
+  "r2_key": "a/v1/3c598ee6-2138-49bf-8143-8569038d0e88/f3617af2-1fab-46d8-a015-8f27355b224a/nexaop-official.png",
+  "size": 1146080,
+  "url": "/__l5e/assets-v1/f3617af2-1fab-46d8-a015-8f27355b224a/nexaop-official.png",
+  "version": 1
 }
