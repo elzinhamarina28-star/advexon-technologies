@@ -4,6 +4,7 @@ import { ArrowLeft, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Brand } from '@/features/shared/Brand';
+import { authErrorKind, authErrorMessage, recoveryNotice, signupNotice, validateAuthForm } from '@/features/client-app/auth-messages';
 
 const title = 'Entrar ou criar conta | NEXAOP';
 const description = 'Acesse sua área NEXAOP: diagnóstico, equipe IA, vendas e organização.';
@@ -17,17 +18,20 @@ function AuthPage() {
   const [mode, setMode] = useState<'in' | 'up' | 'forgot'>('in');
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<{ type: 'error' | 'ok'; text: string } | null>(null);
-  useEffect(() => { supabase.auth.getSession().then(({ data }) => { if (data.session) navigate({ to: '/app' }); }); }, [navigate]);
+  useEffect(() => { supabase.auth.getSession().then(({ data, error }) => { if (error) setMsg({ type: 'error', text: authErrorMessage(error) }); else if (data.session) navigate({ to: '/app' }); }).catch(error => setMsg({ type: 'error', text: authErrorMessage(error) })); }, [navigate]);
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault(); setBusy(true); setMsg(null);
+    e.preventDefault(); setMsg(null);
+    const validation = validateAuthForm(e.currentTarget, 'auth-feedback');
+    if (validation) { setMsg({ type: 'error', text: validation }); return; }
+    setBusy(true);
     const f = new FormData(e.currentTarget);
-    const email = String(f.get('email')); const password = String(f.get('password') ?? '');
+    const email = String(f.get('email')).trim(); const password = String(f.get('password') ?? '');
     try {
       if (mode === 'forgot') {
         const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/reset-password` });
         if (error) throw error;
-        setMsg({ type: 'ok', text: 'Se houver uma conta com este e-mail, enviamos um link para redefinir a senha.' });
+        setMsg({ type: 'ok', text: recoveryNotice });
       } else if (mode === 'in') {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -36,11 +40,12 @@ function AuthPage() {
         const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/auth`, data: { full_name: String(f.get('name') || '') } } });
         if (error) throw error;
         if (data.session) navigate({ to: '/app' });
-        else setMsg({ type: 'ok', text: 'Conta criada. Confirme pelo link enviado ao seu e-mail e depois entre.' });
+        else setMsg({ type: 'ok', text: signupNotice });
       }
     } catch (err) {
-      const t = err instanceof Error ? err.message : '';
-      setMsg({ type: 'error', text: /invalid login/i.test(t) ? 'E-mail ou senha incorretos.' : /registered/i.test(t) ? 'Este e-mail já tem conta. Use “Entrar”.' : /confirm/i.test(t) ? 'Confirme seu e-mail antes de entrar.' : t || 'Não foi possível continuar. Tente novamente.' });
+      const kind = authErrorKind(err);
+      if (mode === 'forgot' && ['existing-account', 'session', 'credentials'].includes(kind)) setMsg({ type: 'ok', text: recoveryNotice });
+      else setMsg({ type: mode === 'up' && kind === 'existing-account' ? 'ok' : 'error', text: authErrorMessage(err) });
     } finally { setBusy(false); }
   }
 
@@ -52,14 +57,14 @@ function AuthPage() {
           <button role="tab" aria-selected={mode === 'in'} className={mode === 'in' ? 'active' : ''} onClick={() => { setMode('in'); setMsg(null); }}>Entrar</button>
           <button role="tab" aria-selected={mode === 'up'} className={mode === 'up' ? 'active' : ''} onClick={() => { setMode('up'); setMsg(null); }}>Criar conta</button>
         </div>
-        <form className="app-form" onSubmit={submit}>
+        <form className="app-form" noValidate onSubmit={submit}>
           {mode === 'up' && <label>Seu nome<input name="name" autoComplete="name" required /></label>}
           <label>E-mail<input name="email" type="email" autoComplete="email" required /></label>
           {mode !== 'forgot' && <label>Senha<input name="password" type="password" minLength={6} autoComplete={mode === 'in' ? 'current-password' : 'new-password'} required /></label>}
           <Button variant="nexa" type="submit" disabled={busy}>{busy && <Loader2 className="cd-spin" />}{mode === 'in' ? 'Entrar' : mode === 'up' ? 'Criar conta' : 'Enviar link de recuperação'}</Button>
           {mode === 'in' && <button type="button" className="nav-link" onClick={() => { setMode('forgot'); setMsg(null); }}>Esqueci minha senha</button>}
           {mode === 'forgot' && <button type="button" className="nav-link" onClick={() => { setMode('in'); setMsg(null); }}>Voltar para Entrar</button>}
-          {msg && <p role={msg.type === 'error' ? 'alert' : 'status'} className={msg.type === 'error' ? 'app-error' : 'cd-small'}>{msg.text}</p>}
+          {msg && <p id="auth-feedback" role={msg.type === 'error' ? 'alert' : 'status'} className={msg.type === 'error' ? 'app-error' : 'cd-small'}>{msg.text}</p>}
         </form>
       </div>
     </section>

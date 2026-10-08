@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
+import { authErrorMessage, validateAuthForm } from '@/features/client-app/auth-messages';
 import { pageHead, requireUserId, useAuthUser, useProfile } from '@/features/client-app/data';
 
 export const Route = createFileRoute('/_authenticated/app/conta')({ head: pageHead('Minha conta'), component: Page });
@@ -20,10 +21,16 @@ function Page() {
   }
   async function changePw(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault(); const form = e.currentTarget;
-    const { error } = await supabase.auth.updateUser({ password: String(new FormData(form).get('password')) });
-    setPwMsg(error ? error.message : 'Senha alterada.'); if (!error) form.reset();
+    setPwMsg('');
+    const validation = validateAuthForm(form, 'password-feedback');
+    if (validation) { setPwMsg(validation); return; }
+    try {
+      const { error } = await supabase.auth.updateUser({ password: String(new FormData(form).get('password')) });
+      if (error) throw error;
+      setPwMsg('Senha alterada.'); form.reset();
+    } catch (error) { setPwMsg(authErrorMessage(error)); }
   }
-  async function signOutAll() { await supabase.auth.signOut({ scope: 'global' }); qc.clear(); navigate({ to: '/auth' }); }
+  async function signOutAll() { try { const { error } = await supabase.auth.signOut({ scope: 'global' }); if (error) throw error; qc.clear(); navigate({ to: '/auth' }); } catch (error) { setPwMsg(authErrorMessage(error)); } }
   if (!p) return null;
   return <>
     <h1 className="section-title">Minha conta</h1>
@@ -39,7 +46,7 @@ function Page() {
       </form>
       <div className="cd-card">
         <h2>Segurança e sessão</h2>
-        <form className="app-form" onSubmit={changePw}><label>Nova senha<input name="password" type="password" minLength={6} autoComplete="new-password" required /></label><Button variant="nexa" type="submit">Alterar senha</Button>{pwMsg && <p className="cd-small" role="status">{pwMsg}</p>}</form>
+        <form className="app-form" noValidate onSubmit={changePw}><label>Nova senha<input name="password" type="password" minLength={6} autoComplete="new-password" required /></label><Button variant="nexa" type="submit">Alterar senha</Button>{pwMsg && <p id="password-feedback" className="cd-small" role="status">{pwMsg}</p>}</form>
         <Button variant="ghost" className="app-gap" onClick={signOutAll}>Sair de todos os dispositivos</Button>
       </div>
     </div>
