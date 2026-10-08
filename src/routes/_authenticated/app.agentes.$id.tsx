@@ -33,8 +33,11 @@ export const Route = createFileRoute('/_authenticated/app/agentes/$id')({
 });
 
 function Page() {
-  const { id } = Route.useParams(); const agent = agents.find(a => a.id === id)!;
-  const g = guide[agent.id]!;
+  const { id } = Route.useParams();
+  const agent = agents.find(a => a.id === id);
+  if (!agent) throw notFound();
+  const g = guide[agent.id];
+  if (!g) throw notFound();
   return <>
     <h1 className="section-title">{agent.name} — {agent.role}</h1>
     <p className="cd-small">{g.status}</p>
@@ -43,5 +46,6 @@ function Page() {
       <article className="cd-card"><h2>Como usar agora</h2><ul className="cd-list">{g.use.map(d => <li key={d}>{d}</li>)}</ul>
         <Button asChild variant="nexa" className="app-gap"><Link to={g.action.to}>{g.action.label}<ArrowRight /></Link></Button></article>
     </div>
+    {(id === 'ethan' || id === 'follow-up') && <PaidChat id={id} name={agent.name} />}
   </>;
 }
