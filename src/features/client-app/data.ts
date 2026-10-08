@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { recommend } from '../diagnostic/recommendations';
 import type { Answers } from '../diagnostic/score';
+import { parseSubscription } from './entitlements';
 
 export async function requireUserId() {
   const { data, error } = await supabase.auth.getUser();
@@ -35,10 +36,10 @@ export const useLatestDiagnostic = () => useQuery({
 export const useSubscription = () => useQuery({
   queryKey: ['subscription'],
   queryFn: async () => {
-    const id = await requireUserId();
-    const { data, error } = await supabase.from('subscriptions').select('plan_id, status, current_period_end').eq('user_id', id).maybeSingle();
+    await requireUserId();
+    const { data, error } = await supabase.rpc('get_effective_subscription');
     if (error) throw error;
-    return data;
+    return parseSubscription(data);
   },
 });
 

@@ -1,4 +1,7 @@
 # NEXAOP
+- [x] Add secure internal plan switching and align implemented paid features; entitlement tests and deployed grants/policies verified without external calls.
+- [ ] Verify signed-in internal plan switching end-to-end (blocked: owner account not yet identified; sandbox SQL connection cannot execute authenticated functions).
+- [ ] Link owner's internal account (blocked until owner creates/signs into her account).
 - [x] Deepen isolated /previa operational views and shared real-app presentation, preserving landing, access rules and real data.
 - [x] Verify preview navigation, mobile layout, changed route tests and compilation without model calls.
 - [x] Connect public sign-in/start links and a navigable, isolated app preview; verify changed routes without model calls.

@@ -5,8 +5,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { pageHead, requireUserId } from '@/features/client-app/data';
 import { OperationMetrics, Status } from '@/features/shared/Operations';
+import { PaidAccess } from '@/features/client-app/PaidAccess';
 
-export const Route = createFileRoute('/_authenticated/app/vendas')({ head: pageHead('Vendas'), component: Page });
+export const Route = createFileRoute('/_authenticated/app/vendas')({ head: pageHead('Vendas'), component: () => <PaidAccess feature="pipeline"><Page /></PaidAccess> });
 const stages = [['novo', 'Novo'], ['qualificado', 'Qualificado'], ['proposta', 'Proposta'], ['ganho', 'Ganho'], ['perdido', 'Perdido']] as const;
 type Stage = typeof stages[number][0];
 
@@ -14,7 +15,7 @@ function Page() {
   const qc = useQueryClient();
   const list = useQuery({ queryKey: ['opportunities'], queryFn: async () => { const id = await requireUserId(); const { data, error } = await supabase.from('opportunities').select('*').eq('user_id', id).order('created_at', { ascending: false }); if (error) throw error; return data; } });
   const done = () => { qc.invalidateQueries({ queryKey: ['opportunities'] }); qc.invalidateQueries({ queryKey: ['dashboard-counts'] }); };
-  const add = useMutation({ mutationFn: async (f: Record<string, string>) => { const user_id = await requireUserId(); const { error } = await supabase.from('opportunities').insert({ user_id, name: f['name']!, contact: f['contact'] || null, value: f['value'] ? Number(f['value']) : null, next_action: f['next_action'] || null }); if (error) throw error; }, onSuccess: done });
+  const add = useMutation({ mutationFn: async (f: Record<string, string>) => { const user_id = await requireUserId(); const name = f['name']; if (!name?.trim()) throw new Error('Informe a oportunidade.'); const { error } = await supabase.from('opportunities').insert({ user_id, name, contact: f['contact'] || null, value: f['value'] ? Number(f['value']) : null, next_action: f['next_action'] || null }); if (error) throw error; }, onSuccess: done });
   const setStage = useMutation({ mutationFn: async ({ id, stage }: { id: string; stage: Stage }) => { const { error } = await supabase.from('opportunities').update({ stage, updated_at: new Date().toISOString() }).eq('id', id); if (error) throw error; }, onSuccess: done });
   const del = useMutation({ mutationFn: async (id: string) => { const { error } = await supabase.from('opportunities').delete().eq('id', id); if (error) throw error; }, onSuccess: done });
 

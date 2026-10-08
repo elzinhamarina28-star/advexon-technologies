@@ -80,6 +80,27 @@ export type Database = {
         }
         Relationships: []
       }
+      internal_test_accounts: {
+        Row: {
+          enabled: boolean
+          plan_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          enabled?: boolean
+          plan_id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          enabled?: boolean
+          plan_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       opportunities: {
         Row: {
           contact: string | null
@@ -220,7 +241,9 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_effective_subscription: { Args: never; Returns: Json }
+      has_operational_access: { Args: never; Returns: boolean }
+      set_internal_test_plan: { Args: { selected_plan: string }; Returns: Json }
     }
     Enums: {
       [_ in never]: never

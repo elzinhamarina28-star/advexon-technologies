@@ -5,14 +5,15 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { pageHead, requireUserId } from '@/features/client-app/data';
 import { OperationMetrics, Status } from '@/features/shared/Operations';
+import { PaidAccess } from '@/features/client-app/PaidAccess';
 
-export const Route = createFileRoute('/_authenticated/app/organizacao')({ head: pageHead('Organização'), component: Page });
+export const Route = createFileRoute('/_authenticated/app/organizacao')({ head: pageHead('Organização'), component: () => <PaidAccess feature="organization"><Page /></PaidAccess> });
 
 function Page() {
   const qc = useQueryClient();
   const list = useQuery({ queryKey: ['tasks'], queryFn: async () => { const id = await requireUserId(); const { data, error } = await supabase.from('tasks').select('*').eq('user_id', id).order('done').order('due_date', { nullsFirst: false }); if (error) throw error; return data; } });
   const done = () => { qc.invalidateQueries({ queryKey: ['tasks'] }); qc.invalidateQueries({ queryKey: ['dashboard-counts'] }); };
-  const add = useMutation({ mutationFn: async (f: Record<string, string>) => { const user_id = await requireUserId(); const { error } = await supabase.from('tasks').insert({ user_id, title: f['title']!, due_date: f['due_date'] || null }); if (error) throw error; }, onSuccess: done });
+  const add = useMutation({ mutationFn: async (f: Record<string, string>) => { const user_id = await requireUserId(); const title = f['title']; if (!title?.trim()) throw new Error('Informe a tarefa.'); const { error } = await supabase.from('tasks').insert({ user_id, title, due_date: f['due_date'] || null }); if (error) throw error; }, onSuccess: done });
   const toggle = useMutation({ mutationFn: async ({ id, value }: { id: string; value: boolean }) => { const { error } = await supabase.from('tasks').update({ done: value }).eq('id', id); if (error) throw error; }, onSuccess: done });
   const del = useMutation({ mutationFn: async (id: string) => { const { error } = await supabase.from('tasks').delete().eq('id', id); if (error) throw error; }, onSuccess: done });
   const today = new Date().toISOString().slice(0, 10);
