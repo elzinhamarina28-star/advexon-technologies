@@ -10,6 +10,7 @@
 <!-- LOVABLE:END -->
 
 ## Application architecture
+- Normalize authentication provider errors and form validation through a shared client-safe module, with generic account-existence responses and accessible custom validation, to avoid leaking technical errors or browser-language messages.
 - Resolve effective entitlements through an authenticated database function: service-managed internal test accounts override only their own test plan, never real subscriptions; test plan changes bind to auth.uid() so normal users cannot self-enroll or change another account.
 - Enforce paid operational access with restrictive owner-compatible database policies and authenticated agent handlers, so browser-only controls cannot unlock paid features.
 - Public /previa uses a dedicated operational preview with shared presentation primitives and browser-local Diagnostic; it never mounts live agent chats or authenticated data pages. The marketing Dashboard stays untouched to preserve the frozen landing.
