@@ -10,8 +10,8 @@ import { pageHead, requireUserId, useProfile } from '@/features/client-app/data'
 export const Route = createFileRoute('/_authenticated/app')({ head: pageHead('Área do cliente'), component: AppLayout });
 
 const nav = [
-  { to: '/app', label: 'Dashboard', id: undefined }, { to: '/app/diagnostico', label: 'Diagnóstico', id: undefined }, { to: '/app/equipe', label: 'Equipe IA' },
-  { to: '/app/agentes/$id', id: 'athena', label: 'ATHENA' }, { to: '/app/agentes/$id', id: 'ethan', label: 'ETHAN' }, { to: '/app/agentes/$id', id: 'follow-up', label: 'FOLLOW-UP' },
+  { to: '/app', label: 'Dashboard' }, { to: '/app/diagnostico', label: 'Diagnóstico' }, { to: '/app/equipe', label: 'Equipe IA' },
+  { to: '/app/agentes/athena' as '/app', label: 'ATHENA' }, { to: '/app/agentes/ethan' as '/app', label: 'ETHAN' }, { to: '/app/agentes/follow-up' as '/app', label: 'FOLLOW-UP' },
   { to: '/app/vendas', label: 'Vendas' }, { to: '/app/organizacao', label: 'Organização' }, { to: '/app/assinatura', label: 'Assinatura' },
   { to: '/app/conta', label: 'Minha conta' }, { to: '/app/configuracoes', label: 'Configurações' },
 ] as const;
@@ -25,7 +25,7 @@ function AppLayout() {
     <header className="athena-top container"><Link to="/"><Brand /></Link><Button variant="ghost" onClick={signOut}><LogOut />Sair</Button></header>
     <div className="container app-shell">
       <nav className="app-nav" aria-label="Área do cliente">
-        {nav.map(n => <Link key={n.label} to={n.to} params={n.id ? { id: n.id } : undefined} className="nav-link" activeOptions={{ exact: n.to === '/app' }} activeProps={{ className: 'nav-link app-active' }}>{n.label}</Link>)}
+        {nav.map(n => <Link key={n.label} to={n.to} className="nav-link" activeOptions={{ exact: n.to === '/app' }} activeProps={{ className: 'nav-link app-active' }}>{n.label}</Link>)}
       </nav>
       <section className="app-main">
         {profile.isLoading ? <div className="cd-card cd-center"><Loader2 className="cd-spin" />Carregando…</div>
@@ -45,7 +45,7 @@ function Onboarding({ name }: { name: string }) {
     const f = Object.fromEntries(new FormData(e.currentTarget)) as Record<string, string>;
     try {
       const id = await requireUserId();
-      const { error } = await supabase.from('profiles').upsert({ id, full_name: f['full_name'], company_name: f['company_name'], segment: f['segment'], team_size: f['team_size'], main_goal: f['main_goal'], onboarded: true, updated_at: new Date().toISOString() });
+      const { error } = await supabase.from('profiles').upsert({ id, full_name: f['full_name'] ?? null, company_name: f['company_name'] ?? null, segment: f['segment'] ?? null, team_size: f['team_size'] ?? null, main_goal: f['main_goal'] ?? null, onboarded: true, updated_at: new Date().toISOString() });
       if (error) throw error;
       await qc.invalidateQueries({ queryKey: ['profile'] });
     } catch (e2) { setErr(e2 instanceof Error ? e2.message : 'Erro ao salvar.'); setBusy(false); }

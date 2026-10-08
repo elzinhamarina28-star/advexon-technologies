@@ -15,7 +15,7 @@ function Page() {
     e.preventDefault(); setMsg('');
     const f = Object.fromEntries(new FormData(e.currentTarget)) as Record<string, string>;
     const id = await requireUserId();
-    const { error } = await supabase.from('profiles').update({ full_name: f['full_name'], company_name: f['company_name'], segment: f['segment'], team_size: f['team_size'], updated_at: new Date().toISOString() }).eq('id', id);
+    const { error } = await supabase.from('profiles').update({ full_name: f['full_name'] ?? null, company_name: f['company_name'] ?? null, segment: f['segment'] ?? null, team_size: f['team_size'] ?? null, updated_at: new Date().toISOString() }).eq('id', id);
     setMsg(error ? 'Erro ao salvar.' : 'Dados salvos.'); qc.invalidateQueries({ queryKey: ['profile'] });
   }
   async function changePw(e: React.FormEvent<HTMLFormElement>) {
