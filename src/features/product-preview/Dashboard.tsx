@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from '@tanstack/react-router';
 import { LayoutDashboard, MessageSquare, TrendingUp, Repeat2, FolderOpen, Bot, Bell, ChevronDown, ArrowUpRight, Sparkles, Target, CheckCheck, Settings, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Brand } from '../shared/Brand';
@@ -10,8 +11,8 @@ const details: Record<string, {title:string; status:string}[]> = {
  'Organização':[{title:'Informações de atendimento',status:'Contexto centralizado'},{title:'Prioridades da semana',status:'3 tarefas demonstrativas'},{title:'Próximos passos comerciais',status:'Organizados por oportunidade'}],
  'Equipe IA':[{title:'ATHENA — Atendimento IA',status:'Primeiro atendimento'},{title:'ETHAN — Qualificação IA',status:'Organização de oportunidades'},{title:'FOLLOW-UP — Continuidade',status:'Acompanhamento de conversas'}],
 };
-export function Dashboard() {
- const [tab,setTab]=useState('Visão geral'); const [notifications,setNotifications]=useState(false);
+export function Dashboard({ initialTab = 'Visão geral' }: { initialTab?: string } = {}) {
+  const [tab,setTab]=useState(initialTab); const [notifications,setNotifications]=useState(false);
  return <div className="dashboard" aria-label="Prévia demonstrativa do dashboard NEXAOP">
   <aside className="dashboard-side"><Brand/><div className="workspace"><span className="workspace-icon"><FolderOpen size={12}/></span><span>Minha empresa</span><ChevronDown size={10}/></div>
    <nav aria-label="Prévia do produto" className="dashboard-nav">{tabs.map(t=><Button variant="ghost" key={t.name} className={`dashboard-nav-item ${tab===t.name?'active':''}`} onClick={()=>setTab(t.name)}><t.icon/>{t.name}</Button>)}</nav>
@@ -25,7 +26,7 @@ export function Dashboard() {
      <div className="metrics">{[{label:'Atendimentos',value:'128',note:'Conversas organizadas',icon:MessageSquare},{label:'Oportunidades',value:'34',note:'Em acompanhamento',icon:TrendingUp},{label:'Follow-ups',value:'21',note:'Próximos passos',icon:Repeat2},{label:'Tarefas organizadas',value:'46',note:'Na operação',icon:CheckCheck}].map(m=><div className="metric" key={m.label}><div className="metric-label">{m.label}<m.icon/></div><strong>{m.value}</strong><span className="metric-note">{m.note}</span></div>)}</div>
      <div className="dashboard-grid"><div className="chart-panel"><div className="panel-title">Movimento da operação<small>Últimos 7 dias</small></div><svg className="chart" viewBox="0 0 400 120" role="img" aria-label="Gráfico demonstrativo de atendimentos e oportunidades em sete dias" preserveAspectRatio="none"><path className="chart-grid" d="M0 20H400 M0 50H400 M0 80H400 M0 110H400"/><path className="chart-area" d="M0 92C25 94 35 70 60 75S95 98 125 57S160 73 195 49S230 58 265 33S305 44 335 20S375 30 400 8V120H0Z"/><path className="chart-line" d="M0 92C25 94 35 70 60 75S95 98 125 57S160 73 195 49S230 58 265 33S305 44 335 20S375 30 400 8"/><path className="chart-line-secondary" d="M0 110C40 105 45 99 80 101S130 82 160 87S210 69 245 72S300 51 335 57S370 38 400 36"/></svg><div className="chart-labels">{['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'].map(d=><span key={d}>{d}</span>)}</div></div>
       <div className="activity-panel"><div className="panel-title">Atividade recente<Sparkles size={12} className="text-violet"/></div>{[{icon:MessageSquare,title:'Athena organizou uma conversa',sub:'Primeiro atendimento · Contexto identificado',time:'Agora'},{icon:Target,title:'Ethan qualificou uma oportunidade',sub:'Informações prontas para o próximo passo',time:'5 min'},{icon:Repeat2,title:'Follow-up atualizado',sub:'Conversa adicionada ao acompanhamento',time:'12 min'}].map(a=><div className="activity-item" key={a.title}><span className="activity-icon"><a.icon/></span><div><strong>{a.title}</strong><p>{a.sub}</p></div><time>{a.time}</time></div>)}</div>
-     </div><div className="dashboard-bottom"><span><Bot size={12}/>Sua equipe IA, conectada à operação.</span><span>Prévia NEXAOP<ArrowUpRight size={11}/></span></div>
+      </div><div className="dashboard-bottom"><span><Bot size={12}/>Sua equipe IA, conectada à operação.</span><Link to="/previa" search={{ view: 'dashboard' }} className="nav-link">Prévia NEXAOP<ArrowUpRight size={11}/></Link></div>
     </>:<div className="dashboard-detail">{details[tab]?.map(row=><div className="detail-row" key={row.title}><span>{row.title}</span><small>{row.status}</small></div>)}<Button variant="ghost" onClick={()=>setTab('Visão geral')} className="mt-4 text-xs"><LayoutDashboard/>Voltar à visão geral</Button></div>}
    </div>
   </div>

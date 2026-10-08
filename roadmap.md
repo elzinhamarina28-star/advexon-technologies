@@ -1,4 +1,5 @@
 # NEXAOP
+- [x] Connect public sign-in/start links and a navigable, isolated app preview; verify changed routes without model calls.
 - [x] Increase surface contrast, editorial spacing and agent presence without touching the current logo, copy or logic.
 - [x] Verify 21 tests, successful preview compilation, five viewport widths and desktop/mobile interactions after the new aesthetic pass.
 - [x] Refine surfaces, spacing, hero, cards, agents, pricing, dashboard and footer while preserving current logo and functionality.
