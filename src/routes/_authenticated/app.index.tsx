@@ -5,7 +5,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { categories } from '@/features/diagnostic/score';
 import { agents } from '@/features/agents/definitions';
-import { OperationFlow, OperationMetrics, Status } from '@/features/shared/Operations';
+import { OperationFlow, Status } from '@/features/shared/Operations';
 import { pageHead, requireUserId, useLatestDiagnostic, useProfile } from '@/features/client-app/data';
 
 export const Route = createFileRoute('/_authenticated/app/')({ head: pageHead('Dashboard'), component: Dashboard });
