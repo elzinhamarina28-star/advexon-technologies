@@ -14,7 +14,7 @@ export const Route = createFileRoute('/auth')({
 
 function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<'in' | 'up'>('in');
+  const [mode, setMode] = useState<'in' | 'up' | 'forgot'>('in');
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<{ type: 'error' | 'ok'; text: string } | null>(null);
   useEffect(() => { supabase.auth.getSession().then(({ data }) => { if (data.session) navigate({ to: '/app' }); }); }, [navigate]);
@@ -22,9 +22,13 @@ function AuthPage() {
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault(); setBusy(true); setMsg(null);
     const f = new FormData(e.currentTarget);
-    const email = String(f.get('email')); const password = String(f.get('password'));
+    const email = String(f.get('email')); const password = String(f.get('password') ?? '');
     try {
-      if (mode === 'in') {
+      if (mode === 'forgot') {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/reset-password` });
+        if (error) throw error;
+        setMsg({ type: 'ok', text: 'Se houver uma conta com este e-mail, enviamos um link para redefinir a senha.' });
+      } else if (mode === 'in') {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         navigate({ to: '/app' });
@@ -51,8 +55,10 @@ function AuthPage() {
         <form className="app-form" onSubmit={submit}>
           {mode === 'up' && <label>Seu nome<input name="name" autoComplete="name" required /></label>}
           <label>E-mail<input name="email" type="email" autoComplete="email" required /></label>
-          <label>Senha<input name="password" type="password" minLength={6} autoComplete={mode === 'in' ? 'current-password' : 'new-password'} required /></label>
-          <Button variant="nexa" type="submit" disabled={busy}>{busy && <Loader2 className="cd-spin" />}{mode === 'in' ? 'Entrar' : 'Criar conta'}</Button>
+          {mode !== 'forgot' && <label>Senha<input name="password" type="password" minLength={6} autoComplete={mode === 'in' ? 'current-password' : 'new-password'} required /></label>}
+          <Button variant="nexa" type="submit" disabled={busy}>{busy && <Loader2 className="cd-spin" />}{mode === 'in' ? 'Entrar' : mode === 'up' ? 'Criar conta' : 'Enviar link de recuperação'}</Button>
+          {mode === 'in' && <button type="button" className="nav-link" onClick={() => { setMode('forgot'); setMsg(null); }}>Esqueci minha senha</button>}
+          {mode === 'forgot' && <button type="button" className="nav-link" onClick={() => { setMode('in'); setMsg(null); }}>Voltar para Entrar</button>}
           {msg && <p role={msg.type === 'error' ? 'alert' : 'status'} className={msg.type === 'error' ? 'app-error' : 'cd-small'}>{msg.text}</p>}
         </form>
       </div>
