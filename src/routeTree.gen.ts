@@ -17,6 +17,15 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PainelRouteImport } from './routes/painel'
 import { Route as PlanosRouteImport } from './routes/planos'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
+import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedAppAssinaturaRouteImport } from './routes/_authenticated/app.assinatura'
+import { Route as AuthenticatedAppConfiguracoesRouteImport } from './routes/_authenticated/app.configuracoes'
+import { Route as AuthenticatedAppContaRouteImport } from './routes/_authenticated/app.conta'
+import { Route as AuthenticatedAppDiagnosticoRouteImport } from './routes/_authenticated/app.diagnostico'
+import { Route as AuthenticatedAppEquipeRouteImport } from './routes/_authenticated/app.equipe'
+import { Route as AuthenticatedAppOrganizacaoRouteImport } from './routes/_authenticated/app.organizacao'
+import { Route as AuthenticatedAppVendasRouteImport } from './routes/_authenticated/app.vendas'
+import { Route as AuthenticatedAppAgentesIdRouteImport } from './routes/_authenticated/app.agentes.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -57,6 +66,56 @@ const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
   path: '/app',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppAssinaturaRoute =
+  AuthenticatedAppAssinaturaRouteImport.update({
+    id: '/assinatura',
+    path: '/assinatura',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppConfiguracoesRoute =
+  AuthenticatedAppConfiguracoesRouteImport.update({
+    id: '/configuracoes',
+    path: '/configuracoes',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppContaRoute = AuthenticatedAppContaRouteImport.update({
+  id: '/conta',
+  path: '/conta',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppDiagnosticoRoute =
+  AuthenticatedAppDiagnosticoRouteImport.update({
+    id: '/diagnostico',
+    path: '/diagnostico',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppEquipeRoute = AuthenticatedAppEquipeRouteImport.update({
+  id: '/equipe',
+  path: '/equipe',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppOrganizacaoRoute =
+  AuthenticatedAppOrganizacaoRouteImport.update({
+    id: '/organizacao',
+    path: '/organizacao',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppVendasRoute = AuthenticatedAppVendasRouteImport.update({
+  id: '/vendas',
+  path: '/vendas',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppAgentesIdRoute =
+  AuthenticatedAppAgentesIdRouteImport.update({
+    id: '/agentes/$id',
+    path: '/agentes/$id',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -65,7 +124,16 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/painel': typeof PainelRoute
   '/planos': typeof PlanosRoute
-  '/app': typeof AuthenticatedAppRoute
+  '/app': typeof AuthenticatedAppRouteWithChildren
+  '/app/assinatura': typeof AuthenticatedAppAssinaturaRoute
+  '/app/configuracoes': typeof AuthenticatedAppConfiguracoesRoute
+  '/app/conta': typeof AuthenticatedAppContaRoute
+  '/app/diagnostico': typeof AuthenticatedAppDiagnosticoRoute
+  '/app/equipe': typeof AuthenticatedAppEquipeRoute
+  '/app/organizacao': typeof AuthenticatedAppOrganizacaoRoute
+  '/app/vendas': typeof AuthenticatedAppVendasRoute
+  '/app/': typeof AuthenticatedAppIndexRoute
+  '/app/agentes/$id': typeof AuthenticatedAppAgentesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -74,7 +142,15 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/painel': typeof PainelRoute
   '/planos': typeof PlanosRoute
-  '/app': typeof AuthenticatedAppRoute
+  '/app/assinatura': typeof AuthenticatedAppAssinaturaRoute
+  '/app/configuracoes': typeof AuthenticatedAppConfiguracoesRoute
+  '/app/conta': typeof AuthenticatedAppContaRoute
+  '/app/diagnostico': typeof AuthenticatedAppDiagnosticoRoute
+  '/app/equipe': typeof AuthenticatedAppEquipeRoute
+  '/app/organizacao': typeof AuthenticatedAppOrganizacaoRoute
+  '/app/vendas': typeof AuthenticatedAppVendasRoute
+  '/app': typeof AuthenticatedAppIndexRoute
+  '/app/agentes/$id': typeof AuthenticatedAppAgentesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -85,14 +161,53 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/painel': typeof PainelRoute
   '/planos': typeof PlanosRoute
-  '/_authenticated/app': typeof AuthenticatedAppRoute
+  '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
+  '/_authenticated/app/assinatura': typeof AuthenticatedAppAssinaturaRoute
+  '/_authenticated/app/configuracoes': typeof AuthenticatedAppConfiguracoesRoute
+  '/_authenticated/app/conta': typeof AuthenticatedAppContaRoute
+  '/_authenticated/app/diagnostico': typeof AuthenticatedAppDiagnosticoRoute
+  '/_authenticated/app/equipe': typeof AuthenticatedAppEquipeRoute
+  '/_authenticated/app/organizacao': typeof AuthenticatedAppOrganizacaoRoute
+  '/_authenticated/app/vendas': typeof AuthenticatedAppVendasRoute
+  '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
+  '/_authenticated/app/agentes/$id': typeof AuthenticatedAppAgentesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/agentes' | '/athena' | '/auth' | '/painel' | '/planos' | '/app'
+    | '/'
+    | '/agentes'
+    | '/athena'
+    | '/auth'
+    | '/painel'
+    | '/planos'
+    | '/app'
+    | '/app/assinatura'
+    | '/app/configuracoes'
+    | '/app/conta'
+    | '/app/diagnostico'
+    | '/app/equipe'
+    | '/app/organizacao'
+    | '/app/vendas'
+    | '/app/'
+    | '/app/agentes/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/agentes' | '/athena' | '/auth' | '/painel' | '/planos' | '/app'
+  to:
+    | '/'
+    | '/agentes'
+    | '/athena'
+    | '/auth'
+    | '/painel'
+    | '/planos'
+    | '/app/assinatura'
+    | '/app/configuracoes'
+    | '/app/conta'
+    | '/app/diagnostico'
+    | '/app/equipe'
+    | '/app/organizacao'
+    | '/app/vendas'
+    | '/app'
+    | '/app/agentes/$id'
   id:
     | '__root__'
     | '/'
@@ -103,6 +218,15 @@ export interface FileRouteTypes {
     | '/painel'
     | '/planos'
     | '/_authenticated/app'
+    | '/_authenticated/app/assinatura'
+    | '/_authenticated/app/configuracoes'
+    | '/_authenticated/app/conta'
+    | '/_authenticated/app/diagnostico'
+    | '/_authenticated/app/equipe'
+    | '/_authenticated/app/organizacao'
+    | '/_authenticated/app/vendas'
+    | '/_authenticated/app/'
+    | '/_authenticated/app/agentes/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -173,15 +297,105 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/app/': {
+      id: '/_authenticated/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/assinatura': {
+      id: '/_authenticated/app/assinatura'
+      path: '/assinatura'
+      fullPath: '/app/assinatura'
+      preLoaderRoute: typeof AuthenticatedAppAssinaturaRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/configuracoes': {
+      id: '/_authenticated/app/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/app/configuracoes'
+      preLoaderRoute: typeof AuthenticatedAppConfiguracoesRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/conta': {
+      id: '/_authenticated/app/conta'
+      path: '/conta'
+      fullPath: '/app/conta'
+      preLoaderRoute: typeof AuthenticatedAppContaRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/diagnostico': {
+      id: '/_authenticated/app/diagnostico'
+      path: '/diagnostico'
+      fullPath: '/app/diagnostico'
+      preLoaderRoute: typeof AuthenticatedAppDiagnosticoRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/equipe': {
+      id: '/_authenticated/app/equipe'
+      path: '/equipe'
+      fullPath: '/app/equipe'
+      preLoaderRoute: typeof AuthenticatedAppEquipeRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/organizacao': {
+      id: '/_authenticated/app/organizacao'
+      path: '/organizacao'
+      fullPath: '/app/organizacao'
+      preLoaderRoute: typeof AuthenticatedAppOrganizacaoRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/vendas': {
+      id: '/_authenticated/app/vendas'
+      path: '/vendas'
+      fullPath: '/app/vendas'
+      preLoaderRoute: typeof AuthenticatedAppVendasRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/agentes/$id': {
+      id: '/_authenticated/app/agentes/$id'
+      path: '/agentes/$id'
+      fullPath: '/app/agentes/$id'
+      preLoaderRoute: typeof AuthenticatedAppAgentesIdRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
   }
 }
 
+interface AuthenticatedAppRouteChildren {
+  AuthenticatedAppAssinaturaRoute: typeof AuthenticatedAppAssinaturaRoute
+  AuthenticatedAppConfiguracoesRoute: typeof AuthenticatedAppConfiguracoesRoute
+  AuthenticatedAppContaRoute: typeof AuthenticatedAppContaRoute
+  AuthenticatedAppDiagnosticoRoute: typeof AuthenticatedAppDiagnosticoRoute
+  AuthenticatedAppEquipeRoute: typeof AuthenticatedAppEquipeRoute
+  AuthenticatedAppOrganizacaoRoute: typeof AuthenticatedAppOrganizacaoRoute
+  AuthenticatedAppVendasRoute: typeof AuthenticatedAppVendasRoute
+  AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
+  AuthenticatedAppAgentesIdRoute: typeof AuthenticatedAppAgentesIdRoute
+}
+
+const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
+  AuthenticatedAppAssinaturaRoute: AuthenticatedAppAssinaturaRoute,
+  AuthenticatedAppConfiguracoesRoute: AuthenticatedAppConfiguracoesRoute,
+  AuthenticatedAppContaRoute: AuthenticatedAppContaRoute,
+  AuthenticatedAppDiagnosticoRoute: AuthenticatedAppDiagnosticoRoute,
+  AuthenticatedAppEquipeRoute: AuthenticatedAppEquipeRoute,
+  AuthenticatedAppOrganizacaoRoute: AuthenticatedAppOrganizacaoRoute,
+  AuthenticatedAppVendasRoute: AuthenticatedAppVendasRoute,
+  AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
+  AuthenticatedAppAgentesIdRoute: AuthenticatedAppAgentesIdRoute,
+}
+
+const AuthenticatedAppRouteWithChildren =
+  AuthenticatedAppRoute._addFileChildren(AuthenticatedAppRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAppRoute: typeof AuthenticatedAppRoute
+  AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAppRoute: AuthenticatedAppRoute,
+  AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
