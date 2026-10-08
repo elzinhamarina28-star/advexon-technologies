@@ -6,15 +6,20 @@ import { Button } from '@/components/ui/button';
 import { categories } from '@/features/diagnostic/score';
 import { agents } from '@/features/agents/definitions';
 import { OperationFlow, Status } from '@/features/shared/Operations';
-import { pageHead, requireUserId, useLatestDiagnostic, useProfile } from '@/features/client-app/data';
+import { pageHead, requireUserId, useLatestDiagnostic, useProfile, useSubscription } from '@/features/client-app/data';
+import { canUse } from '@/features/client-app/entitlements';
+import { PaidAccess } from '@/features/client-app/PaidAccess';
 
 export const Route = createFileRoute('/_authenticated/app/')({ head: pageHead('Dashboard'), component: Dashboard });
 
 function Dashboard() {
   const profile = useProfile();
   const diag = useLatestDiagnostic();
+  const sub = useSubscription();
+  const operational = canUse(sub.data, 'dashboard:operational');
   const counts = useQuery({
     queryKey: ['dashboard-counts'],
+    enabled: operational,
     queryFn: async () => {
       const id = await requireUserId();
       const [o, t] = await Promise.all([
@@ -40,13 +45,13 @@ function Dashboard() {
           <Link to="/app/diagnostico" className="nav-link">Refazer diagnóstico</Link>
         </> : <div className="cd-empty"><p>Você ainda não fez o diagnóstico.</p><Button asChild variant="nexa"><Link to="/app/diagnostico">Fazer diagnóstico<ArrowRight /></Link></Button><span className="cd-small">Cerca de 2 minutos.</span></div>}
       </article>
-      <article className="cd-card">
+       <PaidAccess feature="dashboard:operational"><article className="cd-card">
         <h2>Indicadores</h2>
         {counts.isLoading ? <Loader2 className="cd-spin" /> : counts.isError ? <p role="alert">Erro ao carregar indicadores.</p> : !counts.data || counts.data.total === 0
           ? <div className="cd-empty"><p>Sem dados ainda. Os indicadores aparecem quando você registrar oportunidades e tarefas.</p><Link to="/app/vendas" className="nav-link">Registrar primeira oportunidade</Link></div>
           : <div className="cd-metrics"><div><strong>{counts.data.open}</strong><span>Oportunidades abertas</span></div><div><strong>{counts.data.won}</strong><span>Ganhas</span></div><div><strong>{counts.data.pending}</strong><span>Tarefas pendentes</span></div></div>}
-      </article>
-      {counts.data && counts.data.total > 0 && <section className="cd-wide ops-two-columns">
+       </article></PaidAccess>
+       {operational && counts.data && counts.data.total > 0 && <section className="cd-wide ops-two-columns">
         <div className="ops-section"><h2>O que precisa da sua atenção</h2><div className="ops-next-list">{counts.data.tasks.filter(t => !t.done).slice(0, 4).map(t => <div key={t.id}><div><b>{t.title}</b><p>{t.due_date ? `Prazo: ${t.due_date.split('-').reverse().join('/')}` : 'Sem prazo definido'}</p></div><Link to="/app/organizacao" className="nav-link">Ver tarefa<ArrowRight size={14}/></Link></div>)}{!counts.data.pending && <p className="ops-empty">Nenhuma tarefa pendente.</p>}</div></div>
         <div className="ops-section"><h2>Próximos passos comerciais</h2><div className="ops-next-list">{counts.data.opportunities.filter(o => !['ganho', 'perdido'].includes(o.stage)).slice(0, 4).map(o => <div key={o.id}><div><b>{o.name}</b><p>{o.next_action || 'Defina a próxima ação na oportunidade.'}</p></div><Link to="/app/vendas" className="nav-link">Ver<ArrowRight size={14}/></Link></div>)}{!counts.data.open && <p className="ops-empty">Nenhuma oportunidade aberta.</p>}</div></div>
       </section>}
