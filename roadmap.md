@@ -1,4 +1,5 @@
 # NEXAOP
+- [ ] Localize authentication errors and accessible validation to PT-BR; verify focused tests and browser flow without external calls.
 - [x] Add secure internal plan switching and align implemented paid features; entitlement tests and deployed grants/policies verified without external calls.
 - [ ] Verify signed-in internal plan switching end-to-end (blocked: owner account not yet identified; sandbox SQL connection cannot execute authenticated functions).
 - [ ] Link owner's internal account (blocked until owner creates/signs into her account).
