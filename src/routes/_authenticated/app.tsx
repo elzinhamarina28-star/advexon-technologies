@@ -23,8 +23,8 @@ function AppLayout() {
   const signOut = async () => { await supabase.auth.signOut(); qc.clear(); navigate({ to: '/auth' }); };
   return <main className="athena-page">
     <header className="athena-top container"><Link to="/"><Brand /></Link><Button variant="ghost" onClick={signOut}><LogOut />Sair</Button></header>
-    <div className="container app-shell">
-      <nav className="app-nav" aria-label="Área do cliente">
+    <div className="container app-shell ops-app">
+      <nav className="app-nav ops-navigation" aria-label="Área do cliente">
         {nav.map(n => <Link key={n.label} to={n.to} className="nav-link" activeOptions={{ exact: n.to === '/app' }} activeProps={{ className: 'nav-link app-active' }}>{n.label}</Link>)}
       </nav>
       <section className="app-main">
