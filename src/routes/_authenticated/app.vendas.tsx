@@ -13,7 +13,7 @@ function Page() {
   const qc = useQueryClient();
   const list = useQuery({ queryKey: ['opportunities'], queryFn: async () => { const id = await requireUserId(); const { data, error } = await supabase.from('opportunities').select('*').eq('user_id', id).order('created_at', { ascending: false }); if (error) throw error; return data; } });
   const done = () => { qc.invalidateQueries({ queryKey: ['opportunities'] }); qc.invalidateQueries({ queryKey: ['dashboard-counts'] }); };
-  const add = useMutation({ mutationFn: async (f: Record<string, string>) => { const user_id = await requireUserId(); const { error } = await supabase.from('opportunities').insert({ user_id, name: f.name!, contact: f.contact || null, value: f.value ? Number(f.value) : null, next_action: f.next_action || null }); if (error) throw error; }, onSuccess: done });
+  const add = useMutation({ mutationFn: async (f: Record<string, string>) => { const user_id = await requireUserId(); const { error } = await supabase.from('opportunities').insert({ user_id, name: f['name']!, contact: f['contact'] || null, value: f['value'] ? Number(f['value']) : null, next_action: f['next_action'] || null }); if (error) throw error; }, onSuccess: done });
   const setStage = useMutation({ mutationFn: async ({ id, stage }: { id: string; stage: Stage }) => { const { error } = await supabase.from('opportunities').update({ stage, updated_at: new Date().toISOString() }).eq('id', id); if (error) throw error; }, onSuccess: done });
   const del = useMutation({ mutationFn: async (id: string) => { const { error } = await supabase.from('opportunities').delete().eq('id', id); if (error) throw error; }, onSuccess: done });
 
