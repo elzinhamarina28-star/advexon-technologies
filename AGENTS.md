@@ -10,7 +10,8 @@
 <!-- LOVABLE:END -->
 
 ## Application architecture
-- Public /previa reuses the existing product-preview Dashboard and browser-local Diagnostic; it never mounts live agent chats or authenticated data pages, preventing demo navigation from bypassing entitlements.
+- Public /previa uses a dedicated operational preview with shared presentation primitives and browser-local Diagnostic; it never mounts live agent chats or authenticated data pages. The marketing Dashboard stays untouched to preserve the frozen landing.
+- Operational preview records are isolated fixtures; authenticated views share only presentation primitives, deriving all indicators and records from the existing user queries.
 - Keep the requested single-scroll marketing experience at the index route with semantic hash anchors; its public sections intentionally share one page.
 - Isolate marketing, diagnostic, product-preview, agents, pricing, comparison and shared modules under src/features to prepare independent SaaS evolution.
 - Store agent and plan definitions in typed configuration; new agents and checkout destinations must not require rewriting presentation logic.
