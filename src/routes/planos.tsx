@@ -3,7 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 import { Pricing } from '@/features/pricing/Pricing';
 import { Brand } from '@/features/shared/Brand';
 const title = 'Planos NEXAOP — Start, Growth e Pro';
-const description = 'Compare os planos NEXAOP: Start R$ 9,99/mês, Growth R$ 47,99/mês e Pro R$ 149,99/mês.';
+const description = 'Compare os planos NEXAOP: Start R$ 9,99/mês, Growth R$ 89,90/mês e Pro R$ 229,90/mês.';
 function PlansPage() {
   return <main className="athena-page">
     <header className="athena-top container"><Link to="/" className="athena-back"><ArrowLeft size={16}/>Voltar ao site</Link><Brand/></header>
