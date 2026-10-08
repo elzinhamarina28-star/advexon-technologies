@@ -16,6 +16,7 @@ import { Route as AthenaRouteImport } from './routes/athena'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PainelRouteImport } from './routes/painel'
 import { Route as PlanosRouteImport } from './routes/planos'
+import { Route as PreviaRouteImport } from './routes/previa'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
@@ -60,6 +61,11 @@ const PainelRoute = PainelRouteImport.update({
 const PlanosRoute = PlanosRouteImport.update({
   id: '/planos',
   path: '/planos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PreviaRoute = PreviaRouteImport.update({
+  id: '/previa',
+  path: '/previa',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/painel': typeof PainelRoute
   '/planos': typeof PlanosRoute
+  '/previa': typeof PreviaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/app': typeof AuthenticatedAppRouteWithChildren
   '/app/assinatura': typeof AuthenticatedAppAssinaturaRoute
@@ -149,6 +156,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/painel': typeof PainelRoute
   '/planos': typeof PlanosRoute
+  '/previa': typeof PreviaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/app/assinatura': typeof AuthenticatedAppAssinaturaRoute
   '/app/configuracoes': typeof AuthenticatedAppConfiguracoesRoute
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/painel': typeof PainelRoute
   '/planos': typeof PlanosRoute
+  '/previa': typeof PreviaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/app/assinatura': typeof AuthenticatedAppAssinaturaRoute
@@ -190,6 +199,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/painel'
     | '/planos'
+    | '/previa'
     | '/reset-password'
     | '/app'
     | '/app/assinatura'
@@ -209,6 +219,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/painel'
     | '/planos'
+    | '/previa'
     | '/reset-password'
     | '/app/assinatura'
     | '/app/configuracoes'
@@ -228,6 +239,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/painel'
     | '/planos'
+    | '/previa'
     | '/reset-password'
     | '/_authenticated/app'
     | '/_authenticated/app/assinatura'
@@ -249,6 +261,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   PainelRoute: typeof PainelRoute
   PlanosRoute: typeof PlanosRoute
+  PreviaRoute: typeof PreviaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
 }
 
@@ -301,6 +314,13 @@ declare module '@tanstack/react-router' {
       path: '/planos'
       fullPath: '/planos'
       preLoaderRoute: typeof PlanosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/previa': {
+      id: '/previa'
+      path: '/previa'
+      fullPath: '/previa'
+      preLoaderRoute: typeof PreviaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -429,6 +449,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   PainelRoute: PainelRoute,
   PlanosRoute: PlanosRoute,
+  PreviaRoute: PreviaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
 }
 export const routeTree = rootRouteImport
