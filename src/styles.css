@@ -776,7 +776,7 @@ h1,h2,h3,p { margin: 0; letter-spacing: 0; }
 .ops-navigation .nav-link:hover { background:var(--surface-inset); color:var(--foreground); }
 .ops-navigation .app-active { background:color-mix(in oklch,var(--primary) 13%,var(--surface-inset)); color:var(--foreground); box-shadow:inset 2px 0 var(--primary); }
 .ops-app .cd-card { border-radius:8px; background:var(--surface-product); box-shadow:none; padding:24px; }
-.ops-app .section-title { font-size:32px; line-height:1.25; }
+.ops-app .section-title { font-family:var(--font-sans); font-size:32px; line-height:1.25; }
 .ops-app .cd-grid { gap:20px; }
 .ops-app .cd-list { padding:0; list-style:none; }
 .ops-app .cd-list li { font-size:13px; }
