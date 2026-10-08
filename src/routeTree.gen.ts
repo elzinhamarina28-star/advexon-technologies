@@ -10,14 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AgentesRouteImport } from './routes/agentes'
 import { Route as AthenaRouteImport } from './routes/athena'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PainelRouteImport } from './routes/painel'
 import { Route as PlanosRouteImport } from './routes/planos'
+import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AgentesRoute = AgentesRouteImport.update({
@@ -30,6 +37,11 @@ const AthenaRoute = AthenaRouteImport.update({
   path: '/athena',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PainelRoute = PainelRouteImport.update({
   id: '/painel',
   path: '/painel',
@@ -40,41 +52,65 @@ const PlanosRoute = PlanosRouteImport.update({
   path: '/planos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agentes': typeof AgentesRoute
   '/athena': typeof AthenaRoute
+  '/auth': typeof AuthRoute
   '/painel': typeof PainelRoute
   '/planos': typeof PlanosRoute
+  '/app': typeof AuthenticatedAppRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agentes': typeof AgentesRoute
   '/athena': typeof AthenaRoute
+  '/auth': typeof AuthRoute
   '/painel': typeof PainelRoute
   '/planos': typeof PlanosRoute
+  '/app': typeof AuthenticatedAppRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/agentes': typeof AgentesRoute
   '/athena': typeof AthenaRoute
+  '/auth': typeof AuthRoute
   '/painel': typeof PainelRoute
   '/planos': typeof PlanosRoute
+  '/_authenticated/app': typeof AuthenticatedAppRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/agentes' | '/athena' | '/painel' | '/planos'
+  fullPaths:
+    '/' | '/agentes' | '/athena' | '/auth' | '/painel' | '/planos' | '/app'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/agentes' | '/athena' | '/painel' | '/planos'
-  id: '__root__' | '/' | '/agentes' | '/athena' | '/painel' | '/planos'
+  to: '/' | '/agentes' | '/athena' | '/auth' | '/painel' | '/planos' | '/app'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/agentes'
+    | '/athena'
+    | '/auth'
+    | '/painel'
+    | '/planos'
+    | '/_authenticated/app'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AgentesRoute: typeof AgentesRoute
   AthenaRoute: typeof AthenaRoute
+  AuthRoute: typeof AuthRoute
   PainelRoute: typeof PainelRoute
   PlanosRoute: typeof PlanosRoute
 }
@@ -86,6 +122,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/agentes': {
@@ -102,6 +145,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AthenaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/painel': {
       id: '/painel'
       path: '/painel'
@@ -116,13 +166,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlanosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/app': {
+      id: '/_authenticated/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AuthenticatedAppRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAppRoute: typeof AuthenticatedAppRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAppRoute: AuthenticatedAppRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AgentesRoute: AgentesRoute,
   AthenaRoute: AthenaRoute,
+  AuthRoute: AuthRoute,
   PainelRoute: PainelRoute,
   PlanosRoute: PlanosRoute,
 }
