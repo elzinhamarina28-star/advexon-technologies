@@ -14,7 +14,207 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      billing_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          payload: Json
+          processed_at: string | null
+          provider: string
+          provider_event_id: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          payload: Json
+          processed_at?: string | null
+          provider: string
+          provider_event_id: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          payload?: Json
+          processed_at?: string | null
+          provider?: string
+          provider_event_id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      diagnostics: {
+        Row: {
+          answers: Json
+          categories: Json
+          classification: string
+          created_at: string
+          first_agent: string
+          id: string
+          score: number
+          user_id: string
+        }
+        Insert: {
+          answers: Json
+          categories: Json
+          classification: string
+          created_at?: string
+          first_agent: string
+          id?: string
+          score: number
+          user_id: string
+        }
+        Update: {
+          answers?: Json
+          categories?: Json
+          classification?: string
+          created_at?: string
+          first_agent?: string
+          id?: string
+          score?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      opportunities: {
+        Row: {
+          contact: string | null
+          created_at: string
+          id: string
+          name: string
+          next_action: string | null
+          stage: string
+          updated_at: string
+          user_id: string
+          value: number | null
+        }
+        Insert: {
+          contact?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          next_action?: string | null
+          stage?: string
+          updated_at?: string
+          user_id: string
+          value?: number | null
+        }
+        Update: {
+          contact?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          next_action?: string | null
+          stage?: string
+          updated_at?: string
+          user_id?: string
+          value?: number | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          company_name: string | null
+          created_at: string
+          email_notifications: boolean
+          full_name: string | null
+          id: string
+          main_goal: string | null
+          onboarded: boolean
+          segment: string | null
+          team_size: string | null
+          updated_at: string
+        }
+        Insert: {
+          company_name?: string | null
+          created_at?: string
+          email_notifications?: boolean
+          full_name?: string | null
+          id: string
+          main_goal?: string | null
+          onboarded?: boolean
+          segment?: string | null
+          team_size?: string | null
+          updated_at?: string
+        }
+        Update: {
+          company_name?: string | null
+          created_at?: string
+          email_notifications?: boolean
+          full_name?: string | null
+          id?: string
+          main_goal?: string | null
+          onboarded?: boolean
+          segment?: string | null
+          team_size?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          current_period_end: string | null
+          plan_id: string | null
+          provider: string | null
+          provider_customer_id: string | null
+          provider_subscription_id: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          current_period_end?: string | null
+          plan_id?: string | null
+          provider?: string | null
+          provider_customer_id?: string | null
+          provider_subscription_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          current_period_end?: string | null
+          plan_id?: string | null
+          provider?: string | null
+          provider_customer_id?: string | null
+          provider_subscription_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      tasks: {
+        Row: {
+          created_at: string
+          done: boolean
+          due_date: string | null
+          id: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          done?: boolean
+          due_date?: string | null
+          id?: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          done?: boolean
+          due_date?: string | null
+          id?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
