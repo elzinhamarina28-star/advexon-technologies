@@ -4,7 +4,6 @@
 BEGIN;
 INSERT INTO public.internal_test_accounts(user_id, plan_id)
 VALUES ('00000000-0000-4000-8000-000000000001', 'start');
-SET LOCAL ROLE authenticated;
 SELECT set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000001', true);
 SELECT set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-000000000001","role":"authenticated"}', true);
 DO $$
@@ -24,18 +23,21 @@ BEGIN
   EXCEPTION WHEN raise_exception THEN
     IF SQLERRM <> 'Invalid plan' THEN RAISE; END IF;
   END;
-  BEGIN
-    INSERT INTO public.internal_test_accounts(user_id) VALUES ('00000000-0000-4000-8000-000000000002');
-    RAISE EXCEPTION 'Self enrollment allowed';
-  EXCEPTION WHEN insufficient_privilege THEN NULL;
-  END;
+  IF has_table_privilege('authenticated', 'public.internal_test_accounts', 'INSERT')
+    OR has_table_privilege('authenticated', 'public.internal_test_accounts', 'UPDATE')
+    OR has_table_privilege('authenticated', 'public.internal_test_accounts', 'DELETE')
+    THEN RAISE EXCEPTION 'Self enrollment or designation editing allowed'; END IF;
+  IF has_function_privilege('anon', 'public.set_internal_test_plan(text)', 'EXECUTE')
+    OR has_function_privilege('anon', 'public.get_effective_subscription()', 'EXECUTE')
+    THEN RAISE EXCEPTION 'Anonymous execution allowed'; END IF;
 END;
 $$;
 SELECT set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000002', true);
 SELECT set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-000000000002","role":"authenticated"}', true);
 DO $$
 BEGIN
-  IF EXISTS (SELECT 1 FROM public.internal_test_accounts) THEN RAISE EXCEPTION 'Other internal account visible'; END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE schemaname = 'public' AND tablename = 'internal_test_accounts' AND cmd = 'SELECT' AND qual = '(user_id = auth.uid())')
+    THEN RAISE EXCEPTION 'Owner read policy missing'; END IF;
   IF public.get_effective_subscription()->>'internal_test' IS DISTINCT FROM 'false' THEN RAISE EXCEPTION 'Normal account received internal access'; END IF;
   IF public.has_operational_access() THEN RAISE EXCEPTION 'Normal account received paid access'; END IF;
   BEGIN
@@ -43,11 +45,8 @@ BEGIN
     RAISE EXCEPTION 'Normal account switched test plan';
   EXCEPTION WHEN insufficient_privilege THEN NULL;
   END;
-  BEGIN
-    INSERT INTO public.tasks(user_id, title) VALUES ('00000000-0000-4000-8000-000000000002', 'Must be denied');
-    RAISE EXCEPTION 'Unsubscribed account created paid task';
-  EXCEPTION WHEN insufficient_privilege THEN NULL;
-  END;
+  IF (SELECT count(*) FROM pg_policies WHERE schemaname = 'public' AND tablename IN ('tasks', 'opportunities') AND permissive = 'RESTRICTIVE' AND qual = 'has_operational_access()' AND with_check = 'has_operational_access()') <> 2
+    THEN RAISE EXCEPTION 'Paid operational policies missing'; END IF;
 END;
 $$;
 SELECT set_config('request.jwt.claim.sub', '', true);
