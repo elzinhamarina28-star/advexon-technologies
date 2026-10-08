@@ -4,6 +4,7 @@ import { Loader2, Trash2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { pageHead, requireUserId } from '@/features/client-app/data';
+import { OperationMetrics, Status } from '@/features/shared/Operations';
 
 export const Route = createFileRoute('/_authenticated/app/vendas')({ head: pageHead('Vendas'), component: Page });
 const stages = [['novo', 'Novo'], ['qualificado', 'Qualificado'], ['proposta', 'Proposta'], ['ganho', 'Ganho'], ['perdido', 'Perdido']] as const;
@@ -19,6 +20,13 @@ function Page() {
 
   return <>
     <h1 className="section-title">Vendas</h1>
+    <p className="cd-small">Oportunidades com contexto, etapa e uma próxima ação.</p>
+    {list.data && list.data.length > 0 && <OperationMetrics items={[
+      { label: 'Em negociação', value: list.data.filter(o => !['ganho', 'perdido'].includes(o.stage)).length, note: 'Oportunidades abertas' },
+      { label: 'Valor em negociação', value: `R$ ${list.data.filter(o => !['ganho', 'perdido'].includes(o.stage)).reduce((sum, o) => sum + Number(o.value ?? 0), 0).toLocaleString('pt-BR')}`, note: 'Valores registrados · não receita' },
+      { label: 'Ganhas', value: list.data.filter(o => o.stage === 'ganho').length, note: 'Oportunidades concluídas' },
+      { label: 'Sem próxima ação', value: list.data.filter(o => !['ganho', 'perdido'].includes(o.stage) && !o.next_action).length, note: 'Defina um próximo passo' },
+    ]}/>}
     <form className="cd-card app-form app-row" onSubmit={e => { e.preventDefault(); const form = e.currentTarget; add.mutate(Object.fromEntries(new FormData(form)) as Record<string, string>, { onSuccess: () => form.reset() }); }}>
       <label>Oportunidade<input name="name" required placeholder="Ex.: Orçamento — Maria" /></label>
       <label>Contato<input name="contact" placeholder="Telefone ou e-mail" /></label>
@@ -29,10 +37,10 @@ function Page() {
     </form>
     {list.isLoading ? <div className="cd-card cd-center app-gap"><Loader2 className="cd-spin" />Carregando…</div>
       : list.isError ? <div className="cd-card app-gap" role="alert">Erro ao carregar oportunidades.</div>
-      : !list.data!.length ? <div className="cd-card app-gap">Nenhuma oportunidade ainda. Registre a primeira acima.</div>
-      : <div className="app-stages app-gap">{stages.map(([key, label]) => { const items = list.data!.filter(o => o.stage === key); return <article key={key} className="cd-card">
+      : !list.data?.length ? <div className="cd-card app-gap">Nenhuma oportunidade ainda. Registre a primeira acima.</div>
+      : <div className="app-stages app-gap">{stages.map(([key, label]) => { const items = list.data?.filter(o => o.stage === key) ?? []; return <article key={key} className="cd-card">
         <h2>{label} <em className="cd-tag">{items.length}</em></h2>
-        <ul className="cd-list">{items.map(o => <li key={o.id} className="app-item"><span><b>{o.name}</b>{o.value != null && ` · R$ ${Number(o.value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}{o.next_action && <span className="cd-small"><br />Próximo: {o.next_action}</span>}</span>
+        <ul className="cd-list">{items.map(o => <li key={o.id} className="app-item"><span><b>{o.name}</b>{o.value != null && <span className="ops-value">R$ {Number(o.value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>}<dl className="ops-card-meta"><div><dt>Contato</dt><dd>{o.contact || 'Não informado'}</dd></div><div><dt>Atualização do registro</dt><dd>{new Date(o.updated_at).toLocaleDateString('pt-BR')}</dd></div></dl><p className="ops-next-action">{o.next_action ? `Próximo: ${o.next_action}` : 'Próxima ação ainda não definida'}</p><Status tone={o.stage === 'ganho' ? 'success' : 'neutral'}>{label}</Status></span>
           <span className="app-actions"><select aria-label="Etapa" value={o.stage} onChange={e => setStage.mutate({ id: o.id, stage: e.target.value as Stage })}>{stages.map(([k, l]) => <option key={k} value={k}>{l}</option>)}</select>
           <Button variant="ghost" size="icon" aria-label="Excluir" onClick={() => del.mutate(o.id)}><Trash2 /></Button></span></li>)}</ul>
       </article>; })}</div>}

@@ -1,4 +1,6 @@
 # NEXAOP
+- [x] Deepen isolated /previa operational views and shared real-app presentation, preserving landing, access rules and real data.
+- [x] Verify preview navigation, mobile layout, changed route tests and compilation without model calls.
 - [x] Connect public sign-in/start links and a navigable, isolated app preview; verify changed routes without model calls.
 - [x] Increase surface contrast, editorial spacing and agent presence without touching the current logo, copy or logic.
 - [x] Verify 21 tests, successful preview compilation, five viewport widths and desktop/mobile interactions after the new aesthetic pass.
