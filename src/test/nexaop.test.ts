@@ -14,8 +14,8 @@ describe('Diagnostic rules',()=>{
 });
 describe('NEXAOP commercial rules',()=>{
  it('START costs R$ 9.99 with 1 user and 100 interactions',()=>{expect(plans[0]?.price).toBe(9.99);expect(plans[0]?.limits).toEqual({companies:1,users:1,interactions:100,contacts:null,agents:null});});
- it('GROWTH costs R$ 47.99 with requested limits',()=>{expect(plans[1]?.price).toBe(47.99);expect(plans[1]?.limits).toEqual({companies:1,users:3,interactions:1000,contacts:500,agents:3});});
- it('PRO costs R$ 149.99 with requested limits',()=>{expect(plans[2]?.price).toBe(149.99);expect(plans[2]?.limits).toEqual({companies:1,users:10,interactions:5000,contacts:2000,agents:6});});
+ it('GROWTH costs R$ 89.90 with requested limits',()=>{expect(plans[1]?.price).toBe(89.90);expect(plans[1]?.limits).toEqual({companies:1,users:3,interactions:1000,contacts:500,agents:3});});
+ it('PRO costs R$ 229.90 with requested limits',()=>{expect(plans[2]?.price).toBe(229.90);expect(plans[2]?.limits).toEqual({companies:1,users:10,interactions:5000,contacts:2000,agents:6});});
  it.each(plans)('$name has no checkout connection',plan=>expect(plan.checkoutUrl).toBeNull());
  it('only Athena and Ethan are initial agents',()=>expect(agents.filter(a=>a.status==='initial').map(a=>a.name)).toEqual(['ATHENA','ETHAN']));
 });
