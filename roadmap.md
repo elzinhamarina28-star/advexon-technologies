@@ -1,4 +1,6 @@
 # NEXAOP
+- [ ] Add secure internal plan switching, align implemented paid features and verify isolation without external calls.
+- [ ] Link owner's internal account (blocked until owner creates/signs into her account).
 - [x] Deepen isolated /previa operational views and shared real-app presentation, preserving landing, access rules and real data.
 - [x] Verify preview navigation, mobile layout, changed route tests and compilation without model calls.
 - [x] Connect public sign-in/start links and a navigable, isolated app preview; verify changed routes without model calls.

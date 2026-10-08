@@ -10,6 +10,7 @@
 <!-- LOVABLE:END -->
 
 ## Application architecture
+- Resolve effective entitlements through an authenticated database function: service-managed internal test accounts override only their own test plan, never real subscriptions; test plan changes are authenticated, database-guarded operations.
 - Public /previa uses a dedicated operational preview with shared presentation primitives and browser-local Diagnostic; it never mounts live agent chats or authenticated data pages. The marketing Dashboard stays untouched to preserve the frozen landing.
 - Operational preview records are isolated fixtures; authenticated views share only presentation primitives, deriving all indicators and records from the existing user queries.
 - Keep the requested single-scroll marketing experience at the index route with semantic hash anchors; its public sections intentionally share one page.
