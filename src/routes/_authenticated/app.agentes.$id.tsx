@@ -34,7 +34,8 @@ export const Route = createFileRoute('/_authenticated/app/agentes/$id')({
 
 function Page() {
   const { id } = Route.useParams();
-  const { agent } = Route.useLoaderData();
+  const agent = agents.find(a => a.id === id);
+  if (!agent) throw notFound();
   const g = guide[agent.id];
   if (!g) throw notFound();
   return <>
