@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AgentesRouteImport } from './routes/agentes'
 import { Route as AthenaRouteImport } from './routes/athena'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as DiagnosticoRouteImport } from './routes/diagnostico'
 import { Route as PainelRouteImport } from './routes/painel'
 import { Route as PlanosRouteImport } from './routes/planos'
 import { Route as PreviaRouteImport } from './routes/previa'
@@ -51,6 +52,11 @@ const AthenaRoute = AthenaRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiagnosticoRoute = DiagnosticoRouteImport.update({
+  id: '/diagnostico',
+  path: '/diagnostico',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PainelRoute = PainelRouteImport.update({
@@ -134,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/agentes': typeof AgentesRoute
   '/athena': typeof AthenaRoute
   '/auth': typeof AuthRoute
+  '/diagnostico': typeof DiagnosticoRoute
   '/painel': typeof PainelRoute
   '/planos': typeof PlanosRoute
   '/previa': typeof PreviaRoute
@@ -154,6 +161,7 @@ export interface FileRoutesByTo {
   '/agentes': typeof AgentesRoute
   '/athena': typeof AthenaRoute
   '/auth': typeof AuthRoute
+  '/diagnostico': typeof DiagnosticoRoute
   '/painel': typeof PainelRoute
   '/planos': typeof PlanosRoute
   '/previa': typeof PreviaRoute
@@ -175,6 +183,7 @@ export interface FileRoutesById {
   '/agentes': typeof AgentesRoute
   '/athena': typeof AthenaRoute
   '/auth': typeof AuthRoute
+  '/diagnostico': typeof DiagnosticoRoute
   '/painel': typeof PainelRoute
   '/planos': typeof PlanosRoute
   '/previa': typeof PreviaRoute
@@ -197,6 +206,7 @@ export interface FileRouteTypes {
     | '/agentes'
     | '/athena'
     | '/auth'
+    | '/diagnostico'
     | '/painel'
     | '/planos'
     | '/previa'
@@ -217,6 +227,7 @@ export interface FileRouteTypes {
     | '/agentes'
     | '/athena'
     | '/auth'
+    | '/diagnostico'
     | '/painel'
     | '/planos'
     | '/previa'
@@ -237,6 +248,7 @@ export interface FileRouteTypes {
     | '/agentes'
     | '/athena'
     | '/auth'
+    | '/diagnostico'
     | '/painel'
     | '/planos'
     | '/previa'
@@ -259,6 +271,7 @@ export interface RootRouteChildren {
   AgentesRoute: typeof AgentesRoute
   AthenaRoute: typeof AthenaRoute
   AuthRoute: typeof AuthRoute
+  DiagnosticoRoute: typeof DiagnosticoRoute
   PainelRoute: typeof PainelRoute
   PlanosRoute: typeof PlanosRoute
   PreviaRoute: typeof PreviaRoute
@@ -300,6 +313,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diagnostico': {
+      id: '/diagnostico'
+      path: '/diagnostico'
+      fullPath: '/diagnostico'
+      preLoaderRoute: typeof DiagnosticoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/painel': {
@@ -447,6 +467,7 @@ const rootRouteChildren: RootRouteChildren = {
   AgentesRoute: AgentesRoute,
   AthenaRoute: AthenaRoute,
   AuthRoute: AuthRoute,
+  DiagnosticoRoute: DiagnosticoRoute,
   PainelRoute: PainelRoute,
   PlanosRoute: PlanosRoute,
   PreviaRoute: PreviaRoute,

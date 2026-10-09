@@ -24,3 +24,5 @@
 - Render brand applications through the shared raster-asset Brand component; compact applications and local browser icons isolate the intact supplied symbol, while full applications retain the original artwork on a contrast surface, preventing logo reconstruction or distortion.
 - Athena playground lives at /athena; model calls go through a server function to the Gemini API (GEMINI_API_KEY) so the provider key stays server-side, and chat history is sessionStorage-only.
 - The client dashboard (/painel) derives its score only from the browser-local diagnostic session and shows labeled demo data otherwise; no persistence until auth/database exist.
+
+- Build executive diagnostic analysis in a browser-safe module separate from score and UI; preserve score arithmetic and preview rendering, and distinguish missing evidence from scored unknown options.

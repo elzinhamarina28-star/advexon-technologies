@@ -1,3 +1,4 @@
+- [ ] Rebuild focused executive diagnostic report and verify diagnostic rules, CTAs and desktop/mobile rendering without external calls.
 # NEXAOP
 - [ ] Localize authentication errors and accessible validation to PT-BR; verify focused tests and browser flow without external calls.
 - [x] Add secure internal plan switching and align implemented paid features; entitlement tests and deployed grants/policies verified without external calls.

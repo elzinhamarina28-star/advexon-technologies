@@ -19,6 +19,6 @@ function Page() {
     {status !== 'idle' && <p className={status === 'error' ? 'app-error' : 'cd-small'} role="status">
       {status === 'saving' ? 'Salvando resultado no seu painel…' : status === 'saved' ? 'Resultado salvo no seu painel.' : 'Não foi possível salvar o resultado. Refaça a última etapa para tentar de novo.'}
     </p>}
-    <div className="app-embed"><Diagnostic onFinish={onFinish} /></div>
+    <div className="app-embed"><Diagnostic onFinish={onFinish} authenticated /></div>
   </>;
 }
