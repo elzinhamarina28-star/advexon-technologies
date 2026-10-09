@@ -1,3 +1,4 @@
+import './report.css';
 import { ArrowRight, RotateCcw } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';

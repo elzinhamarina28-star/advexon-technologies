@@ -6,7 +6,7 @@ import { questions } from './questions';
 import { categories, type Answers } from './score';
 import { recommend } from './recommendations';
 import { ExecutiveReport } from './ExecutiveReport';
-export function Diagnostic({ onFinish, preview = false }: { onFinish?: (answers: Answers) => void; preview?: boolean } = {}) {
+export function Diagnostic({ onFinish, preview = false, authenticated = false }: { onFinish?: (answers: Answers) => void; preview?: boolean; authenticated?: boolean } = {}) {
  const [step,setStep]=useState(0); const [answers,setAnswers]=useState<Answers>({}); const [finished,setFinished]=useState(false); const [receipt,setReceipt]=useState(false); const heading=useRef<HTMLHeadingElement>(null);
  const [loaded,setLoaded]=useState(false);
  useEffect(()=>{try{const raw=sessionStorage.getItem('nexaop-diagnostic');if(raw){const d=JSON.parse(raw);if(typeof d.step==='number'&&d.step>=0&&d.step<questions.length)setStep(d.step);if(d.answers&&typeof d.answers==='object')setAnswers(d.answers);if(d.finished)setFinished(true);}}catch{/* ignore */}setLoaded(true);},[]);
