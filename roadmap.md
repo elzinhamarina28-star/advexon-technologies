@@ -1,3 +1,4 @@
+- [x] Fix synchronous diagnostic completion persistence and integration metadata; verify local regression tests and same-tab reload without external calls.
 - [ ] Rebuild focused executive diagnostic report and verify diagnostic rules, CTAs and desktop/mobile rendering without external calls.
 # NEXAOP
 - [ ] Localize authentication errors and accessible validation to PT-BR; verify focused tests and browser flow without external calls.
