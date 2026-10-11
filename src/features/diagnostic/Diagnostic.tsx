@@ -17,7 +17,7 @@ export function Diagnostic({ onFinish, preview = false, authenticated = false }:
  const reset=()=>{try{sessionStorage.removeItem('nexaop-diagnostic');}catch{/* ignore */}setStep(0);setAnswers({});setFinished(false);setReceipt(false);};
  const focusQuestion=()=>requestAnimationFrame(()=>heading.current?.focus());
  const choose=(index:number)=>setAnswers(current=>({...current,[question.id]:question.multiple?(selected.includes(index)?selected.filter(i=>i!==index):(question.scoreMultiple&&index===0?[0]:[...selected.filter(i=>!(question.scoreMultiple&&i===0)),index])):[index]}));
- const next=()=>{if(!selected.length)return;if(step===questions.length-1){setFinished(true);onFinish?.(answers);}else{setStep(step+1);}focusQuestion();};
+ const next=()=>{if(!selected.length)return;if(step===questions.length-1){try{sessionStorage.setItem('nexaop-diagnostic',JSON.stringify({step,answers,finished:true}));}catch{/* Keep the result available if local storage is unavailable. */}setFinished(true);onFinish?.(answers);}else{setStep(step+1);}focusQuestion();};
  const result=finished?recommend(answers):null;
  function downloadReport(event:React.FormEvent<HTMLFormElement>) {
   event.preventDefault(); if(!result)return;
