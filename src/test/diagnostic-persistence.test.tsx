@@ -25,9 +25,9 @@ describe('Diagnostic completion persistence', () => {
     const answers: Answers = {};
     for (const [index, question] of questions.entries()) {
       await screen.findByRole('group', { name: question.title });
-      fireEvent.click(screen.getByRole('button', { name: question.options[0], exact: true }));
+      fireEvent.click(screen.getAllByRole('button').find(button => button.textContent === question.options[0]) ?? screen.getByRole('button', { name: question.options[0] ?? '' }));
       answers[question.id] = [0];
-      fireEvent.click(screen.getByRole('button', { name: index === 11 ? 'Ver meu resultado' : 'Continuar', exact: true }));
+      fireEvent.click(screen.getByRole('button', { name: index === 11 ? 'Ver meu resultado' : 'Continuar' }));
     }
     await screen.findByRole('article', { name: 'Diagnóstico completo NEXAOP' });
     expect(JSON.parse(sessionStorage.getItem('nexaop-diagnostic') ?? 'null')).toEqual({ step: 11, answers, finished: true });
