@@ -1,3 +1,4 @@
+- [ ] Implement secure Kiwify webhook, atomic order idempotency and focused tests; keep checkout off and publication/manual provider configuration pending.
 - [x] Fix synchronous diagnostic completion persistence and integration metadata; verify local regression tests and same-tab reload without external calls.
 - [ ] Rebuild focused executive diagnostic report and verify diagnostic rules, CTAs and desktop/mobile rendering without external calls.
 # NEXAOP
