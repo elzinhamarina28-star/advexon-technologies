@@ -10,6 +10,7 @@
 <!-- LOVABLE:END -->
 
 ## Application architecture
+- Kiwify sales webhooks use shared server-only processing at the requested route and a public-prefix alias; authenticate before service access and transact order-scoped deduplication, verified-email association and subscription transitions in a service-only database function, so retries cannot grant access twice or override terminal events.
 - Normalize authentication provider errors and form validation through a shared client-safe module, with generic account-existence responses and accessible custom validation, to avoid leaking technical errors or browser-language messages.
 - Resolve effective entitlements through an authenticated database function: service-managed internal test accounts override only their own test plan, never real subscriptions; test plan changes bind to auth.uid() so normal users cannot self-enroll or change another account.
 - Enforce paid operational access with restrictive owner-compatible database policies and authenticated agent handlers, so browser-only controls cannot unlock paid features.

@@ -28,7 +28,9 @@ import { Route as AuthenticatedAppDiagnosticoRouteImport } from './routes/_authe
 import { Route as AuthenticatedAppEquipeRouteImport } from './routes/_authenticated/app.equipe'
 import { Route as AuthenticatedAppOrganizacaoRouteImport } from './routes/_authenticated/app.organizacao'
 import { Route as AuthenticatedAppVendasRouteImport } from './routes/_authenticated/app.vendas'
+import { Route as ApiWebhooksKiwifyRouteImport } from './routes/api/webhooks/kiwify'
 import { Route as AuthenticatedAppAgentesIdRouteImport } from './routes/_authenticated/app.agentes.$id'
+import { Route as ApiPublicWebhooksKiwifyRouteImport } from './routes/api/public/webhooks/kiwify'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -128,12 +130,22 @@ const AuthenticatedAppVendasRoute = AuthenticatedAppVendasRouteImport.update({
   path: '/vendas',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const ApiWebhooksKiwifyRoute = ApiWebhooksKiwifyRouteImport.update({
+  id: '/api/webhooks/kiwify',
+  path: '/api/webhooks/kiwify',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAppAgentesIdRoute =
   AuthenticatedAppAgentesIdRouteImport.update({
     id: '/agentes/$id',
     path: '/agentes/$id',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const ApiPublicWebhooksKiwifyRoute = ApiPublicWebhooksKiwifyRouteImport.update({
+  id: '/api/public/webhooks/kiwify',
+  path: '/api/public/webhooks/kiwify',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -153,8 +165,10 @@ export interface FileRoutesByFullPath {
   '/app/equipe': typeof AuthenticatedAppEquipeRoute
   '/app/organizacao': typeof AuthenticatedAppOrganizacaoRoute
   '/app/vendas': typeof AuthenticatedAppVendasRoute
+  '/api/webhooks/kiwify': typeof ApiWebhooksKiwifyRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/app/agentes/$id': typeof AuthenticatedAppAgentesIdRoute
+  '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -173,8 +187,10 @@ export interface FileRoutesByTo {
   '/app/equipe': typeof AuthenticatedAppEquipeRoute
   '/app/organizacao': typeof AuthenticatedAppOrganizacaoRoute
   '/app/vendas': typeof AuthenticatedAppVendasRoute
+  '/api/webhooks/kiwify': typeof ApiWebhooksKiwifyRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/app/agentes/$id': typeof AuthenticatedAppAgentesIdRoute
+  '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -196,8 +212,10 @@ export interface FileRoutesById {
   '/_authenticated/app/equipe': typeof AuthenticatedAppEquipeRoute
   '/_authenticated/app/organizacao': typeof AuthenticatedAppOrganizacaoRoute
   '/_authenticated/app/vendas': typeof AuthenticatedAppVendasRoute
+  '/api/webhooks/kiwify': typeof ApiWebhooksKiwifyRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/app/agentes/$id': typeof AuthenticatedAppAgentesIdRoute
+  '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -219,8 +237,10 @@ export interface FileRouteTypes {
     | '/app/equipe'
     | '/app/organizacao'
     | '/app/vendas'
+    | '/api/webhooks/kiwify'
     | '/app/'
     | '/app/agentes/$id'
+    | '/api/public/webhooks/kiwify'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -239,8 +259,10 @@ export interface FileRouteTypes {
     | '/app/equipe'
     | '/app/organizacao'
     | '/app/vendas'
+    | '/api/webhooks/kiwify'
     | '/app'
     | '/app/agentes/$id'
+    | '/api/public/webhooks/kiwify'
   id:
     | '__root__'
     | '/'
@@ -261,8 +283,10 @@ export interface FileRouteTypes {
     | '/_authenticated/app/equipe'
     | '/_authenticated/app/organizacao'
     | '/_authenticated/app/vendas'
+    | '/api/webhooks/kiwify'
     | '/_authenticated/app/'
     | '/_authenticated/app/agentes/$id'
+    | '/api/public/webhooks/kiwify'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -276,6 +300,8 @@ export interface RootRouteChildren {
   PlanosRoute: typeof PlanosRoute
   PreviaRoute: typeof PreviaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  ApiWebhooksKiwifyRoute: typeof ApiWebhooksKiwifyRoute
+  ApiPublicWebhooksKiwifyRoute: typeof ApiPublicWebhooksKiwifyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -413,12 +439,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppVendasRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/api/webhooks/kiwify': {
+      id: '/api/webhooks/kiwify'
+      path: '/api/webhooks/kiwify'
+      fullPath: '/api/webhooks/kiwify'
+      preLoaderRoute: typeof ApiWebhooksKiwifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/app/agentes/$id': {
       id: '/_authenticated/app/agentes/$id'
       path: '/agentes/$id'
       fullPath: '/app/agentes/$id'
       preLoaderRoute: typeof AuthenticatedAppAgentesIdRouteImport
       parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/api/public/webhooks/kiwify': {
+      id: '/api/public/webhooks/kiwify'
+      path: '/api/public/webhooks/kiwify'
+      fullPath: '/api/public/webhooks/kiwify'
+      preLoaderRoute: typeof ApiPublicWebhooksKiwifyRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -472,6 +512,8 @@ const rootRouteChildren: RootRouteChildren = {
   PlanosRoute: PlanosRoute,
   PreviaRoute: PreviaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  ApiWebhooksKiwifyRoute: ApiWebhooksKiwifyRoute,
+  ApiPublicWebhooksKiwifyRoute: ApiPublicWebhooksKiwifyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
