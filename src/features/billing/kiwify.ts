@@ -50,7 +50,7 @@ export function toBillingCommand(value: z.infer<typeof webhookSchema>, products:
 
 export type Processor = (command: BillingCommand) => Promise<void>;
 
-export async function handleKiwify(request: Request, config: { token?: string; products?: string }, process: Processor) {
+export async function handleKiwify(request: Request, config: { token?: string | undefined; products?: string | undefined }, process: Processor) {
   const reply = (status: number, message: string) => Response.json({ message }, { status, headers: { 'Cache-Control': 'no-store' } });
   if (!config.token || !config.products) return reply(503, 'Recebimento ainda não configurado.');
   if (!request.headers.get('content-type')?.includes('application/json')) return reply(415, 'Envie JSON.');

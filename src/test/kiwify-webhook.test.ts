@@ -1,4 +1,3 @@
-// @vitest-environment node
 import { webcrypto } from 'node:crypto';
 import { describe, expect, it, vi } from 'vitest';
 import { handleKiwify, toBillingCommand, webhookSchema } from '../features/billing/kiwify';
