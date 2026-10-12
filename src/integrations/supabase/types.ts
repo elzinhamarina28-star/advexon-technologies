@@ -182,6 +182,7 @@ export type Database = {
           plan_id: string | null
           provider: string | null
           provider_customer_id: string | null
+          provider_order_id: string | null
           provider_subscription_id: string | null
           status: string
           updated_at: string
@@ -192,6 +193,7 @@ export type Database = {
           plan_id?: string | null
           provider?: string | null
           provider_customer_id?: string | null
+          provider_order_id?: string | null
           provider_subscription_id?: string | null
           status?: string
           updated_at?: string
@@ -202,6 +204,7 @@ export type Database = {
           plan_id?: string | null
           provider?: string | null
           provider_customer_id?: string | null
+          provider_order_id?: string | null
           provider_subscription_id?: string | null
           status?: string
           updated_at?: string
@@ -243,6 +246,7 @@ export type Database = {
     Functions: {
       get_effective_subscription: { Args: never; Returns: Json }
       has_operational_access: { Args: never; Returns: boolean }
+      process_kiwify_webhook: { Args: { command: Json }; Returns: Json }
       set_internal_test_plan: { Args: { selected_plan: string }; Returns: Json }
     }
     Enums: {
