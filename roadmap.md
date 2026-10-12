@@ -1,4 +1,5 @@
-- [ ] Implement secure Kiwify webhook, atomic order idempotency and focused tests; keep checkout off and publication/manual provider configuration pending.
+- [x] Implement Kiwify webhook routes and service-only atomic order processing; verify 34 focused tests, database grants and local fail-closed response; keep checkout off.
+- [ ] Activate/verify Kiwify deliveries (blocked: no publication, shared webhook token/product IDs or confirmed official delivery payload); transactional SQL regression remains unexecuted.
 - [x] Fix synchronous diagnostic completion persistence and integration metadata; verify local regression tests and same-tab reload without external calls.
 - [ ] Rebuild focused executive diagnostic report and verify diagnostic rules, CTAs and desktop/mobile rendering without external calls.
 # NEXAOP
