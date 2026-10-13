@@ -3,7 +3,7 @@
 - [x] Fix synchronous diagnostic completion persistence and integration metadata; verify local regression tests and same-tab reload without external calls.
 - [ ] Rebuild focused executive diagnostic report and verify diagnostic rules, CTAs and desktop/mobile rendering without external calls.
 # ADVEXON Technologies
-- [ ] Apply ADVEXON branding across existing screens, metadata and icons; verify preview and regression tests without external service calls.
+- [x] Apply ADVEXON branding across existing screens, metadata and icons; 84 regression tests passed, automatic build OK, eight public screens verified at desktop/mobile with no runtime errors. Authenticated screens inherit shared branding but were not exercised signed in.
 - [ ] Replace provisional recreated ADVEXON logo with exact approved artwork (blocked: original asset not supplied).
 - [ ] Localize authentication errors and accessible validation to PT-BR; verify focused tests and browser flow without external calls.
 - [x] Add secure internal plan switching and align implemented paid features; entitlement tests and deployed grants/policies verified without external calls.
