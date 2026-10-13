@@ -2,7 +2,9 @@
 - [ ] Activate/verify Kiwify deliveries (blocked: no publication, shared webhook token/product IDs or confirmed official delivery payload); transactional SQL regression remains unexecuted.
 - [x] Fix synchronous diagnostic completion persistence and integration metadata; verify local regression tests and same-tab reload without external calls.
 - [ ] Rebuild focused executive diagnostic report and verify diagnostic rules, CTAs and desktop/mobile rendering without external calls.
-# NEXAOP
+# ADVEXON Technologies
+- [ ] Apply ADVEXON branding across existing screens, metadata and icons; verify preview and regression tests without external service calls.
+- [ ] Replace provisional recreated ADVEXON logo with exact approved artwork (blocked: original asset not supplied).
 - [ ] Localize authentication errors and accessible validation to PT-BR; verify focused tests and browser flow without external calls.
 - [x] Add secure internal plan switching and align implemented paid features; entitlement tests and deployed grants/policies verified without external calls.
 - [ ] Verify signed-in internal plan switching end-to-end (blocked: owner account not yet identified; sandbox SQL connection cannot execute authenticated functions).
