@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Brand } from '@/features/shared/Brand';
 import { authErrorKind, authErrorMessage, recoveryNotice, signupNotice, validateAuthForm } from '@/features/client-app/auth-messages';
 
-const title = 'Entrar ou criar conta | NEXAOP';
-const description = 'Acesse sua área NEXAOP: diagnóstico, equipe IA, vendas e organização.';
+const title = 'Entrar ou criar conta | ADVEXON';
+const description = 'Acesse sua área ADVEXON: diagnóstico, equipe IA, vendas e organização.';
 export const Route = createFileRoute('/auth')({
   head: () => ({ meta: [{ title }, { name: 'description', content: description }, { property: 'og:title', content: title }, { property: 'og:description', content: description }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary' }] }),
   component: AuthPage,

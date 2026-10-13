@@ -6,9 +6,9 @@ import type { Answers } from '@/features/diagnostic/score';
 
 export const Route = createFileRoute('/diagnostico')({
   head: () => ({ meta: [
-    { title: 'Diagnóstico completo — Inteligência operacional NEXAOP' },
+    { title: 'Diagnóstico completo — Inteligência operacional ADVEXON' },
     { name: 'description', content: 'Seu mapa de maturidade operacional, descobertas explicáveis e plano de ação baseado nas suas respostas.' },
-    { property: 'og:title', content: 'Diagnóstico completo — NEXAOP' },
+    { property: 'og:title', content: 'Diagnóstico completo — ADVEXON' },
     { property: 'og:description', content: 'Sua operação em perspectiva: prioridades, evidências e próximos passos.' },
     { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary' }, { name: 'robots', content: 'noindex' },
   ] }), component: ReportPage,

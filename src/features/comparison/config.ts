@@ -12,5 +12,5 @@ export const comparison = [
  { name:'Interações IA', values:plans.map(p=>`${p.limits.interactions.toLocaleString('pt-BR')}/mês`) },
  { name:'Contatos', values:plans.map(p=>p.limits.contacts ? `Até ${p.limits.contacts.toLocaleString('pt-BR')}`:'—') },
  { name:'Automações', values:['—','Básicas','Avançadas'] },
- { name:'Analytics', values:['NEXAOP Score','Visão geral','Avançado'] },
+ { name:'Analytics', values:['ADVEXON Score','Visão geral','Avançado'] },
 ];

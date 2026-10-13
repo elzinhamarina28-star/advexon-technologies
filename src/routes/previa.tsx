@@ -7,10 +7,10 @@ import { Diagnostic } from '@/features/diagnostic/Diagnostic';
 export const Route = createFileRoute('/previa')({
   validateSearch: (search: Record<string, unknown>): { view: View } => ({ view: views.find(view => view === search['view']) ?? 'dashboard' }),
   head: () => ({ meta: [
-    { title: 'Prévia do aplicativo — NEXAOP' },
-    { name: 'description', content: 'Explore a demonstração do aplicativo NEXAOP, com diagnóstico gratuito e dados demonstrativos, sem acessar recursos pagos.' },
-    { property: 'og:title', content: 'Prévia do aplicativo — NEXAOP' },
-    { property: 'og:description', content: 'Conheça o dashboard, a equipe IA, as vendas e a organização na prévia NEXAOP.' },
+    { title: 'Prévia do aplicativo — ADVEXON' },
+    { name: 'description', content: 'Explore a demonstração do aplicativo ADVEXON, com diagnóstico gratuito e dados demonstrativos, sem acessar recursos pagos.' },
+    { property: 'og:title', content: 'Prévia do aplicativo — ADVEXON' },
+    { property: 'og:description', content: 'Conheça o dashboard, a equipe IA, as vendas e a organização na prévia ADVEXON.' },
     { property: 'og:type', content: 'website' },
     { name: 'twitter:card', content: 'summary_large_image' },
   ] }),
@@ -24,7 +24,7 @@ function Preview() {
   return <main className="athena-page">
     <header className="athena-top container"><Link to="/"><Brand /></Link><Button asChild variant="nexa"><Link to="/auth">Entrar / Criar conta</Link></Button></header>
     <div className="container ops-preview-intro">
-      <span className="ops-eyebrow">PRÉVIA NEXAOP</span>
+      <span className="ops-eyebrow">PRÉVIA ADVEXON</span>
       <p className="ops-demo-notice" role="note">Demonstração — não é sua conta real. Nomes, conversas e valores são fictícios. Nenhum envio ou recurso pago é ativado.</p>
     </div>
     <div className="container app-shell ops-app ops-preview-shell">

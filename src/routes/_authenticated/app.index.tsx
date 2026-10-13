@@ -37,7 +37,7 @@ function Dashboard() {
     <div className="ops-real-context"><div><h2>Sua operação, em perspectiva.</h2><p>Contexto, oportunidades e próximos passos da sua empresa.</p></div><Status tone="brand">Sua conta</Status></div>
     <div className="cd-grid app-gap">
       <article className="cd-card">
-        <h2><Gauge size={16} />NEXAOP Score</h2>
+        <h2><Gauge size={16} />ADVEXON Score</h2>
         {diag.isLoading ? <Loader2 className="cd-spin" /> : diag.isError ? <p role="alert">Erro ao carregar o diagnóstico.</p> : r ? <>
           <strong className="cd-big gradient-text">{r.score}</strong> <span className="cd-class">{r.classification}</span>
           <ul className="cd-cats">{categories.map(c => <li key={c}><span>{c}</span><div className="cd-bar"><i style={{ width: `${r.categories[c]}%` }} /></div><b>{r.categories[c]}</b></li>)}</ul>

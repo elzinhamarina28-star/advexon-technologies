@@ -29,17 +29,17 @@ describe('Diagnostic completion persistence', () => {
       answers[question.id] = [0];
       fireEvent.click(screen.getByRole('button', { name: index === 11 ? 'Ver meu resultado' : 'Continuar' }));
     }
-    await screen.findByRole('article', { name: 'Diagnóstico completo NEXAOP' });
+    await screen.findByRole('article', { name: 'Diagnóstico completo ADVEXON' });
     expect(JSON.parse(sessionStorage.getItem('nexaop-diagnostic') ?? 'null')).toEqual({ step: 11, answers, finished: true });
 
     view.unmount(); // Reload discards React state but retains same-tab sessionStorage.
     mountPage();
-    await screen.findByRole('article', { name: 'Diagnóstico completo NEXAOP' });
+    await screen.findByRole('article', { name: 'Diagnóstico completo ADVEXON' });
     expect(screen.queryByRole('group', { name: 'Qual é o segmento do seu negócio?' })).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'Refazer diagnóstico' }));
     await screen.findByRole('group', { name: 'Qual é o segmento do seu negócio?' });
     await waitFor(() => expect(JSON.parse(sessionStorage.getItem('nexaop-diagnostic') ?? 'null')?.finished).not.toBe(true));
-    expect(screen.queryByRole('article', { name: 'Diagnóstico completo NEXAOP' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('article', { name: 'Diagnóstico completo ADVEXON' })).not.toBeInTheDocument();
   });
 });

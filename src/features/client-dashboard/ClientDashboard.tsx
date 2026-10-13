@@ -40,7 +40,7 @@ export function ClientDashboard() {
     <section className="container cd-shell" aria-labelledby="cd-title">
       <div className="cd-head">
         <div>
-          <div className="eyebrow"><span className="dot"/>CENTRAL NEXAOP</div>
+          <div className="eyebrow"><span className="dot"/>CENTRAL ADVEXON</div>
           <h1 id="cd-title" className="section-title">Seu painel</h1>
         </div>
         <nav className="cd-nav" aria-label="Atalhos">
@@ -57,7 +57,7 @@ export function ClientDashboard() {
 
       {state === 'ready' && <div className="cd-grid">
         <article className="cd-card cd-score">
-          <h2><Gauge size={16}/>NEXAOP Score</h2>
+          <h2><Gauge size={16}/>ADVEXON Score</h2>
           {result ? <>
             <strong className="cd-big gradient-text">{result.score}</strong>
             <span className="cd-class">{result.classification}</span>

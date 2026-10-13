@@ -20,7 +20,7 @@ function Page() {
         <h2>Plano: {plan?.name ?? 'Nenhum'} <em className="cd-tag">{statusLabel[sub.data?.status ?? 'inactive']}</em></h2>
         {plan ? <><p>{sub.data?.internal_test ? 'Assinatura interna de teste · sem cobrança' : `R$ ${formatPrice(plan.price)}/${plan.billingPeriod}`}{sub.data?.current_period_end && ` · renova em ${new Date(sub.data.current_period_end).toLocaleDateString('pt-BR')}`}</p>
           <ul className="cd-list app-gap">{plan.features.map(f => <li key={f}>{f}</li>)}</ul></>
-          : <p className="cd-small">Você usa os recursos gratuitos: diagnóstico e NEXAOP Score.</p>}
+          : <p className="cd-small">Você usa os recursos gratuitos: diagnóstico e ADVEXON Score.</p>}
         {!active && <p className="cd-small">A contratação online ainda não está disponível. Quando estiver, o plano é ativado automaticamente só após a confirmação do pagamento.</p>}
         <Button asChild variant="nexa" className="app-gap"><Link to="/planos">Ver planos</Link></Button>
       </>}
