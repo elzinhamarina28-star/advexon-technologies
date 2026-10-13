@@ -17,13 +17,13 @@
  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px; --radius-xl: 24px;
 }
 :root {
- --background: oklch(0.255 0.022 270); --foreground: #F4F6FA;
- --card: oklch(0.335 0.028 270); --primary: #3B82F6; --primary-foreground: oklch(1 0 0);
+ --background: #080D19; --foreground: #F4F6FA;
+ --card: oklch(0.275 0.028 270); --primary: #2979FF; --primary-foreground: oklch(1 0 0);
  --secondary: oklch(0.32 0.035 270); --muted: oklch(0.26 0.02 270); --muted-foreground: oklch(0.78 0.035 267);
  --accent: oklch(0.36 0.04 266); --border: oklch(0.64 0.035 267 / 22%); --destructive: oklch(0.66 0.21 23);
- --cyan: #06B6D4; --violet: #7C3AED; --success: oklch(0.85 0.19 125);
- --surface-band: oklch(0.295 0.02 270); --surface-raised: oklch(0.375 0.027 270);
- --surface-product: oklch(0.315 0.03 267); --surface-inset: oklch(0.275 0.026 267);
+ --cyan: #22D3EE; --violet: #8B5CF6; --magenta: #D946EF; --success: oklch(0.85 0.19 125);
+ --surface-band: oklch(0.235 0.02 270); --surface-raised: oklch(0.315 0.027 270);
+ --surface-product: oklch(0.255 0.03 267); --surface-inset: oklch(0.215 0.026 267);
  --card-shadow: 0 24px 48px -28px oklch(0.12 0.018 270 / 40%), inset 0 1px 0 oklch(1 0 0 / 4%);
  --cta-shadow: 0 8px 24px -10px color-mix(in srgb, var(--primary) 50%, transparent), inset 0 1px 0 oklch(1 0 0 / 18%);
  --geometry-line: color-mix(in srgb, var(--muted-foreground) 12%, transparent);
@@ -31,7 +31,7 @@
  --section-edge: linear-gradient(90deg, transparent, var(--geometry-line) 25%, var(--geometry-line) 75%, transparent);
  --hero-surface: linear-gradient(155deg, var(--surface-raised), var(--surface-band) 45%, var(--background) 85%);
  --editorial: #F4F6FA; --ink: oklch(0.2 0.041 266); --editorial-muted: oklch(0.5 0.024 263);
- --brand-gradient: linear-gradient(110deg, var(--violet), var(--primary) 54%, var(--cyan));
+ --brand-gradient: linear-gradient(110deg, var(--magenta), var(--violet) 30%, var(--primary) 62%, var(--cyan));
  --font-editorial: 'Instrument Serif', Georgia, serif; --font-display: 'Instrument Sans', 'Poppins', sans-serif;
  --line: color-mix(in srgb, var(--muted-foreground) 20%, transparent);
  --hero-light: radial-gradient(ellipse at 50% 54%, oklch(0.33 0.13 275 / 22%), transparent 62%);

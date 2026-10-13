@@ -22,7 +22,7 @@
 - Keep diagnostic questions, weights, score classification and recommendations separate from UI; scores measure operational maturity with normalized category averages, while volume acts as workload context and preference answers guide recommendations.
 - Diagnostic results and optional report downloads are browser-local with no persistence or delivery service; this keeps the requested phase free of backend connections.
 - Express brand presentation through semantic CSS tokens and shared Button variants for consistent theming.
-- Render brand applications through the shared raster-asset Brand component; compact applications and local browser icons isolate the intact supplied symbol, while full applications retain the original artwork on a contrast surface, preventing logo reconstruction or distortion.
+- Render all brand applications through shared Brand asset pointers; compact applications and browser icons use the same emblem, while full applications use the complete logo. Keep provisional recreation replaceable through these pointers without changing presentation or data identifiers.
 - Athena playground lives at /athena; model calls go through a server function to the Gemini API (GEMINI_API_KEY) so the provider key stays server-side, and chat history is sessionStorage-only.
 - The client dashboard (/painel) derives its score only from the browser-local diagnostic session and shows labeled demo data otherwise; no persistence until auth/database exist.
 

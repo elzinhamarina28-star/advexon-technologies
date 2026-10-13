@@ -14,9 +14,9 @@ export function TeamDemo() {
   return <>
     <section id="equipe-em-acao" className="section team-demo" aria-labelledby="team-demo-title">
       <div className="container">
-        <div className="eyebrow"><Sparkles size={14}/>NEXAOP — SUA EQUIPE IA</div>
+        <div className="eyebrow"><Sparkles size={14}/>ADVEXON — SUA EQUIPE IA</div>
         <h2 id="team-demo-title" className="section-title">Sua equipe IA <span className="gradient-text">em ação.</span></h2>
-        <p className="section-copy">A NEXAOP ajuda pequenas empresas a responder, qualificar e recuperar oportunidades automaticamente.</p>
+        <p className="section-copy">A ADVEXON ajuda pequenas empresas a responder, qualificar e recuperar oportunidades automaticamente.</p>
         <ol className="demo-flow" aria-label="Fluxo da equipe IA">{flowSteps.map(s => <li key={s}>{s}</li>)}</ol>
         <div className="demo-agents">{demoAgents.map(a => { const Icon = icons[a.id]; return <article key={a.id} className="demo-agent"><Icon aria-hidden="true"/><h3>{a.name} <span>— {a.role}</span></h3><p>{a.description}</p></article>; })}</div>
 
@@ -34,15 +34,15 @@ export function TeamDemo() {
             <div className="before"><span>ANTES</span><p><XCircle size={14}/>Mensagem perdida</p></div>
             <div className="after"><span>DEPOIS</span><p>Atendimento → Qualificação → Follow-up</p></div>
           </div>
-          <p className="demo-note"><ShieldCheck size={12}/>Demonstração da experiência NEXAOP. As integrações reais serão ativadas conforme o plano e a configuração da conta.</p>
-          <div className="text-center"><Button variant="nexa" className="nexa-button-lg" asChild><a href="#central-demo">Ver a Central NEXAOP<ArrowRight/></a></Button></div>
+          <p className="demo-note"><ShieldCheck size={12}/>Demonstração da experiência ADVEXON. As integrações reais serão ativadas conforme o plano e a configuração da conta.</p>
+          <div className="text-center"><Button variant="nexa" className="nexa-button-lg" asChild><a href="#central-demo">Ver a Central ADVEXON<ArrowRight/></a></Button></div>
         </div>
       </div>
     </section>
 
     <section id="central-demo" className="section central-demo" aria-labelledby="central-title">
       <div className="container">
-        <div className="eyebrow"><span className="dot"/>CENTRAL NEXAOP — DEMO</div>
+        <div className="eyebrow"><span className="dot"/>CENTRAL ADVEXON — DEMO</div>
         <h2 id="central-title" className="section-title">Tudo organizado em um só lugar.</h2>
         <div className="central-panel">
           <div className="central-metrics">{demoMetrics.map(m => <div key={m.label}><strong>{m.value}</strong><span>{m.label}</span></div>)}</div>
@@ -55,8 +55,8 @@ export function TeamDemo() {
 
         <div className="demo-final-cta">
           <h2 className="section-title">Isso é só o começo.</h2>
-          <p className="section-copy">A NEXAOP transforma tarefas repetitivas e oportunidades esquecidas em uma operação mais organizada, rápida e inteligente.</p>
-          <Button variant="nexa" className="nexa-button-lg" asChild><a href="#planos">CONHECER O NEXAOP GROWTH<ArrowRight/></a></Button>
+          <p className="section-copy">A ADVEXON transforma tarefas repetitivas e oportunidades esquecidas em uma operação mais organizada, rápida e inteligente.</p>
+          <Button variant="nexa" className="nexa-button-lg" asChild><a href="#planos">CONHECER O ADVEXON GROWTH<ArrowRight/></a></Button>
           {growth && <p className="demo-price"><strong>R$ {brl(growth.price)}/mês</strong><span>Plano recomendado para começar.</span></p>}
         </div>
       </div>

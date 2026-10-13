@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Brand } from '@/features/shared/Brand';
 import { authErrorMessage, validateAuthForm } from '@/features/client-app/auth-messages';
 
-const title = 'Redefinir senha | NEXAOP';
-const description = 'Defina uma nova senha para sua conta NEXAOP.';
+const title = 'Redefinir senha | ADVEXON';
+const description = 'Defina uma nova senha para sua conta ADVEXON.';
 export const Route = createFileRoute('/reset-password')({
   head: () => ({ meta: [{ title }, { name: 'description', content: description }, { property: 'og:title', content: title }, { property: 'og:description', content: description }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary' }, { name: 'robots', content: 'noindex' }] }),
   component: ResetPage,

@@ -5,7 +5,7 @@ export const demoAgents = [
   { id: 'follow-up', name: 'FOLLOW-UP', role: 'Continuidade', area: 'Continuidade', status: 'Ativo', description: 'Ajuda a retomar conversas e manter os próximos passos no momento certo.' },
 ] as const;
 
-export const flowSteps = ['NEXAOP', 'ATHENA', 'ETHAN', 'FOLLOW-UP', 'OPORTUNIDADE ORGANIZADA'] as const;
+export const flowSteps = ['ADVEXON', 'ATHENA', 'ETHAN', 'FOLLOW-UP', 'OPORTUNIDADE ORGANIZADA'] as const;
 
 export type DemoMessage = { from: 'Cliente' | 'ATHENA' | 'ETHAN' | 'FOLLOW-UP'; lines: string[] };
 export const conversation: DemoMessage[] = [

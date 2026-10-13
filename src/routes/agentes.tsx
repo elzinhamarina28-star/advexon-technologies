@@ -3,8 +3,8 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Agents } from '@/features/agents/Agents';
 import { Brand } from '@/features/shared/Brand';
 import { Button } from '@/components/ui/button';
-const title = 'Agentes NEXAOP — ATHENA, ETHAN e FOLLOW-UP';
-const description = 'Conheça a equipe IA da NEXAOP: ATHENA no atendimento, ETHAN na qualificação e FOLLOW-UP na continuidade.';
+const title = 'Agentes ADVEXON — ATHENA, ETHAN e FOLLOW-UP';
+const description = 'Conheça a equipe IA da ADVEXON: ATHENA no atendimento, ETHAN na qualificação e FOLLOW-UP na continuidade.';
 function AgentsPage() {
   return <main className="athena-page">
     <header className="athena-top container"><Link to="/" className="athena-back"><ArrowLeft size={16}/>Voltar ao site</Link><Brand/></header>

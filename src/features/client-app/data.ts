@@ -50,4 +50,4 @@ export async function saveDiagnostic(answers: Answers) {
   if (error) throw error;
 }
 
-export const pageHead = (title: string) => () => ({ meta: [{ title: `${title} | NEXAOP` }, { name: 'description', content: `Área do cliente NEXAOP — ${title}.` }, { property: 'og:title', content: `${title} | NEXAOP` }, { property: 'og:description', content: `Área do cliente NEXAOP — ${title}.` }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary' }, { name: 'robots', content: 'noindex' }] });
+export const pageHead = (title: string) => () => ({ meta: [{ title: `${title} | ADVEXON` }, { name: 'description', content: `Área do cliente ADVEXON — ${title}.` }, { property: 'og:title', content: `${title} | ADVEXON` }, { property: 'og:description', content: `Área do cliente ADVEXON — ${title}.` }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary' }, { name: 'robots', content: 'noindex' }] });
