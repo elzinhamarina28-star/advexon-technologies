@@ -42,7 +42,7 @@ function Dashboard() {
           <strong className="cd-big gradient-text">{r.score}</strong> <span className="cd-class">{r.classification}</span>
           <ul className="cd-cats">{categories.map(c => <li key={c}><span>{c}</span><div className="cd-bar"><i style={{ width: `${r.categories[c]}%` }} /></div><b>{r.categories[c]}</b></li>)}</ul>
           <p className="cd-small">Agente recomendado: <b>{r.firstAgent}</b></p>
-          <Link to="/app/diagnostico" className="nav-link">Refazer diagnóstico</Link>
+          <Link to="/app/diagnostico" className="nav-link">Ver diagnóstico e recomendação</Link>
         </> : <div className="cd-empty"><p>Você ainda não fez o diagnóstico.</p><Button asChild variant="nexa"><Link to="/app/diagnostico">Fazer diagnóstico<ArrowRight /></Link></Button><span className="cd-small">Cerca de 2 minutos.</span></div>}
       </article>
        <PaidAccess feature="dashboard:operational"><article className="cd-card">
