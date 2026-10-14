@@ -20,7 +20,7 @@
 - Isolate marketing, diagnostic, product-preview, agents, pricing, comparison and shared modules under src/features to prepare independent SaaS evolution.
 - Store agent and plan definitions in typed configuration; new agents and checkout destinations must not require rewriting presentation logic.
 - Keep diagnostic questions, weights, score classification and recommendations separate from UI; scores measure operational maturity with normalized category averages, while volume acts as workload context and preference answers guide recommendations.
-- Diagnostic results and optional report downloads are browser-local with no persistence or delivery service; this keeps the requested phase free of backend connections.
+- Public diagnostic results stay browser-local; authenticated diagnostic views read and save owner-scoped database answers and use per-user draft storage, never a shared anonymous draft as another account's result.
 - Express brand presentation through semantic CSS tokens and shared Button variants for consistent theming.
 - Render all brand applications through shared Brand asset pointers; compact applications and browser icons use the same emblem, while full applications use the complete logo. Keep provisional recreation replaceable through these pointers without changing presentation or data identifiers.
 - Athena playground lives at /athena; model calls go through a server function to the Gemini API (GEMINI_API_KEY) so the provider key stays server-side, and chat history is sessionStorage-only.

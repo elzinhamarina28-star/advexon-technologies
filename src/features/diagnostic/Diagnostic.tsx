@@ -5,19 +5,18 @@ import { Button } from '@/components/ui/button';
 import { questions } from './questions';
 import { categories, type Answers } from './score';
 import { recommend } from './recommendations';
-import { ExecutiveReport } from './ExecutiveReport';
-export function Diagnostic({ onFinish, preview = false, authenticated = false }: { onFinish?: (answers: Answers) => void; preview?: boolean; authenticated?: boolean } = {}) {
+export function Diagnostic({ onFinish, preview = false, authenticated = false, storageKey = 'nexaop-diagnostic' }: { onFinish?: (answers: Answers) => void; preview?: boolean; authenticated?: boolean; storageKey?: string } = {}) {
  const [step,setStep]=useState(0); const [answers,setAnswers]=useState<Answers>({}); const [finished,setFinished]=useState(false); const [receipt,setReceipt]=useState(false); const heading=useRef<HTMLHeadingElement>(null);
  const [loaded,setLoaded]=useState(false);
- useEffect(()=>{try{const raw=sessionStorage.getItem('nexaop-diagnostic');if(raw){const d=JSON.parse(raw);if(typeof d.step==='number'&&d.step>=0&&d.step<questions.length)setStep(d.step);if(d.answers&&typeof d.answers==='object')setAnswers(d.answers);if(d.finished)setFinished(true);}}catch{/* ignore */}setLoaded(true);},[]);
- useEffect(()=>{if(!loaded)return;try{sessionStorage.setItem('nexaop-diagnostic',JSON.stringify({step,answers,finished}));}catch{/* ignore */}},[loaded,step,answers,finished]);
+ useEffect(()=>{try{const raw=sessionStorage.getItem(storageKey);if(raw){const d=JSON.parse(raw);if(typeof d.step==='number'&&d.step>=0&&d.step<questions.length)setStep(d.step);if(d.answers&&typeof d.answers==='object')setAnswers(d.answers);if(d.finished)setFinished(true);}}catch{/* ignore */}setLoaded(true);},[storageKey]);
+ useEffect(()=>{if(!loaded)return;try{sessionStorage.setItem(storageKey,JSON.stringify({step,answers,finished}));}catch{/* ignore */}},[loaded,step,answers,finished,storageKey]);
  const question=questions[step];
  if (!question) return null;
  const selected=answers[question.id]??[];
- const reset=()=>{try{sessionStorage.removeItem('nexaop-diagnostic');}catch{/* ignore */}setStep(0);setAnswers({});setFinished(false);setReceipt(false);};
+ const reset=()=>{try{sessionStorage.removeItem(storageKey);}catch{/* ignore */}setStep(0);setAnswers({});setFinished(false);setReceipt(false);};
  const focusQuestion=()=>requestAnimationFrame(()=>heading.current?.focus());
  const choose=(index:number)=>setAnswers(current=>({...current,[question.id]:question.multiple?(selected.includes(index)?selected.filter(i=>i!==index):(question.scoreMultiple&&index===0?[0]:[...selected.filter(i=>!(question.scoreMultiple&&i===0)),index])):[index]}));
- const next=()=>{if(!selected.length)return;if(step===questions.length-1){try{sessionStorage.setItem('nexaop-diagnostic',JSON.stringify({step,answers,finished:true}));}catch{/* Keep the result available if local storage is unavailable. */}setFinished(true);onFinish?.(answers);}else{setStep(step+1);}focusQuestion();};
+ const next=()=>{if(!selected.length)return;if(step===questions.length-1){try{sessionStorage.setItem(storageKey,JSON.stringify({step,answers,finished:true}));}catch{/* Keep the result available if local storage is unavailable. */}setFinished(true);onFinish?.(answers);}else{setStep(step+1);}focusQuestion();};
  const result=finished?recommend(answers):null;
  function downloadReport(event:React.FormEvent<HTMLFormElement>) {
   event.preventDefault(); if(!result)return;

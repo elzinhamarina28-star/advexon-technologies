@@ -29,7 +29,8 @@ export const useLatestDiagnostic = () => useQuery({
     const { data, error } = await supabase.from('diagnostics').select('answers, created_at').eq('user_id', id).order('created_at', { ascending: false }).limit(1).maybeSingle();
     if (error) throw error;
     if (!data) return null;
-    return { createdAt: data.created_at, result: recommend(data.answers as Answers) };
+    const answers = data.answers as Answers;
+    return { createdAt: data.created_at, answers, result: recommend(answers) };
   },
 });
 
