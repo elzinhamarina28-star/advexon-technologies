@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Route } from '@/routes/diagnostico';
 import { questions } from '@/features/diagnostic/questions';
 import type { Answers } from '@/features/diagnostic/score';
+import { Pricing } from '@/features/pricing/Pricing';
 
 vi.mock('@tanstack/react-router', async (importOriginal) => {
   const original = await importOriginal<typeof import('@tanstack/react-router')>();
@@ -36,6 +37,12 @@ describe('Diagnostic completion persistence', () => {
     mountPage();
     await screen.findByRole('article', { name: 'Diagnóstico completo ADVEXON' });
     expect(screen.queryByRole('group', { name: 'Qual é o segmento do seu negócio?' })).not.toBeInTheDocument();
+
+    const pricing = render(<Pricing/>);
+    fireEvent.click(screen.getByRole('button', { name: 'Começar com Start' }));
+    expect(screen.getByRole('link', { name: 'Fazer meu diagnóstico' })).toHaveAttribute('href', '/diagnostico');
+    fireEvent.click(screen.getByRole('button', { name: 'Fechar' }));
+    pricing.unmount();
 
     fireEvent.click(screen.getByRole('button', { name: 'Refazer diagnóstico' }));
     await screen.findByRole('group', { name: 'Qual é o segmento do seu negócio?' });
