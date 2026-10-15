@@ -19,14 +19,15 @@ function mount() {
 }
 afterEach(() => { cleanup(); sessionStorage.clear(); state.saved = null; state.user = 'account-a'; state.save.mockClear(); });
 describe('Account diagnostic continuity', () => {
+  const firstQuestion = questions[0]!;
   it('reuses saved database answers without starting the questionnaire or writing a duplicate', async () => {
     state.saved = { answers: Object.fromEntries(questions.map(q => [q.id, [0]])) };
     mount();
     await screen.findByRole('article', { name: 'Diagnóstico completo ADVEXON' });
-    expect(screen.queryByRole('group', { name: questions[0]?.title })).toBeNull();
+    expect(screen.queryByRole('group', { name: firstQuestion.title })).toBeNull();
     expect(state.save).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole('button', { name: 'Refazer diagnóstico' }));
-    await screen.findByRole('group', { name: questions[0]?.title });
+    await screen.findByRole('group', { name: firstQuestion.title });
   });
   it('does not load another account or anonymous answers when starting a first diagnostic', async () => {
     const finished = JSON.stringify({ step: 11, answers: Object.fromEntries(questions.map(q => [q.id, [0]])), finished: true });
@@ -34,7 +35,7 @@ describe('Account diagnostic continuity', () => {
     sessionStorage.setItem('advexon-diagnostic:account-a', finished);
     state.user = 'account-b';
     mount();
-    await screen.findByRole('group', { name: questions[0]?.title });
+    await screen.findByRole('group', { name: firstQuestion.title });
     expect(screen.queryByRole('article', { name: 'Diagnóstico completo ADVEXON' })).toBeNull();
     expect(state.save).not.toHaveBeenCalled();
   });
@@ -42,7 +43,7 @@ describe('Account diagnostic continuity', () => {
     mount();
     for (const [i, q] of questions.entries()) {
       await screen.findByRole('group', { name: q.title });
-      fireEvent.click(screen.getByRole('button', { name: q.options[0], exact: true }));
+      fireEvent.click(screen.getByRole('button', { name: q.options[0]! }));
       fireEvent.click(screen.getByRole('button', { name: i === 11 ? 'Ver meu resultado' : 'Continuar' }));
     }
     await screen.findByRole('article', { name: 'Diagnóstico completo ADVEXON' });
