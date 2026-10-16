@@ -15,6 +15,7 @@ export async function callGemini(name: string, systemPrompt: string, messages: C
       const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
         method: 'POST',
         headers: { 'x-goog-api-key': apiKey, 'Content-Type': 'application/json' },
+        signal: AbortSignal.timeout(25000),
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: systemPrompt }] },
           contents: messages.map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })),
@@ -23,7 +24,7 @@ export async function callGemini(name: string, systemPrompt: string, messages: C
       });
       if (!res.ok) {
         const body = await res.text().catch(() => '');
-        console.error(`${name} Gemini error`, res.status, body.slice(0, 300));
+        console.error('Gemini request rejected', res.status);
         if (res.status === 400 && body.includes('API_KEY_INVALID')) { last = { ok: false, error: `A chave de acesso de ${name} é inválida.` }; continue; }
         if (res.status === 401 || res.status === 403) { last = { ok: false, error: noAccess }; continue; }
         if (res.status === 429) { last = { ok: false, error: 'Limite de uso do serviço de IA atingido. Tente novamente em instantes.' }; continue; }
@@ -33,8 +34,8 @@ export async function callGemini(name: string, systemPrompt: string, messages: C
       const json = (await res.json()) as { candidates?: { content?: { parts?: { text?: string; thought?: boolean }[] } }[] };
       const reply = json.candidates?.[0]?.content?.parts?.filter(p => !p.thought).map(p => p.text ?? '').join('').trim();
       return reply ? { ok: true, reply } : { ok: false, error: `${name} não conseguiu responder a esta mensagem.` };
-    } catch (e) {
-      console.error(`${name} request failed`, e);
+    } catch {
+      console.error('Gemini request failed');
       last = { ok: false, error: `Falha de conexão com ${name}. Tente novamente.` };
     }
   }

@@ -1,7 +1,8 @@
 import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
-import { callGemini, type AgentReply } from '../shared/gemini';
+import { type AgentReply } from '../shared/gemini';
+import { meteredGemini } from '../shared/metered-gemini';
 import { canUse, parseSubscription } from '../client-app/entitlements';
 import { ETHAN_SYSTEM_PROMPT, FOLLOWUP_SYSTEM_PROMPT } from './personas';
 
@@ -11,6 +12,7 @@ const AGENTS = {
 } as const;
 
 const schema = z.object({
+  requestId: z.string().uuid(),
   agentId: z.enum(['ethan', 'follow-up']),
   messages: z.array(z.object({ role: z.enum(['user', 'assistant']), content: z.string().trim().min(1).max(2000) })).min(1).max(30),
 });
@@ -24,5 +26,5 @@ export const askAgent = createServerFn({ method: 'POST' })
     const { data: sub, error } = await context.supabase.rpc('get_effective_subscription');
     if (error) return { ok: false, error: 'Não foi possível verificar sua assinatura. Tente novamente.' };
     if (!canUse(parseSubscription(sub), agent.feature)) return { ok: false, error: 'Este agente está disponível nos planos GROWTH e PRO com assinatura ativa.' };
-    return callGemini(agent.name, agent.prompt, data.messages);
+    return meteredGemini(context.supabase, context.userId, data.requestId, agent.name, agent.prompt, data.messages);
   });

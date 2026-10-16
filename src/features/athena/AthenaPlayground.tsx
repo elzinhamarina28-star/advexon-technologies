@@ -30,7 +30,7 @@ export function AthenaPlayground() {
     const next = [...messages, { role: 'user' as const, content: content.slice(0, ATHENA_MAX_CHARS) }];
     setMessages(next); setInput(''); setError(null); setLoading(true);
     try {
-      const res = await ask({ data: { messages: next.slice(-ATHENA_MAX_MESSAGES) } });
+      const res = await ask({ data: { requestId: crypto.randomUUID(), messages: next.slice(-ATHENA_MAX_MESSAGES) } });
       if (res.ok) setMessages([...next, { role: 'assistant', content: res.reply }]);
       else setError(res.error);
     } catch { setError('Não foi possível falar com a ATHENA. Tente novamente.'); }
