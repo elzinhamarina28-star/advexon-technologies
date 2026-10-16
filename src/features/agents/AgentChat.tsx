@@ -17,7 +17,7 @@ export function AgentChat({ agentId, name }: { agentId: 'ethan' | 'follow-up'; n
     const next = [...messages, { role: 'user' as const, content: content.slice(0, 2000) }];
     setMessages(next); setInput(''); setError(null); setLoading(true);
     try {
-      const res = await ask({ data: { agentId, messages: next.slice(-30) } });
+      const res = await ask({ data: { requestId: crypto.randomUUID(), agentId, messages: next.slice(-30) } });
       if (res.ok) setMessages([...next, { role: 'assistant', content: res.reply }]); else setError(res.error);
     } catch { setError(`Não foi possível falar com ${name}. Tente novamente.`); } finally { setLoading(false); }
   }
