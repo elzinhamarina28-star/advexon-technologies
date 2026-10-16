@@ -36,6 +36,13 @@
       "when": 1792113676405,
       "tag": "0004_enforce_ai_contact_limits",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792113689609,
+      "tag": "0005_allow_own_ai_reservation",
+      "breakpoints": true
     }
   ]
 }

@@ -1,0 +1,2 @@
+GRANT EXECUTE ON FUNCTION public.reserve_ai_interaction(uuid,text) TO authenticated;
+COMMENT ON FUNCTION public.reserve_ai_interaction(uuid,text) IS 'Authenticated owner-only reservation; completion and quota release require service role. Direct calls cannot bypass quota or read other accounts.';
