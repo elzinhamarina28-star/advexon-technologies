@@ -1,6 +1,7 @@
-- [ ] Review launch checklist, fix diagnostic result reuse and align confirmed prices; run local tests and public mobile/tablet/desktop checks. Do not publish or charge.
-- [ ] Verify authenticated flows and cross-account isolation (blocked: requester has no matching auth account/session; existing accounts must not be chosen arbitrarily).
-- [ ] Validate production payments, AI quotas, legal/support and end-to-end published purchase before opening sales (blocked: real service configuration, owner decisions and controlled live verification).
+- [ ] Finalize existing Kiwify receiving and checkout links; verify official payload/auth contract, subscription lifecycle and safe pre-signup association.
+- [ ] Enforce monthly AI and contact quotas server-side; verify concurrency, idempotency and paid access.
+- [ ] Verify diagnostic reuse, auth and public navigation; authenticated checks require an authorized account.
+- [ ] Validate recurring products, official payment deliveries, Gemini and production release (blocked until external configuration and critical checks).
 - [x] Implement Kiwify webhook routes and service-only atomic order processing; verify 34 focused tests, database grants and local fail-closed response; keep checkout off.
 - [ ] Activate/verify Kiwify deliveries (blocked: no publication, shared webhook token/product IDs or confirmed official delivery payload); transactional SQL regression remains unexecuted.
 - [x] Fix synchronous diagnostic completion persistence and integration metadata; verify local regression tests and same-tab reload without external calls.
