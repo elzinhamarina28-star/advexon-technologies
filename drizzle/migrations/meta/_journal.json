@@ -29,6 +29,13 @@
       "when": 1791815652880,
       "tag": "0003_kiwify_atomic_order_webhook",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1792113676405,
+      "tag": "0004_enforce_ai_contact_limits",
+      "breakpoints": true
     }
   ]
 }

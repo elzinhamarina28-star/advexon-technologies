@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_requests: {
+        Row: {
+          created_at: string
+          fingerprint: string
+          period_start: string
+          reply: string | null
+          request_id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          fingerprint: string
+          period_start?: string
+          reply?: string | null
+          request_id: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          fingerprint?: string
+          period_start?: string
+          reply?: string | null
+          request_id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       billing_events: {
         Row: {
           created_at: string
@@ -247,6 +277,10 @@ export type Database = {
       get_effective_subscription: { Args: never; Returns: Json }
       has_operational_access: { Args: never; Returns: boolean }
       process_kiwify_webhook: { Args: { command: Json }; Returns: Json }
+      reserve_ai_interaction: {
+        Args: { content_hash: string; request_key: string }
+        Returns: Json
+      }
       set_internal_test_plan: { Args: { selected_plan: string }; Returns: Json }
     }
     Enums: {
