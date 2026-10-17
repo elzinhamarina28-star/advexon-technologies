@@ -9,5 +9,6 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   // Network-only for every page, credential and API. Cache only static offline notice.
   if (event.request.method !== 'GET' || event.request.mode !== 'navigate' || new URL(event.request.url).origin !== self.location.origin) return;
-  event.respondWith(fetch(event.request).catch(() => caches.match(OFFLINE).then(response => response || Response.error())));
+  const notice = () => caches.match(OFFLINE).then(response => response || Response.error());
+  event.respondWith(self.navigator.onLine === false ? notice() : fetch(event.request).catch(notice));
 });
