@@ -10,6 +10,8 @@
 <!-- LOVABLE:END -->
 
 ## Application architecture
+- Meter agent requests through owner-bound atomic database reservations before provider calls; only server completion can store replies or release failed usage, preventing duplicate counting and quota bypass.
+- The PWA uses network-only navigation and API access with only a static offline notice cached; private account data must never enter service-worker caches.
 - Kiwify sales webhooks use shared server-only processing at the requested route and a public-prefix alias; authenticate before service access and transact order-scoped deduplication, verified-email association and subscription transitions in a service-only database function, so retries cannot grant access twice or override terminal events.
 - Normalize authentication provider errors and form validation through a shared client-safe module, with generic account-existence responses and accessible custom validation, to avoid leaking technical errors or browser-language messages.
 - Resolve effective entitlements through an authenticated database function: service-managed internal test accounts override only their own test plan, never real subscriptions; test plan changes bind to auth.uid() so normal users cannot self-enroll or change another account.

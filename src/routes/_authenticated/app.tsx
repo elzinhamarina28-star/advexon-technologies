@@ -6,6 +6,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Brand } from '@/features/shared/Brand';
 import { pageHead, requireUserId, useProfile } from '@/features/client-app/data';
+import { InstallApp } from '@/features/client-app/InstallApp';
 
 export const Route = createFileRoute('/_authenticated/app')({ head: pageHead('Área do cliente'), component: AppLayout });
 
@@ -22,7 +23,7 @@ function AppLayout() {
   const qc = useQueryClient();
   const signOut = async () => { await supabase.auth.signOut(); qc.clear(); navigate({ to: '/auth' }); };
   return <main className="athena-page">
-    <header className="athena-top container"><Link to="/"><Brand /></Link><Button variant="ghost" onClick={signOut}><LogOut />Sair</Button></header>
+    <header className="athena-top container"><Link to="/"><Brand /></Link><div className="flex flex-wrap items-center gap-2"><InstallApp/><Button variant="ghost" onClick={signOut}><LogOut />Sair</Button></div></header>
     <div className="container app-shell ops-app">
       <nav className="app-nav ops-navigation" aria-label="Área do cliente">
         {nav.map(n => <Link key={n.label} to={n.to} className="nav-link" activeOptions={{ exact: n.to === '/app' }} activeProps={{ className: 'nav-link app-active' }}>{n.label}</Link>)}
@@ -48,7 +49,7 @@ function Onboarding({ name }: { name: string }) {
       const { error } = await supabase.from('profiles').upsert({ id, full_name: f['full_name'] ?? null, company_name: f['company_name'] ?? null, segment: f['segment'] ?? null, team_size: f['team_size'] ?? null, main_goal: f['main_goal'] ?? null, onboarded: true, updated_at: new Date().toISOString() });
       if (error) throw error;
       await qc.invalidateQueries({ queryKey: ['profile'] });
-    } catch (e2) { setErr(e2 instanceof Error ? e2.message : 'Erro ao salvar.'); setBusy(false); }
+    } catch { setErr('Não foi possível salvar sua conta. Tente novamente.'); setBusy(false); }
   }
   return <div className="cd-card">
     <h1 className="section-title">Vamos começar</h1>
