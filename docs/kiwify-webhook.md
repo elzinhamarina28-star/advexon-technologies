@@ -3,11 +3,11 @@
 - Rota solicitada: `POST /api/webhooks/kiwify`.
 - Alias para chamadas externas após publicação: `POST /api/public/webhooks/kiwify`. Só `/api/public/*` contorna a autenticação do site publicado. Ambos usam o mesmo processamento, com token obrigatório antes de qualquer acesso privilegiado.
 - Não foi publicado. Nenhuma URL HTTPS de recebimento foi confirmada; não cadastrar uma URL presumida.
-- Checkout permanece desligado. Nenhum segredo foi criado.
+- Os três links oficiais estão associados aos planos no código. Isso permite abrir o checkout, mas NÃO comprova recorrência, pagamento ou liberação automática. Nenhum segredo Kiwify foi criado.
 
 ## Configuração manual necessária
 
-Depois de publicar e verificar o endereço público, crie um valor aleatório forte em um gerenciador de senhas e use o MESMO valor no campo token do webhook Kiwify e em **Project Settings → Secrets**, como `KIWIFY_WEBHOOK_TOKEN`. Não enviar pelo chat. Esta implementação exige `token` no JSON; confirmar isso no primeiro payload oficial. Não confundir SHA1 público do corpo com autenticação nem utilizar as assinaturas da API bancária.
+Depois de autorização explícita para publicar e da verificação do endereço público, configure o MESMO token na Kiwify e no armazenamento seguro como `KIWIFY_WEBHOOK_TOKEN`, usando o formulário seguro de segredo compartilhado. Não enviar pelo chat. Esta implementação exige `token` no JSON; a documentação de criação oficial possui token, mas a entrega real precisa ser confirmada com um payload oficial. Não confundir SHA1 público do corpo com autenticação nem utilizar as assinaturas da API bancária.
 
 Salvar também `KIWIFY_PRODUCT_PLAN_MAP`: objeto JSON dos IDs reais dos produtos Kiwify para `start`, `growth` ou `pro`. Não usar nomes, preços ou IDs inventados. Sem ambas as configurações, a rota retorna 503 e não modifica assinaturas.
 
@@ -24,3 +24,13 @@ Idempotência por `order_id` + estado normalizado: aprovação repetida não dup
 ## Verificação
 
 Testes locais em `src/test/kiwify-webhook.test.ts`; regressão transacional do banco em `src/test/kiwify-idempotency.sql` (somente com BEGIN/ROLLBACK). Fluxo real autenticado, entregas oficiais, retries concorrentes e URL pública dependem de configuração e publicação; não foram simulados como pagamentos reais.
+
+## Bloqueios de lançamento confirmados
+
+- Não há token ou mapa de IDs Kiwify entre os segredos configurados. URLs de checkout NÃO são IDs dos produtos.
+- Recorrência mensal e disponibilidade dos produtos não foram verificadas dentro da conta Kiwify.
+- Compra antes do cadastro atualmente depende de retry: não existe armazenamento/associação posterior automática. Não declarar provisionamento desse caso concluído.
+- Cancelamento e atraso hoje suspendem imediatamente; faltam regras comerciais confirmadas para preservar período já pago. Reembolso parcial também não possui regra validada. Não alterar esses comportamentos com suposições.
+- START anuncia IA básica que ainda não tem função disponível; PRO anuncia até seis agentes, mas apenas três chats existem. Não declarar entrega comercial completa.
+- O banco tem isolamento por usuário, não colaboração entre membros da mesma empresa. Limites de 3/10 usuários e empresa compartilhada ainda não estão implementados.
+- As regressões SQL com reversão foram tentadas, mas bloqueadas por permissões da sessão de teste; nenhuma compra real foi executada.

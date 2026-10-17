@@ -1,7 +1,8 @@
-- [ ] Add official support email; verify GitHub sync, safe PWA and real dashboard mobile/accessibility improvements. No publication.
+- [x] Add missing official support email locally, PWA manifest/icons and network-only offline notice; improve real dashboard retry/mobile/focus. Public browser checks and 91 local tests passed; no publication.
 - [ ] Honest integration availability: Sheets/Gmail/WhatsApp/Excel/Instagram need credentials and approvals; GitHub Actions pending outside environment.
 - [ ] Finalize existing Kiwify receiving and checkout links; verify official payload/auth contract, subscription lifecycle and safe pre-signup association.
-- [ ] Enforce monthly AI and contact quotas server-side; verify concurrency, idempotency and paid access.
+- [x] Implement owner-bound atomic monthly AI reservations (GROWTH 1000/PRO 5000), replay without provider calls, failure release and opportunity caps (500/2000); local unit tests passed.
+- [ ] Verify real database quota concurrency and billing transitions (blocked: rollback SQL session lacks permissions); company membership and START basic AI still missing.
 - [ ] Verify diagnostic reuse, auth and public navigation; authenticated checks require an authorized account.
 - [ ] Validate recurring products, official payment deliveries, Gemini and production release (blocked until external configuration and critical checks).
 - [x] Implement Kiwify webhook routes and service-only atomic order processing; verify 34 focused tests, database grants and local fail-closed response; keep checkout off.

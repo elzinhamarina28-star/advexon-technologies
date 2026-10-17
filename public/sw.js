@@ -4,7 +4,7 @@ self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.add(OFFLINE)));
 });
 self.addEventListener('activate', event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('advexon-offline-') && key !== CACHE).map(key => caches.delete(key)))));
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('advexon-offline-') && key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim()));
 });
 self.addEventListener('fetch', event => {
   // Network-only for every page, credential and API. Cache only static offline notice.
