@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Brand } from '@/features/shared/Brand';
 import { pageHead, requireUserId, useProfile } from '@/features/client-app/data';
 import { InstallApp } from '@/features/client-app/InstallApp';
+import '@/features/client-app/mobile.css';
 
 export const Route = createFileRoute('/_authenticated/app')({ head: pageHead('Área do cliente'), component: AppLayout });
 

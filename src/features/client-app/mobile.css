@@ -1,0 +1,17 @@
+/* Real authenticated app only; preserve landing and isolated preview. */
+.ops-app .app-main { overflow-wrap: anywhere; }
+.ops-app .ops-next-list .nav-link { flex-shrink: 0; min-height: 36px; display: inline-flex; align-items: center; }
+.ops-app .cd-metrics { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+.ops-app .cd-metrics strong { font-variant-numeric: tabular-nums; }
+.ops-app .app-nav a:focus-visible { outline-offset: -2px; }
+.ops-app .app-main > .cd-grid { animation: app-arrive 180ms ease-out; }
+@keyframes app-arrive { from { opacity: .6; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 600px) {
+  .ops-app .ops-navigation { gap: 4px; }
+  .ops-app .ops-navigation .nav-link { min-height: 44px; }
+  .ops-app .cd-list li { align-items: flex-start; flex-wrap: wrap; }
+  .ops-app .app-form input, .ops-app .app-form select, .ops-app .app-actions select { font-size: 16px; min-height: 44px; max-width: 100%; }
+  .ops-app .ops-next-list > div { flex-wrap: wrap; }
+  .ops-app .ops-next-list > div > div { flex-basis: 70%; }
+}
+@media (prefers-reduced-motion: reduce) { .ops-app .app-main > .cd-grid { animation: none; } }
