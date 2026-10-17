@@ -10,6 +10,11 @@ vi.mock('@tanstack/react-router', async (importOriginal) => {
   return { ...original, Link: ({ children, to }: { children: React.ReactNode; to: string }) => <a href={to}>{children}</a> };
 });
 vi.mock('@/features/shared/Brand', () => ({ Brand: () => null }));
+// Exercise the existing unconfigured-checkout fallback, not an external payment.
+vi.mock('@/features/pricing/config', async importOriginal => {
+  const config = await importOriginal<typeof import('@/features/pricing/config')>();
+  return { ...config, plans: config.plans.map(plan => ({ ...plan, checkoutUrl: null })) };
+});
 
 const Page = Route.options.component;
 function mountPage() {

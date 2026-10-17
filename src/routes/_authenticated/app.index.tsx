@@ -38,7 +38,7 @@ function Dashboard() {
     <div className="cd-grid app-gap">
       <article className="cd-card">
         <h2><Gauge size={16} />ADVEXON Score</h2>
-        {diag.isLoading ? <Loader2 className="cd-spin" /> : diag.isError ? <p role="alert">Erro ao carregar o diagnóstico.</p> : r ? <>
+        {diag.isLoading ? <p role="status"><Loader2 className="cd-spin" />Carregando diagnóstico…</p> : diag.isError ? <div role="alert"><p>Erro ao carregar o diagnóstico.</p><Button variant="ghost" onClick={() => diag.refetch()}>Tentar novamente</Button></div> : r ? <>
           <strong className="cd-big gradient-text">{r.score}</strong> <span className="cd-class">{r.classification}</span>
           <ul className="cd-cats">{categories.map(c => <li key={c}><span>{c}</span><div className="cd-bar"><i style={{ width: `${r.categories[c]}%` }} /></div><b>{r.categories[c]}</b></li>)}</ul>
           <p className="cd-small">Agente recomendado: <b>{r.firstAgent}</b></p>
@@ -47,7 +47,7 @@ function Dashboard() {
       </article>
        <PaidAccess feature="dashboard:operational"><article className="cd-card">
         <h2>Indicadores</h2>
-        {counts.isLoading ? <Loader2 className="cd-spin" /> : counts.isError ? <p role="alert">Erro ao carregar indicadores.</p> : !counts.data || counts.data.total === 0
+        {counts.isLoading ? <p role="status"><Loader2 className="cd-spin" />Carregando indicadores…</p> : counts.isError ? <div role="alert"><p>Erro ao carregar indicadores.</p><Button variant="ghost" onClick={() => counts.refetch()}>Tentar novamente</Button></div> : !counts.data || counts.data.total === 0
           ? <div className="cd-empty"><p>Sem dados ainda. Os indicadores aparecem quando você registrar oportunidades e tarefas.</p><Link to="/app/vendas" className="nav-link">Registrar primeira oportunidade</Link></div>
           : <div className="cd-metrics"><div><strong>{counts.data.open}</strong><span>Oportunidades abertas</span></div><div><strong>{counts.data.won}</strong><span>Ganhas</span></div><div><strong>{counts.data.pending}</strong><span>Tarefas pendentes</span></div></div>}
        </article></PaidAccess>

@@ -7,7 +7,7 @@ import { integrations } from '@/features/shared/integrations';
 import { pageHead, requireUserId, useProfile } from '@/features/client-app/data';
 
 export const Route = createFileRoute('/_authenticated/app/configuracoes')({ head: pageHead('Configurações'), component: Page });
-const labels: Record<string, string> = { auth: 'Contas', database: 'Dados', checkout: 'Pagamentos (Kiwify)', whatsapp: 'WhatsApp', ai: 'IA (Gemini)' };
+const labels: Record<string, string> = { auth: 'Contas', database: 'Dados', checkout: 'Pagamentos (Kiwify)', whatsapp: 'WhatsApp Business', ai: 'IA (Gemini)', sheets: 'Google Sheets', gmail: 'Gmail', excel: 'Excel', instagram: 'Instagram' };
 
 function Page() {
   const profile = useProfile(); const qc = useQueryClient(); const [msg, setMsg] = useState('');
@@ -33,7 +33,7 @@ function Page() {
       </div>
       <div className="cd-card">
         <h2>Integrações</h2>
-        <ul className="cd-list">{Object.entries(integrations).filter(([k]) => k !== 'auth' && k !== 'database').map(([k, v]) => <li key={k}><span>{labels[k] ?? k}</span><em className="cd-tag">{v.enabled ? 'Ativa' : 'Em breve'}</em></li>)}</ul>
+        <ul className="cd-list">{Object.entries(integrations).filter(([k]) => k !== 'auth' && k !== 'database').map(([k, v]) => <li key={k}><span><b>{labels[k] ?? k}</b><p className="cd-small">{v.note}</p></span><em className="cd-tag">{v.enabled ? 'Configurada' : 'Não conectada'}</em></li>)}</ul>
       </div>
     </div>
   </>;
