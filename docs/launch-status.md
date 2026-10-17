@@ -15,6 +15,7 @@
 - Destino START confirmado no navegador interceptando a navegação sem acessar/comprar; três URLs verificadas por testes de configuração.
 - Rodapé, entrada e páginas públicas verificadas a 1280 e 390 pixels, sem erro JavaScript ou overflow observado na entrada.
 - Compilação automática registrada como OK; nenhum build/typecheck manual executado.
+- Service worker registrado e controle do navegador confirmado. O teste offline da prévia resultou em página vazia, não no aviso esperado: instalação/offline não são considerados validados para lançamento e exigem teste HTTPS após autorização de publicação.
 - SQL transacional de quotas/webhook bloqueado por falta de permissões; transações encerradas sem persistir fixtures.
 
 ## Pendências bloqueadas

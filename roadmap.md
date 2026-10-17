@@ -1,4 +1,5 @@
 - [x] Add missing official support email locally, PWA manifest/icons and network-only offline notice; improve real dashboard retry/mobile/focus. Public browser checks and 91 local tests passed; no publication.
+- [ ] Verify PWA installation/offline on served production assets (blocked: preview offline navigation was blank; no publication authorized). Do not advertise offline functionality.
 - [ ] Honest integration availability: Sheets/Gmail/WhatsApp/Excel/Instagram need credentials and approvals; GitHub Actions pending outside environment.
 - [ ] Finalize existing Kiwify receiving and checkout links; verify official payload/auth contract, subscription lifecycle and safe pre-signup association.
 - [x] Implement owner-bound atomic monthly AI reservations (GROWTH 1000/PRO 5000), replay without provider calls, failure release and opportunity caps (500/2000); local unit tests passed.
