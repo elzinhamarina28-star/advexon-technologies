@@ -1,3 +1,5 @@
+- [ ] Add official support email; verify GitHub sync, safe PWA and real dashboard mobile/accessibility improvements. No publication.
+- [ ] Honest integration availability: Sheets/Gmail/WhatsApp/Excel/Instagram need credentials and approvals; GitHub Actions pending outside environment.
 - [ ] Finalize existing Kiwify receiving and checkout links; verify official payload/auth contract, subscription lifecycle and safe pre-signup association.
 - [ ] Enforce monthly AI and contact quotas server-side; verify concurrency, idempotency and paid access.
 - [ ] Verify diagnostic reuse, auth and public navigation; authenticated checks require an authorized account.

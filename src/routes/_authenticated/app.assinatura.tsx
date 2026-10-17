@@ -23,6 +23,7 @@ function Page() {
           : <p className="cd-small">Você usa os recursos gratuitos: diagnóstico e ADVEXON Score.</p>}
         {!active && <p className="cd-small">A contratação online ainda não está disponível. Quando estiver, o plano é ativado automaticamente só após a confirmação do pagamento.</p>}
         <Button asChild variant="nexa" className="app-gap"><Link to="/planos">Ver planos</Link></Button>
+        <p className="cd-small app-gap">Suporte: <a className="nav-link" href="mailto:suporteadvexon@gmail.com">suporteadvexon@gmail.com</a></p>
       </>}
     </article>
   </>;

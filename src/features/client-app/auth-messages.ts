@@ -1,7 +1,7 @@
 export type AuthErrorKind = 'weak-password' | 'short-password' | 'same-password' | 'invalid-email' | 'credentials' | 'existing-account' | 'confirmation' | 'expired-link' | 'session' | 'rate-limit' | 'network' | 'unavailable' | 'unknown';
 
-export const signupNotice = 'Se o cadastro puder ser concluído, você receberá um e-mail de confirmação. Confira sua caixa de entrada e o spam. Se já tiver uma conta, use “Entrar” ou “Esqueci minha senha”.';
-export const recoveryNotice = 'Se houver uma conta com este e-mail, enviamos um link para redefinir a senha.';
+export const signupNotice = 'Se o cadastro puder ser concluído, você receberá um e-mail de confirmação. Confira sua caixa de entrada e o spam. Se já tiver uma conta, use “Entrar” ou “Esqueci minha senha”. Precisa de ajuda? suporteadvexon@gmail.com';
+export const recoveryNotice = 'Se houver uma conta com este e-mail, enviamos um link para redefinir a senha. Precisa de ajuda? suporteadvexon@gmail.com';
 
 export function authErrorKind(error: unknown): AuthErrorKind {
   const details = error && typeof error === 'object' ? error as { code?: unknown; message?: unknown; name?: unknown } : {};
