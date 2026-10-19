@@ -43,6 +43,13 @@
       "when": 1792113689609,
       "tag": "0005_allow_own_ai_reservation",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792374484333,
+      "tag": "0006_start_ai_cancel_grace_stale_reservations",
+      "breakpoints": true
     }
   ]
 }
