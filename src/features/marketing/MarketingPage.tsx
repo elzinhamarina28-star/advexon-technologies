@@ -53,7 +53,7 @@ export function MarketingPage() {
         {menu && (
           <nav className="mobile-nav" aria-label="Navegação mobile">
             {navigation?.map((item) => (
-              <a key={item.href} className="nav-link" href={item.href} onClick={() => setMenu(false)}>
+              <a key={item.id} className="nav-link" href={`#${item.id}`} onClick={() => setMenu(false)}>
                 {item.label}
               </a>
             ))}
@@ -183,7 +183,7 @@ export function MarketingPage() {
 
             <nav className="footer-links" aria-label="Links do rodapé">
               {navigation?.map((item) => (
-                <a key={item.href} className="nav-link" href={item.href}>
+                <a key={item.id} className="nav-link" href={`#${item.id}`}>
                   {item.label}
                 </a>
               ))}
