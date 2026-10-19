@@ -39,17 +39,28 @@ function ResetPage() {
     } catch (error) { setMsg({ type: 'error', text: authErrorMessage(error) }); }
     finally { setBusy(false); }
   }
-  return <main className="athena-page">
-    <header className="athena-top container"><Link to="/auth" className="athena-back">Voltar ao login</Link><Brand /></header>
-    <section className="container app-auth"><div className="cd-card">
-      <h1 className="section-title">Nova senha</h1>
-      {!ready ? <p className="cd-small">Abra esta página pelo link enviado ao seu e-mail. Se o link expirou, <Link to="/auth" className="nav-link">solicite outro</Link>.</p> :
-        <form className="app-form" noValidate onSubmit={submit}>
-          <label>Nova senha<input name="password" type="password" minLength={6} autoComplete="new-password" required /></label>
-          <label>Confirmar senha<input name="confirm" type="password" minLength={6} autoComplete="new-password" required /></label>
-          <Button variant="nexa" type="submit" disabled={busy}>{busy && <Loader2 className="cd-spin" />}Salvar nova senha</Button>
-        </form>}
-      {msg && <p id="reset-feedback" role={msg.type === 'error' ? 'alert' : 'status'} className={msg.type === 'error' ? 'app-error' : 'cd-small'}>{msg.text}</p>}
-    </div></section>
+  return <main className="athena-page auth-page">
+    <header className="athena-top container auth-top"><Link to="/auth" className="athena-back"><ArrowLeft size={16}/> Voltar ao login</Link><Brand/></header>
+    <section className="container auth-layout auth-layout-reset">
+      <aside className="auth-story">
+        <div className="auth-orbit" aria-hidden="true"><div className="auth-orbit-core"><ShieldCheck size={34}/></div><span/><span/><span/></div>
+        <p className="auth-kicker"><span className="auth-live-dot"/> RECUPERAÇÃO SEGURA</p>
+        <h1>Seu acesso.<br/><em>De volta.</em></h1>
+        <p className="auth-story-copy">Crie uma nova senha para voltar ao seu espaço de trabalho e continuar de onde parou.</p>
+        <div className="auth-benefit"><ShieldCheck size={17}/><span>Use uma senha única e difícil de adivinhar.</span></div>
+      </aside>
+      <section className="cd-card auth-card auth-reset-card">
+        <div className="auth-card-top"><span className="auth-mini-mark"><ShieldCheck size={16}/></span><div><p className="auth-eyebrow">RECUPERAÇÃO DE CONTA</p><h2>Defina uma nova senha.</h2><p className="auth-card-sub">Escolha uma senha segura para proteger seu acesso.</p></div></div>
+        {!ready ? <div className="auth-recovery-empty"><div className="auth-recovery-icon"><ShieldCheck size={24}/></div><p>Abra esta página pelo link de recuperação enviado ao seu e-mail. Se o link expirou, solicite um novo.</p><Link to="/auth" className="nexa-button auth-recovery-link">Solicitar novo link <ArrowRight size={15}/></Link></div> :
+          <form className="app-form auth-form" noValidate onSubmit={submit}>
+            <label>Nova senha<input name="password" type="password" minLength={8} autoComplete="new-password" placeholder="Mínimo de 8 caracteres" required /></label>
+            <label>Confirmar nova senha<input name="confirm" type="password" minLength={8} autoComplete="new-password" placeholder="Digite a senha novamente" required /></label>
+            <p className="auth-terms">Use pelo menos 8 caracteres e evite senhas que você já utiliza em outros serviços.</p>
+            <Button variant="nexa" type="submit" className="auth-submit" disabled={busy}>{busy && <Loader2 className="cd-spin" />}Salvar nova senha <ArrowRight size={16}/></Button>
+          </form>}
+        {msg && <p id="reset-feedback" role={msg.type === 'error' ? 'alert' : 'status'} className={msg.type === 'error' ? 'app-error' : 'auth-success'}>{msg.text}</p>}
+        <p className="auth-secure-note"><ShieldCheck size={14}/> Sua conta continua protegida</p>
+      </section>
+    </section>
   </main>;
 }
