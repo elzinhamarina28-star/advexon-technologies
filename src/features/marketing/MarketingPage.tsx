@@ -29,12 +29,12 @@ export function MarketingPage() {
       <header className="header">
         <div className="container header-inner">
           <a href="#produto" aria-label="ADVEXON início">
-            <Brand compact />
+            <Brand />
           </a>
 
           <nav className="desktop-nav" aria-label="Navegação principal">
             {navigation?.map((item) => (
-              <a key={item.href} className="nav-link" href={item.href}>
+              <a key={item.id} className="nav-link" href={`#${item.id}`}>
                 {item.label}
               </a>
             ))}
