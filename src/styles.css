@@ -1477,7 +1477,7 @@ html, body, #root {
   stroke-dasharray: 1000 1000 !important;
   stroke-dashoffset: 1000 !important;
   opacity: 0 !important;
-  animation: advexon-alternating-line-cycle 31s linear infinite !important;
+  animation: advexon-alternating-line-cycle 36s linear infinite !important;
   will-change: stroke-dashoffset, opacity;
 }
 .hero-ribbon.intro-ribbon path.cycle-line.cycle-right {
@@ -1485,28 +1485,43 @@ html, body, #root {
   transform-origin: center;
   transform: scaleX(-1);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(1) { animation-delay: 0s !important; }
-.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(2) { animation-delay: 2.8s !important; }
-.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(3) { animation-delay: 5.6s !important; }
-.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(4) { animation-delay: 8.4s !important; }
-.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(5) { animation-delay: 11.2s !important; }
-.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(6) { animation-delay: 14s !important; }
-.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(7) { animation-delay: 16.8s !important; }
-.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(8) { animation-delay: 19.6s !important; }
-.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(9) { animation-delay: 22.4s !important; }
-.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(10) { animation-delay: 25.2s !important; }
-.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(11) { animation-delay: 28s !important; }
-.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(12) { animation-delay: 2.8s !important; }
-.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(13) { animation-delay: 14s !important; }
-.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(14) { animation-delay: 25.2s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(2) { animation-delay: 2.5s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(3) { animation-delay: 5s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(4) { animation-delay: 7.5s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(5) { animation-delay: 10s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(6) { animation-delay: 12.5s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(7) { animation-delay: 15s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(8) { animation-delay: 17.5s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(9) { animation-delay: 20s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(10) { animation-delay: 22.5s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(11) { animation-delay: 25s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(12) { animation-delay: 27.5s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(13) { animation-delay: 30s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(14) { animation-delay: 32.5s !important; }
 
 @keyframes advexon-alternating-line-cycle {
   0% { stroke-dashoffset: 1000; opacity: 0; }
-  2% { opacity: .78; }
-  18% { stroke-dashoffset: 0; opacity: .78; }
-  22% { stroke-dashoffset: 0; opacity: .58; }
-  25% { stroke-dashoffset: 0; opacity: 0; }
-  26%, 100% { stroke-dashoffset: 1000; opacity: 0; }
+  1% { opacity: .78; }
+  10% { stroke-dashoffset: 0; opacity: .78; }
+  12% { stroke-dashoffset: 0; opacity: .58; }
+  15% { stroke-dashoffset: 0; opacity: 0; }
+  16%, 100% { stroke-dashoffset: 1000; opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
