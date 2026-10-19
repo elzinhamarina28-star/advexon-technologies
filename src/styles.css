@@ -1146,22 +1146,13 @@ h1,h2,h3,p { margin: 0; letter-spacing: 0; }
  }
 }
 
-/* Avoid a white flash before the cinematic homepage sequence starts. */
+/* Keep the existing ADVEXON theme colors while avoiding a white loading flash. */
 html, body, #root {
-  background-color: #070916;
-}
-body {
-  color-scheme: dark;
+  background-color: var(--background);
 }
 #root {
   min-height: 100vh;
   isolation: isolate;
-}
-.hero {
-  background-color: #070916;
-  background-image:
-    radial-gradient(ellipse 60% 45% at 50% 30%, rgba(124,58,237,.16), transparent 70%),
-    radial-gradient(ellipse 40% 30% at 80% 60%, rgba(6,182,212,.08), transparent 70%);
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -1189,7 +1180,7 @@ body {
  .animated-chart .chart-grid,.animated-chart .chart-line,.animated-chart .chart-line-secondary,.animated-chart .chart-area { animation:none!important; }
 }
 
-/* Footer motion: quiet light sweep, staggered links, no visual overload. */
+/* Footer motion: use the existing theme colors and a visible but restrained sweep. */
 .footer::after {
   background: linear-gradient(90deg, transparent, var(--violet), var(--cyan), transparent);
   background-size: 220% 100%;
@@ -1199,7 +1190,7 @@ body {
   transition: filter .35s ease, transform .35s ease;
 }
 .footer .brand-full:hover {
-  filter: drop-shadow(0 0 22px color-mix(in srgb, var(--cyan) 30%, transparent));
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--cyan) 26%, transparent));
   transform: translateY(-2px);
 }
 .footer .footer-links .nav-link {
@@ -1208,15 +1199,9 @@ body {
 .footer .footer-links .nav-link:hover {
   transform: translateY(-3px);
 }
-.footer .footer-bottom {
-  transition: border-color .4s ease;
-}
-.footer .footer-bottom:hover {
-  border-top-color: color-mix(in srgb, var(--cyan) 38%, var(--line));
-}
 @keyframes advexon-footer-light-sweep {
-  0%, 100% { background-position: 100% 0; opacity: .35; }
-  50% { background-position: 0 0; opacity: .85; }
+  0%, 100% { background-position: 100% 0; opacity: .4; }
+  50% { background-position: 0 0; opacity: .9; }
 }
 @media (prefers-reduced-motion: reduce) {
   .footer::after { animation: none; }
