@@ -23,7 +23,33 @@ const connectors = [
 const labels: Record<string, string> = { auth: 'Contas', database: 'Dados', checkout: 'Pagamentos (Kiwify)', whatsapp: 'WhatsApp Business', ai: 'IA (Gemini)', sheets: 'Google Sheets', gmail: 'Gmail', excel: 'Excel', instagram: 'Instagram' };
 
 function Page() {
-  const profile = useProfile(); const qc = useQueryClient(); const [msg, setMsg] = useState(''); const [expanded, setExpanded] = useState<string | null>('whatsapp');
+  const profile = useProfile(); const qc = useQueryClient(); const [msg, setMsg] = useState(''); const [connecting, setConnecting] = useState(false); const [expanded, setExpanded] = useState<string | null>('whatsapp');
+
+  async function connectGoogleSheets() {
+    setMsg('');
+    setConnecting(true);
+    try {
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError || !sessionData.session?.access_token) {
+        setMsg('Entre novamente na sua conta para conectar o Google Sheets.');
+        return;
+      }
+      const response = await fetch('/api/integrations/google/start', {
+        method: 'POST',
+        headers: { authorization: 'Bearer ' + sessionData.session.access_token },
+      });
+      const result = await response.json() as { authorizationUrl?: string; error?: string };
+      if (!response.ok || !result.authorizationUrl) {
+        setMsg(result.error ?? 'Não foi possível iniciar a conexão Google.');
+        return;
+      }
+      window.location.assign(result.authorizationUrl);
+    } catch {
+      setMsg('Falha ao iniciar a conexão. Tente novamente.');
+    } finally {
+      setConnecting(false);
+    }
+  }
   async function toggle(value: boolean) {
     const id = await requireUserId();
     const { error } = await supabase.from('profiles').update({ email_notifications: value }).eq('id', id);
@@ -54,7 +80,7 @@ function Page() {
           </div>
           <p className="app-gap">{item.description}</p>
           <p className="cd-small">{item.phase}</p>
-          <Button className="app-gap" variant="outline" onClick={() => setExpanded(isExpanded ? null : item.id)}>{isExpanded ? 'Ocultar requisitos' : 'Ver requisitos'} <ArrowUpRight size={15}/></Button>
+          <div className="flex flex-wrap gap-2 app-gap">{item.id === 'sheets' && <Button variant="default" disabled={connecting} onClick={connectGoogleSheets}>{connecting ? 'Conectando…' : 'Conectar Google Sheets'}</Button>}<Button variant="outline" onClick={() => setExpanded(isExpanded ? null : item.id)}>{isExpanded ? 'Ocultar requisitos' : 'Ver requisitos'} <ArrowUpRight size={15}/></Button></div>
           {isExpanded && <div className="app-gap"><b className="text-sm">Para ativar esta integração</b><ul className="cd-list">{item.needs.map(need => <li key={need}><span>{need}</span></li>)}</ul><p className="cd-small">Estado técnico: {status?.note ?? 'Planejada; a conexão oficial ainda precisa ser implementada.'}</p></div>}
         </article>;
       })}
