@@ -30,3 +30,12 @@ describe('implemented plan matrix and fail-closed access', () => {
   });
   it('denies unknown plans', () => expect(hasPaidAccess({ plan_id: 'other', status: 'active', current_period_end: null }, now)).toBe(false));
 });
+
+describe('owner launch decisions', () => {
+  const now = new Date('2026-10-19T00:00:00Z');
+  it('START includes basic AI (ATHENA)', () => expect(canUse({ plan_id: 'start', status: 'active', current_period_end: '2026-11-01T00:00:00Z' }, 'agent:athena', now)).toBe(true));
+  it('canceled keeps access until paid period end', () => expect(hasPaidAccess({ plan_id: 'growth', status: 'canceled', current_period_end: '2026-11-01T00:00:00Z' }, now)).toBe(true));
+  it('canceled loses access after period end', () => expect(hasPaidAccess({ plan_id: 'growth', status: 'canceled', current_period_end: '2026-10-01T00:00:00Z' }, now)).toBe(false));
+  it('canceled without period end has no access', () => expect(hasPaidAccess({ plan_id: 'growth', status: 'canceled', current_period_end: null }, now)).toBe(false));
+  it('refunded has no access', () => expect(hasPaidAccess({ plan_id: 'pro', status: 'refunded', current_period_end: '2026-11-01T00:00:00Z' }, now)).toBe(false));
+});

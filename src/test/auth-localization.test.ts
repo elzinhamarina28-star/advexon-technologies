@@ -38,3 +38,8 @@ describe('Authentication validation', () => {
     expect(validateAuthFields({ email: 'person@example.com' })).toBeNull();
   });
 });
+import { validateAuthFields as vaf } from '@/features/client-app/auth-messages';
+describe('password confirmation', () => {
+  it('rejects mismatched confirmation', () => expect(vaf({ password: 'abcdef1', confirm: 'abcdef2' })?.field).toBe('confirm'));
+  it('accepts matching confirmation', () => expect(vaf({ password: 'abcdef1', confirm: 'abcdef1' })).toBeNull());
+});

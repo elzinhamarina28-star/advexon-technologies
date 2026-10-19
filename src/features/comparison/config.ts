@@ -7,7 +7,7 @@ export const comparison = [
  { name:'Follow-up', values:['—','Incluído','Incluído'] },
  { name:'Organização', values:['—','Incluída','Incluída'] },
  { name:'Dashboard', values:['—','Incluído','Incluído'] },
- { name:'Agentes IA', values:plans.map(p=>p.limits.agents ? `Até ${p.limits.agents} — Em breve`:'—') },
+ { name:'Agentes IA', values:plans.map(p=>p.limits.agents ? `Até ${p.limits.agents}${p.limits.agents > 3 ? " — Em breve" : ""}`:'—') },
  { name:'Usuários', values:plans.map(p=>p.limits.users === 1 ? '1' : `Até ${p.limits.users} — Em breve`) },
  { name:'Interações IA', values:plans.map(p=>`${p.limits.interactions.toLocaleString('pt-BR')}/mês`) },
  { name:'Contatos', values:plans.map(p=>p.limits.contacts ? `Até ${p.limits.contacts.toLocaleString('pt-BR')}`:'—') },
