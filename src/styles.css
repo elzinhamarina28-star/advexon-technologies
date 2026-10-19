@@ -1637,3 +1637,55 @@ html, body, #root {
   transform-origin: center !important;
   transform: none !important;
 }
+
+/* Verified CSS configuration for opposite-side curve drawing and fade-out. */
+.hero-ribbon.intro-ribbon path.cycle-line {
+  fill: none !important;
+  stroke: #22D3EE !important;
+  stroke-width: 1.35px !important;
+  stroke-linecap: round !important;
+  stroke-dasharray: 1000 1000 !important;
+  stroke-dashoffset: 1000 !important;
+  opacity: 0 !important;
+  animation: advexon-side-draw-fade 20s linear infinite !important;
+  vector-effect: non-scaling-stroke;
+}
+.hero-ribbon.intro-ribbon path.cycle-line.cycle-left {
+  transform: none !important;
+}
+.hero-ribbon.intro-ribbon path.cycle-line.cycle-right {
+  transform-box: fill-box !important;
+  transform-origin: center !important;
+  transform: scaleX(-1) !important;
+}
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(1) { animation-delay: 0s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(2) { animation-delay: 1.4s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(3) { animation-delay: 2.8s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(4) { animation-delay: 4.2s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(5) { animation-delay: 5.6s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(6) { animation-delay: 7s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(7) { animation-delay: 8.4s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(8) { animation-delay: 9.8s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(9) { animation-delay: 11.2s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(10) { animation-delay: 12.6s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(11) { animation-delay: 14s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(12) { animation-delay: 15.4s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(13) { animation-delay: 16.8s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(14) { animation-delay: 18.2s !important; }
+@keyframes advexon-side-draw-fade {
+  0% { stroke-dashoffset: 1000; opacity: 0; }
+  2% { opacity: .58; }
+  15% { stroke-dashoffset: 0; opacity: .58; }
+  19% { stroke-dashoffset: 0; opacity: .42; }
+  25% { stroke-dashoffset: 0; opacity: 0; }
+  26%, 100% { stroke-dashoffset: 1000; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-ribbon.intro-ribbon path.cycle-line {
+    animation: none !important;
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: .18 !important;
+    transform: none !important;
+  }
+}
