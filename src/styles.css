@@ -1380,3 +1380,32 @@ html, body, #root {
 @media (prefers-reduced-motion: reduce) {
  .hero-ribbon.intro-ribbon path, .animated-chart .chart-line, .animated-chart .chart-line-secondary, .animated-chart .chart-grid, .animated-chart .chart-area { animation:none!important; stroke-dashoffset:0!important; }
 }
+
+/* Ensure hero background curves are visible, layered behind text, and softly animated. */
+.hero-ribbon.intro-ribbon { z-index: 1; opacity: 1; }
+.hero-ribbon.intro-ribbon path.thin {
+  stroke: var(--cyan);
+  stroke-width: 1;
+  stroke-dasharray: 3 13;
+  stroke-dashoffset: 0;
+  opacity: .12;
+  animation: advexon-bg-line-drift 24s linear infinite, advexon-bg-line-breathe 6s ease-in-out infinite alternate;
+}
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(2n) {
+  stroke: var(--violet);
+  animation-duration: 31s, 8s;
+}
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(3n) {
+  animation-delay: -12s, -2s;
+}
+.hero-ribbon.intro-ribbon path:not(.thin) {
+  stroke-dasharray: 1800;
+  stroke-dashoffset: 1800;
+  opacity: .2;
+  animation: advexon-line-draw 4.2s ease-in-out .2s forwards, advexon-bg-line-breathe 7s ease-in-out 4.5s infinite alternate;
+}
+.hero-ribbon.intro-ribbon circle { opacity: .25; }
+.hero .container { position: relative; z-index: 2; }
+@media (prefers-reduced-motion: reduce) {
+ .hero-ribbon.intro-ribbon path { animation:none!important; stroke-dashoffset:0!important; opacity:.1; }
+}
