@@ -5,7 +5,7 @@ function safeEqual(left: string, right: string): boolean {
   const b = new TextEncoder().encode(right);
   if (a.length !== b.length) return false;
   let mismatch = 0;
-  for (let i = 0; i < a.length; i++) mismatch |= a[i] ^ b[i];
+  for (let i = 0; i < a.length; i++) mismatch |= (a[i] ?? 0) ^ (b[i] ?? 0);
   return mismatch === 0;
 }
 
