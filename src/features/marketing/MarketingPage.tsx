@@ -16,7 +16,17 @@ const faqs=[
  {q:'Como funciona a cobrança?',a:'A cobrança recorrente será realizada pelo checkout oficial configurado para a ADVEXON. As condições finais serão apresentadas antes da confirmação.'},
  {q:'Posso cancelar minha assinatura?',a:'Os detalhes e condições de cancelamento serão apresentados no checkout e na política comercial da ADVEXON antes da contratação.'},
 ];
-function HeroRibbon(){return <svg className="hero-ribbon intro-ribbon" viewBox="0 0 1440 760" preserveAspectRatio="xMidYMin slice" aria-hidden="true"><defs><linearGradient id="hr" x1="0" x2="1"><stop stopColor="var(--violet)" stopOpacity="0"/><stop offset=".3" stopColor="var(--violet)" stopOpacity=".55"/><stop offset=".65" stopColor="var(--primary)" stopOpacity=".5"/><stop offset="1" stopColor="var(--cyan)" stopOpacity="0"/></linearGradient></defs><path className="thin" d="M-40 560C260 520 380 180 620 210S980 560 1480 300"/><path className="thin" d="M-40 610C300 570 420 240 640 260S1000 600 1480 360"/><path d="M-40 585C280 545 400 210 630 235S990 580 1480 330" stroke="url(#hr)" strokeWidth="2"/><circle cx="630" cy="235" r="3" fill="var(--success)" opacity=".7"/><circle cx="1210" cy="440" r="2.5" fill="var(--cyan)" opacity=".7"/><path className="thin" d="M1120 80 1380 340M60 120 260 320"/></svg>;}
+function HeroRibbon(){return <svg className="hero-ribbon intro-ribbon" viewBox="0 0 1440 760" preserveAspectRatio="xMidYMin slice" aria-hidden="true"><defs><linearGradient id="hr" x1="0" x2="1"><stop stopColor="var(--violet)" stopOpacity="0"/><stop offset=".3" stopColor="var(--violet)" stopOpacity=".55"/><stop offset=".65" stopColor="var(--primary)" stopOpacity=".5"/><stop offset="1" stopColor="var(--cyan)" stopOpacity="0"/></linearGradient></defs><path className="thin" d="M-40 560C260 520 380 180 620 210S980 560 1480 300"/><path className="thin" d="M-40 610C300 570 420 240 640 260S1000 600 1480 360"/><path d="M-40 585C280 545 400 210 630 235S990 580 1480 330" stroke="url(#hr)" strokeWidth="2"/><circle cx="630" cy="235" r="2" fill="var(--cyan)" opacity=".28"/><circle cx="1210" cy="440" r="2" fill="var(--cyan)" opacity=".28"/><path className="thin" d="M1120 80 1380 340M60 120 260 320"/>
+<path className="thin" d="M-80 675C220 650 400 360 650 390S1030 680 1510 470"/>
+<path className="thin" d="M-90 705C240 675 420 395 670 425S1060 710 1530 505"/>
+<path className="thin" d="M-100 735C260 700 440 430 690 460S1080 735 1550 540"/>
+<path className="thin" d="M-70 500C180 470 350 240 560 270S900 490 1510 245"/>
+<path className="thin" d="M-60 455C170 420 345 200 550 225S910 450 1500 205"/>
+<path className="thin" d="M-60 390C180 360 350 140 560 170S910 390 1500 150"/>
+<path className="thin" d="M80 60C300 180 430 80 620 110S950 240 1190 110"/>
+<path className="thin" d="M250 760C400 600 520 600 670 620S980 760 1250 650"/>
+<path className="thin" d="M-40 560C260 520 380 180 620 210S980 560 1480 300" transform="translate(0 20)"/>
+</svg>;}
 export function MarketingPage() {
  const [menu,setMenu]=useState(false);
 
