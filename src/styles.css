@@ -1328,3 +1328,55 @@ html, body, #root {
   .hero-ribbon.intro-ribbon path.thin { opacity: .08; }
   .hero::before { opacity: .45; }
 }
+
+/* Hero: more fine animated curves behind the capsule, preserving original theme colors. */
+.hero-ribbon.intro-ribbon path.thin {
+  stroke: var(--geometry-line);
+  stroke-width: 1.15;
+  stroke-dasharray: 2 15;
+  stroke-linecap: round;
+  animation: advexon-bg-line-drift 22s linear infinite, advexon-bg-line-breathe 6.5s ease-in-out infinite;
+}
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(2) { animation-duration: 29s, 8s; }
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(3) { animation-duration: 34s, 7.5s; animation-delay: -11s, -2s; }
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(4) { animation-duration: 38s, 9s; animation-delay: -17s, -4s; }
+.hero-ribbon.intro-ribbon path:not(.thin) {
+  stroke: var(--geometry-line);
+  stroke-width: 1.25;
+  stroke-dasharray: 1800;
+  stroke-dashoffset: 1800;
+  opacity: .13;
+  animation: advexon-line-draw 4.5s ease-in-out .2s forwards, advexon-bg-line-breathe 7s ease-in-out 4.8s infinite alternate;
+}
+.hero-ribbon.intro-ribbon path:nth-of-type(5),
+.hero-ribbon.intro-ribbon path:nth-of-type(6),
+.hero-ribbon.intro-ribbon path:nth-of-type(7) {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  opacity: .08;
+  animation: advexon-line-draw 5s ease-in-out .65s forwards, advexon-bg-line-breathe 8s ease-in-out 5.6s infinite alternate;
+}
+@keyframes advexon-bg-line-breathe {
+  0%, 100% { opacity: .035; }
+  50% { opacity: .16; }
+}
+/* Operation chart: the two colored data lines travel continuously, not just draw once. */
+.animated-chart .chart-line,
+.animated-chart .chart-line-secondary {
+  stroke-dasharray: 14 7;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  animation: advexon-data-line-travel 3.4s linear infinite, advexon-data-line-glow 3.8s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 3px currentColor);
+}
+.animated-chart .chart-line { stroke: var(--primary); }
+.animated-chart .chart-line-secondary { stroke: var(--cyan); animation-duration: 4.2s, 4.5s; animation-delay: -.8s, -.5s; }
+.animated-chart .chart-grid { stroke-dasharray: 2 9; animation: advexon-chart-grid-travel 16s linear infinite; }
+.animated-chart .chart-area { animation: advexon-chart-area-pulse 4s ease-in-out infinite alternate; }
+@keyframes advexon-data-line-travel { to { stroke-dashoffset: -84; } }
+@keyframes advexon-data-line-glow { from { opacity:.8; } to { opacity:1; } }
+@keyframes advexon-chart-grid-travel { to { stroke-dashoffset:-44; } }
+@keyframes advexon-chart-area-pulse { from { opacity:.06; } to { opacity:.16; } }
+@media (prefers-reduced-motion: reduce) {
+ .hero-ribbon.intro-ribbon path, .animated-chart .chart-line, .animated-chart .chart-line-secondary, .animated-chart .chart-grid, .animated-chart .chart-area { animation:none!important; stroke-dashoffset:0!important; }
+}
