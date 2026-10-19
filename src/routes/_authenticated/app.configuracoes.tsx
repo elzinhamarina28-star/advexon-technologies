@@ -1,16 +1,29 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
+import { ArrowUpRight, CheckCircle2, CircleDashed, Cloud, FileSpreadsheet, Instagram, Mail, MessageCircle, ShieldCheck, Workflow } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { integrations } from '@/features/shared/integrations';
 import { pageHead, requireUserId, useProfile } from '@/features/client-app/data';
 
-export const Route = createFileRoute('/_authenticated/app/configuracoes')({ head: pageHead('Configurações'), component: Page });
+export const Route = createFileRoute('/_authenticated/app/configuracoes')({ head: pageHead('Integrações e configurações'), component: Page });
+
+const connectors = [
+  { id: 'whatsapp', name: 'WhatsApp Business', group: 'Atendimento', icon: MessageCircle, description: 'Centralize o atendimento e prepare respostas para clientes.', needs: ['Conta WhatsApp Business', 'Aplicativo Meta e API oficial do WhatsApp Cloud', 'Webhook HTTPS e credenciais armazenadas no servidor'], phase: 'Prioridade inicial' },
+  { id: 'sheets', name: 'Google Sheets', group: 'Dados e produtividade', icon: FileSpreadsheet, description: 'Consulte e atualize planilhas de clientes, leads e indicadores.', needs: ['Projeto no Google Cloud', 'OAuth consentimento e escopos mínimos', 'Fluxo seguro de autorização e armazenamento de tokens'], phase: 'Prioridade inicial' },
+  { id: 'gmail', name: 'Gmail', group: 'Comunicação', icon: Mail, description: 'Encontrar solicitações e apoiar a elaboração de respostas por e-mail.', needs: ['OAuth Google aprovado', 'Escopos Gmail mínimos necessários', 'Política de privacidade e validação do fluxo de envio'], phase: 'Próxima etapa' },
+  { id: 'outlook', name: 'Outlook / Microsoft 365', group: 'Comunicação', icon: Mail, description: 'Conectar e-mail e, futuramente, calendário do comerciante.', needs: ['Aplicativo registrado no Microsoft Entra', 'OAuth Microsoft Graph', 'Permissões e tokens protegidos no servidor'], phase: 'Próxima etapa' },
+  { id: 'facebook', name: 'Facebook Pages', group: 'Marketing', icon: Cloud, description: 'Apoiar a gestão de páginas comerciais e mensagens permitidas pela Meta.', needs: ['Aplicativo Meta', 'Página comercial administrada pelo usuário', 'Permissões e revisão da Meta quando exigida'], phase: 'Fase posterior' },
+  { id: 'instagram', name: 'Instagram profissional', group: 'Marketing', icon: Instagram, description: 'Conectar conta profissional para os recursos autorizados pela Meta.', needs: ['Conta profissional elegível', 'Vinculação e permissões Meta', 'Revisão de permissões e testes de API'], phase: 'Fase posterior' },
+  { id: 'drive', name: 'Google Drive', group: 'Arquivos', icon: Cloud, description: 'Consultar documentos da empresa para apoiar respostas e processos.', needs: ['OAuth Google', 'Escopos de Drive limitados aos arquivos necessários', 'Indexação e controle de acesso por empresa'], phase: 'Fase posterior' },
+  { id: 'onedrive', name: 'OneDrive / Excel', group: 'Arquivos', icon: FileSpreadsheet, description: 'Acessar arquivos e planilhas Microsoft autorizados.', needs: ['OAuth Microsoft Graph', 'Permissões mínimas de arquivos', 'Testes de isolamento entre empresas'], phase: 'Fase posterior' },
+] as const;
+
 const labels: Record<string, string> = { auth: 'Contas', database: 'Dados', checkout: 'Pagamentos (Kiwify)', whatsapp: 'WhatsApp Business', ai: 'IA (Gemini)', sheets: 'Google Sheets', gmail: 'Gmail', excel: 'Excel', instagram: 'Instagram' };
 
 function Page() {
-  const profile = useProfile(); const qc = useQueryClient(); const [msg, setMsg] = useState('');
+  const profile = useProfile(); const qc = useQueryClient(); const [msg, setMsg] = useState(''); const [expanded, setExpanded] = useState<string | null>('whatsapp');
   async function toggle(value: boolean) {
     const id = await requireUserId();
     const { error } = await supabase.from('profiles').update({ email_notifications: value }).eq('id', id);
@@ -23,7 +36,29 @@ function Page() {
     setMsg(error ? 'Erro ao apagar.' : 'Histórico apagado.'); qc.invalidateQueries({ queryKey: ['diagnostic-latest'] });
   }
   return <>
-    <h1 className="section-title">Configurações</h1>
+    <div className="flex flex-wrap items-start justify-between gap-3">
+      <div><h1 className="section-title">Central de integrações</h1><p className="cd-small">Conecte as ferramentas do seu negócio para reunir atendimento, dados e tarefas na ADVEXON.</p></div>
+      <span className="cd-tag">Conexões reais ainda não ativadas</span>
+    </div>
+    <div className="cd-card app-gap">
+      <div className="flex items-start gap-3"><ShieldCheck size={24} /><div><h2>Suas contas, suas permissões</h2><p className="cd-small">Nenhum aplicativo aparece como conectado até que a autorização oficial seja implementada e testada. Não cole senhas ou tokens nesta tela.</p></div></div>
+    </div>
+    <div className="cd-grid app-gap">
+      {connectors.map(item => {
+        const Icon = item.icon; const status = integrations[item.id as keyof typeof integrations];
+        const isExpanded = expanded === item.id;
+        return <article className="cd-card" key={item.id}>
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-start gap-3"><div className="cd-integration-icon"><Icon size={22} /></div><div><h2>{item.name}</h2><p className="cd-small">{item.group}</p></div></div>
+            <span className="cd-tag"><CircleDashed size={13} /> Não conectado</span>
+          </div>
+          <p className="app-gap">{item.description}</p>
+          <p className="cd-small">{item.phase}</p>
+          <Button className="app-gap" variant="outline" onClick={() => setExpanded(isExpanded ? null : item.id)}>{isExpanded ? 'Ocultar requisitos' : 'Ver requisitos'} <ArrowUpRight size={15}/></Button>
+          {isExpanded && <div className="app-gap"><b className="text-sm">Para ativar esta integração</b><ul className="cd-list">{item.needs.map(need => <li key={need}><span>{need}</span></li>)}</ul><p className="cd-small">Estado técnico: {status?.note ?? 'Planejada; a conexão oficial ainda precisa ser implementada.'}</p></div>}
+        </article>;
+      })}
+    </div>
     <div className="cd-grid app-gap">
       <div className="cd-card">
         <h2>Preferências</h2>
@@ -32,8 +67,8 @@ function Page() {
         {msg && <p className="cd-small" role="status">{msg}</p>}
       </div>
       <div className="cd-card">
-        <h2>Integrações</h2>
-        <ul className="cd-list">{Object.entries(integrations).filter(([k]) => k !== 'auth' && k !== 'database').map(([k, v]) => <li key={k}><span><b>{labels[k] ?? k}</b><p className="cd-small">{v.note}</p></span><em className="cd-tag">{v.enabled ? 'Configurada' : 'Não conectada'}</em></li>)}</ul>
+        <h2>Serviços internos</h2>
+        <ul className="cd-list">{Object.entries(integrations).filter(([k]) => ['auth', 'database', 'ai', 'checkout'].includes(k)).map(([k, v]) => <li key={k}><span><b>{labels[k] ?? k}</b><p className="cd-small">{v.note}</p></span><em className="cd-tag">{v.enabled ? <><CheckCircle2 size={13}/> Configurada</> : 'Pendente'}</em></li>)}</ul>
       </div>
     </div>
   </>;
