@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { ArrowUpRight, CheckCircle2, CircleDashed, Cloud, FileSpreadsheet, Instagram, Mail, MessageCircle, ShieldCheck, Workflow } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, CircleDashed, Cloud, FileSpreadsheet, Instagram, Mail, MessageCircle, ShieldCheck } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { integrations } from '@/features/shared/integrations';
