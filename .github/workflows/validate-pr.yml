@@ -3,6 +3,8 @@ name: Validate PR
 on:
   pull_request:
     branches: [main]
+  push:
+    branches: [feat/hero-tokens-scroll]
   workflow_dispatch:
 
 permissions:
