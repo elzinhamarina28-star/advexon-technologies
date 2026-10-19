@@ -1145,3 +1145,24 @@ h1,h2,h3,p { margin: 0; letter-spacing: 0; }
    animation:none!important; opacity:1!important; transform:none!important; filter:none!important; stroke-dashoffset:0!important;
  }
 }
+
+/* Avoid a white flash before the cinematic homepage sequence starts. */
+html, body, #root {
+  background-color: #070916;
+}
+body {
+  color-scheme: dark;
+}
+#root {
+  min-height: 100vh;
+  isolation: isolate;
+}
+.hero {
+  background-color: #070916;
+  background-image:
+    radial-gradient(ellipse 60% 45% at 50% 30%, rgba(124,58,237,.16), transparent 70%),
+    radial-gradient(ellipse 40% 30% at 80% 60%, rgba(6,182,212,.08), transparent 70%);
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
