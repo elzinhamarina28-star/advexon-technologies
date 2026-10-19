@@ -9,22 +9,193 @@ import { Agents } from '../agents/Agents';
 import { Diagnostic } from '../diagnostic/Diagnostic';
 import { Pricing } from '../pricing/Pricing';
 import { TeamDemo } from '../team-demo/TeamDemo';
-const faqs=[
- {q:'Preciso entender de IA para usar a ADVEXON?',a:'Não. A ADVEXON transforma IA em ferramentas práticas. Você não precisa dominar tecnologia para começar.'},
- {q:'A ADVEXON substitui minha equipe?',a:'Não. A proposta é trabalhar junto com sua equipe, reduzindo tarefas repetitivas e aumentando a capacidade da operação.'},
- {q:'A ADVEXON funciona para empresas pequenas?',a:'Sim. A plataforma foi pensada para permitir que empresas com diferentes níveis de estrutura comecem pelo que realmente precisam.'},
- {q:'Como funciona a cobrança?',a:'A cobrança recorrente será realizada pelo checkout oficial configurado para a ADVEXON. As condições finais serão apresentadas antes da confirmação.'},
- {q:'Posso cancelar minha assinatura?',a:'Os detalhes e condições de cancelamento serão apresentados no checkout e na política comercial da ADVEXON antes da contratação.'},
+import { Hero } from './Hero';
+
+const faqs = [
+  { q: 'Preciso entender de IA para usar a ADVEXON?', a: 'Não. A ADVEXON transforma IA em ferramentas práticas. Você não precisa dominar tecnologia para começar.' },
+  { q: 'A ADVEXON substitui minha equipe?', a: 'Não. A proposta é trabalhar junto com sua equipe, reduzindo tarefas repetitivas e aumentando a capacidade da operação.' },
+  { q: 'A ADVEXON funciona para empresas pequenas?', a: 'Sim. A plataforma foi pensada para permitir que empresas com diferentes níveis de estrutura comecem pelo que realmente precisam.' },
+  { q: 'Como funciona a cobrança?', a: 'A cobrança recorrente será realizada pelo checkout oficial configurado para a ADVEXON. As condições finais serão apresentadas antes da confirmação.' },
+  { q: 'Posso cancelar minha assinatura?', a: 'Os detalhes e condições de cancelamento serão apresentados no checkout e na política comercial da ADVEXON antes da contratação.' },
 ];
-function HeroRibbon(){return <svg className="hero-ribbon" viewBox="0 0 1440 760" preserveAspectRatio="xMidYMin slice" aria-hidden="true"><defs><linearGradient id="hr" x1="0" x2="1"><stop stopColor="var(--violet)" stopOpacity="0"/><stop offset=".3" stopColor="var(--violet)" stopOpacity=".55"/><stop offset=".65" stopColor="var(--primary)" stopOpacity=".5"/><stop offset="1" stopColor="var(--cyan)" stopOpacity="0"/></linearGradient></defs><path className="thin" d="M-40 560C260 520 380 180 620 210S980 560 1480 300"/><path className="thin" d="M-40 610C300 570 420 240 640 260S1000 600 1480 360"/><path d="M-40 585C280 545 400 210 630 235S990 580 1480 330" stroke="url(#hr)" strokeWidth="2"/><circle cx="630" cy="235" r="3" fill="var(--success)" opacity=".7"/><circle cx="1210" cy="440" r="2.5" fill="var(--cyan)" opacity=".7"/><path className="thin" d="M1120 80 1380 340M60 120 260 320"/></svg>;}
+
 export function MarketingPage() {
- const [menu,setMenu]=useState(false);
- return <><a className="skip-link" href="#conteudo">Pular para o conteúdo</a><header className="header"><div className="container header-inner"><a href="#produto" aria-label="ADVEXON início"><Brand/></a><nav className="desktop-nav" aria-label="Navegação principal"><Link to="/auth" className="nav-link">Entrar</Link>{navigation.map(item=><a key={item.id} className="nav-link" href={`#${item.id}`}>{item.label}</a>)}</nav><Button variant="nexa" className="header-cta" asChild><Link to="/auth">Começar agora<ArrowRight/></Link></Button><Button variant="ghost" size="icon" className="menu-toggle" aria-expanded={menu} aria-controls="mobile-navigation" aria-label={menu?'Fechar menu':'Abrir menu'} onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</Button></div>{menu&&<nav id="mobile-navigation" className="mobile-nav" aria-label="Navegação móvel"><Link to="/auth" className="nav-link" onClick={()=>setMenu(false)}>Entrar</Link><Link to="/auth" className="nav-link" onClick={()=>setMenu(false)}>Começar agora</Link>{navigation.map(item=><a key={item.id} className="nav-link" href={`#${item.id}`} onClick={()=>setMenu(false)}>{item.label}</a>)}</nav>}</header>
- <main id="conteudo"><section id="produto" className="hero"><HeroRibbon/><div className="container"><div className="hero-label"><Sparkles/>ADVEXON · Inteligência aplicada à sua operação</div><h1 className="reveal">Sua equipe IA<br/><em className="gradient-text">em ação.</em></h1><p className="hero-support">Você não precisa entender de IA.<br/>Precisa saber onde ela pode ajudar.</p><p className="hero-sub">Atendimento, vendas, follow-up e organização trabalhando juntos para sua empresa.</p><div className="hero-actions"><Button variant="ghost" asChild><Link to="/auth">Começar agora<ArrowRight/></Link></Button><Button variant="nexa" className="nexa-button-lg" asChild><a href="#diagnostico">Fazer meu diagnóstico<ArrowRight/></a></Button></div><p className="microcopy">Gratuito. Leva cerca de 2 minutos.</p><div className="hero-mockup reveal"><Dashboard/><p className="mockup-caption"><ShieldCheck size={11}/>Dados demonstrativos.</p></div><div className="product-strip"><span><MessageSquare/>Atendimento</span><span><TrendingUp/>Vendas</span><span><Repeat2/>Follow-up</span><span><FolderOpen/>Organização</span></div></div></section>
- <Agents/>
- <section id="como-funciona" className="section editorial"><div className="container"><div className="editorial-heading"><div><div className="eyebrow">DO SEU MOMENTO AO PRÓXIMO PASSO</div><h2 className="section-title">Menos ruído.<br/>Mais direção.</h2></div><p className="section-copy">A tecnologia faz mais sentido quando resolve a prioridade certa. Comece entendendo o que a sua empresa precisa hoje.</p></div><div className="steps">{[{title:'Entenda seu momento',copy:'Um diagnóstico simples para olhar o atendimento, as vendas e a organização da sua empresa.'},{title:'Encontre sua prioridade',copy:'Identifique os pontos que pedem atenção e onde a IA pode ajudar primeiro.'},{title:'Conheça a proposta',copy:'Veja quais ferramentas e agentes fazem sentido para o próximo passo da sua operação.'}].map((step,i)=><article className="step" key={step.title}><span className="step-number">0{i+1}</span><h3>{step.title}</h3><p>{step.copy}</p></article>)}</div></div></section>
- <Diagnostic/><TeamDemo/><Pricing/>
- <section id="faq" className="section faq-section"><div className="container faq-layout"><div><div className="eyebrow"><span className="dot"/>PERGUNTAS FREQUENTES</div><h2 className="section-title">Clareza antes<br/>de começar.</h2><p className="section-copy">O que você precisa saber sobre a ADVEXON.</p></div><div className="faq-list">{faqs.map(faq=><details key={faq.q}><summary>{faq.q}<Plus/></summary><p>{faq.a}</p></details>)}</div></div></section>
- <section className="final-cta"><div className="container"><div className="eyebrow center"><Sparkles size={14}/>SEU PRÓXIMO PASSO</div><h2 className="section-title">Sua operação pode ir além.<br/><span className="gradient-text">Comece descobrindo como.</span></h2><p>Você não precisa ter todas as respostas. Só precisa dar o primeiro passo.</p><Button variant="nexa" className="nexa-button-lg" asChild><a href="#diagnostico">Fazer meu diagnóstico<ArrowRight/></a></Button><p className="microcopy">Gratuito. Leva cerca de 2 minutos.</p></div></section>
- </main><footer className="footer"><div className="container"><div className="footer-main"><div><Brand tagline/><p>Tecnologia que trabalha junto com você.</p></div><nav className="footer-links" aria-label="Navegação do rodapé">{navigation.map(item=><a className="nav-link" href={`#${item.id}`} key={item.id}>{item.label}</a>)}<Link className="nav-link" to="/agentes">Agentes</Link><Link className="nav-link" to="/painel">Meu painel</Link><Link className="nav-link" to="/athena">ATHENA</Link><Link className="nav-link" to="/planos">Planos</Link></nav></div><div className="footer-bottom"><span>© {brand.year} ADVEXON</span><a className="nav-link" href="mailto:suporteadvexon@gmail.com">suporteadvexon@gmail.com</a><span>Tecnologia que trabalha junto com você.</span></div></div></footer></>;
+  const [menu, setMenu] = useState(false);
+
+  return (
+    <>
+      <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+      <header className="header">
+        <div className="container header-inner">
+          <a href="#produto" aria-label="ADVEXON início">
+            <Brand compact />
+          </a>
+
+          <nav className="desktop-nav" aria-label="Navegação principal">
+            {navigation?.map((item) => (
+              <a key={item.href} className="nav-link" href={item.href}>
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="header-actions">
+            <a className="nexa-button header-cta" href="#como-funciona">
+              <span>Fazer diagnóstico</span>
+            </a>
+            <button className="menu-toggle" type="button" aria-expanded={menu} aria-label="Abrir menu" onClick={() => setMenu((v) => !v)}>
+              {menu ? <X size={18} /> : <Menu size={18} />}
+            </button>
+          </div>
+        </div>
+
+        {menu && (
+          <nav className="mobile-nav" aria-label="Navegação mobile">
+            {navigation?.map((item) => (
+              <a key={item.href} className="nav-link" href={item.href} onClick={() => setMenu(false)}>
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        )}
+      </header>
+
+      <main id="conteudo">
+        <Hero />
+
+        <div className="product-strip" aria-label="Recursos principais da ADVEXON">
+          <span><MessageSquare size={12} /> Atendimento</span>
+          <span><TrendingUp size={12} /> Vendas</span>
+          <span><Repeat2 size={12} /> Follow-up</span>
+          <span><FolderOpen size={12} /> Organização</span>
+          <span><ShieldCheck size={12} /> Fluxo seguro</span>
+        </div>
+
+        <section id="equipe" className="section">
+          <div className="container">
+            <div className="agents-heading">
+              <div>
+                <div className="eyebrow">
+                  <span className="dot" />
+                  Sua equipe IA em ação
+                </div>
+                <h2 className="section-title">Agentes pensados para a operação real.</h2>
+              </div>
+              <p className="section-copy">
+                Cada agente da ADVEXON é desenhado para reduzir ruído, acelerar decisões e manter a operação em movimento com clareza.
+              </p>
+            </div>
+
+            <Agents />
+          </div>
+        </section>
+
+        <section id="como-funciona" className="section editorial">
+          <div className="container">
+            <div className="editorial-heading">
+              <div>
+                <div className="eyebrow">Do seu momento ao próximo passo</div>
+                <h2 className="section-title">Menos ruído. Mais direção.</h2>
+              </div>
+              <p className="section-copy">
+                Entenda seu momento, identifique a prioridade e transforme a operação em um sistema mais inteligente.
+              </p>
+            </div>
+
+            <div className="steps">
+              <div className="step">
+                <span className="step-number">01</span>
+                <div>
+                  <h3>Entenda seu momento</h3>
+                  <p>Você identifica a necessidade da operação e a plataforma organiza a demanda de forma clara.</p>
+                </div>
+              </div>
+              <div className="step">
+                <span className="step-number">02</span>
+                <div>
+                  <h3>Encontre sua prioridade</h3>
+                  <p>O processo ajuda a separar urgência, oportunidade e contexto para que a ação aconteça no momento certo.</p>
+                </div>
+              </div>
+              <div className="step">
+                <span className="step-number">03</span>
+                <div>
+                  <h3>Conheça a proposta</h3>
+                  <p>A ADVEXON mostra como a IA pode apoiar a operação de forma prática, ágil e alinhada ao crescimento do negócio.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <Diagnostic />
+        <TeamDemo />
+        <Pricing />
+
+        <section id="faq" className="section faq-section">
+          <div className="container faq-layout">
+            <div>
+              <div className="eyebrow">
+                <span className="dot" />
+                Perguntas frequentes
+              </div>
+              <h2 className="section-title">Tudo que você precisa saber antes de começar.</h2>
+            </div>
+
+            <div className="faq-list">
+              {faqs.map((item) => (
+                <details key={item.q}>
+                  <summary>
+                    <span>{item.q}</span>
+                    <Plus size={16} />
+                  </summary>
+                  <p>{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="final-cta">
+          <div className="container">
+            <div className="eyebrow center">
+              <Sparkles size={14} />
+              Seu próximo passo
+            </div>
+            <h2 className="section-title">Sua operação pode ir além.</h2>
+            <p>Descubra como a ADVEXON pode trazer clareza, velocidade e organização ao seu negócio.</p>
+            <a className="nexa-button nexa-button-lg" href="#como-funciona">
+              Fazer meu diagnóstico
+              <ArrowRight size={16} />
+            </a>
+          </div>
+        </section>
+      </main>
+
+      <footer className="footer">
+        <div className="container">
+          <div className="footer-main">
+            <div>
+              <Brand tagline />
+              <p>Tecnologia que trabalha junto com você.</p>
+            </div>
+
+            <nav className="footer-links" aria-label="Links do rodapé">
+              {navigation?.map((item) => (
+                <a key={item.href} className="nav-link" href={item.href}>
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          <div className="footer-bottom">
+            <span>© 2026 ADVEXON</span>
+            <span>Seu time de IA em ação.</span>
+          </div>
+        </div>
+      </footer>
+    </>
+  );
 }
