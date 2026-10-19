@@ -1,10 +1,8 @@
 import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
 import { ArrowRight, Sparkles, Menu, X, MessageSquare, TrendingUp, Repeat2, FolderOpen, Plus, ShieldCheck } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Brand } from '../shared/Brand';
-import { brand, navigation } from '../shared/config';
-import { Dashboard } from '../product-preview/Dashboard';
+import { navigation } from '../shared/config';
 import { Agents } from '../agents/Agents';
 import { Diagnostic } from '../diagnostic/Diagnostic';
 import { Pricing } from '../pricing/Pricing';
