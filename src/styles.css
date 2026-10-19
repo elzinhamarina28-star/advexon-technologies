@@ -1208,3 +1208,52 @@ html, body, #root {
   .footer .brand-full, .footer .footer-links .nav-link { transition: none; }
   .footer .brand-full:hover, .footer .footer-links .nav-link:hover { transform: none; }
 }
+
+/* Refined hero geometry: hide the capsule's side edges and keep background lines barely visible in motion. */
+.hero::before {
+  border-color: transparent;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 13%, #000 87%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 13%, #000 87%, transparent 100%);
+}
+.hero-ribbon.intro-ribbon {
+  opacity: .22;
+}
+.hero-ribbon.intro-ribbon path.thin {
+  stroke: var(--geometry-line);
+  stroke-width: 1;
+  stroke-dasharray: 5 18;
+  stroke-dashoffset: 0;
+  opacity: .13;
+  animation:
+    advexon-bg-line-drift 28s linear infinite,
+    advexon-bg-line-breathe 7s ease-in-out infinite alternate;
+}
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(2) {
+  animation-duration: 34s, 9s;
+  animation-delay: -8s, -3s;
+}
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(4) {
+  animation-duration: 39s, 8s;
+  animation-delay: -13s, -2s;
+}
+.hero-ribbon.intro-ribbon path:not(.thin) {
+  animation:
+    advexon-line-draw 1.65s cubic-bezier(.45,0,.25,1) forwards,
+    advexon-bg-line-breathe 8s ease-in-out 1.8s infinite alternate;
+}
+@keyframes advexon-bg-line-drift {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -460; }
+}
+@keyframes advexon-bg-line-breathe {
+  0%, 100% { opacity: .06; }
+  50% { opacity: .2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-ribbon.intro-ribbon path.thin,
+  .hero-ribbon.intro-ribbon path:not(.thin) {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+  .hero-ribbon.intro-ribbon path.thin { opacity: .1; }
+}
