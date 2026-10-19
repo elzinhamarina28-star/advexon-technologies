@@ -33,7 +33,8 @@ export function MarketingPage() {
           </a>
 
           <nav className="desktop-nav" aria-label="Navegação principal">
-            {navigation?.map((item) => (
+            <Link to="/auth" className="nav-link">Entrar</Link>
+            {navigation.map((item) => (
               <a key={item.id} className="nav-link" href={`#${item.id}`}>
                 {item.label}
               </a>
@@ -41,7 +42,7 @@ export function MarketingPage() {
           </nav>
 
           <div className="header-actions">
-            <a className="nexa-button header-cta" href="#como-funciona">
+            <a className="nexa-button header-cta" href="#diagnostico">
               <span>Fazer diagnóstico</span>
             </a>
             <button className="menu-toggle" type="button" aria-expanded={menu} aria-label="Abrir menu" onClick={() => setMenu((v) => !v)}>
@@ -52,7 +53,9 @@ export function MarketingPage() {
 
         {menu && (
           <nav className="mobile-nav" aria-label="Navegação mobile">
-            {navigation?.map((item) => (
+            <Link to="/auth" className="nav-link" onClick={() => setMenu(false)}>Entrar</Link>
+            <Link to="/auth" className="nav-link" onClick={() => setMenu(false)}>Começar agora</Link>
+            {navigation.map((item) => (
               <a key={item.id} className="nav-link" href={`#${item.id}`} onClick={() => setMenu(false)}>
                 {item.label}
               </a>
@@ -165,7 +168,7 @@ export function MarketingPage() {
             </div>
             <h2 className="section-title">Sua operação pode ir além.</h2>
             <p>Descubra como a ADVEXON pode trazer clareza, velocidade e organização ao seu negócio.</p>
-            <a className="nexa-button nexa-button-lg" href="#como-funciona">
+            <a className="nexa-button nexa-button-lg" href="#diagnostico">
               Fazer meu diagnóstico
               <ArrowRight size={16} />
             </a>
