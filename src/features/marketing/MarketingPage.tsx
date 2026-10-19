@@ -22,7 +22,7 @@ export function MarketingPage() {
 
  useEffect(() => {
    const targets = document.querySelectorAll<HTMLElement>(
-     '#conteudo .product-strip, #conteudo .agents-heading, #conteudo .agent-card, #conteudo .team-flow, #conteudo .editorial-heading, #conteudo .step, #conteudo .diagnostic-intro, #conteudo .diagnostic-tool, #conteudo .pricing-header, #conteudo .plan-card, #conteudo .comparison, #conteudo .faq-layout > div, #conteudo .final-cta .container'
+     '#conteudo .product-strip, #conteudo .agents-heading, #conteudo .agent-card, #conteudo .team-flow, #conteudo .editorial-heading, #conteudo .step, #conteudo .diagnostic-intro, #conteudo .diagnostic-tool, #conteudo .pricing-header, #conteudo .plan-card, #conteudo .comparison, #conteudo .faq-layout > div, #conteudo .final-cta .container, .footer .footer-main, .footer .footer-bottom, .footer .footer-links .nav-link'
    );
 
    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
