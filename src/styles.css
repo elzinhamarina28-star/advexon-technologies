@@ -1625,3 +1625,15 @@ html, body, #root {
     opacity: .18 !important;
   }
 }
+
+/* Restore alternating growth from opposite sides of the hero. */
+.hero-ribbon.intro-ribbon path.cycle-line.cycle-right {
+  transform-box: view-box !important;
+  transform-origin: center !important;
+  transform: scaleX(-1) !important;
+}
+.hero-ribbon.intro-ribbon path.cycle-line.cycle-left {
+  transform-box: view-box !important;
+  transform-origin: center !important;
+  transform: none !important;
+}
