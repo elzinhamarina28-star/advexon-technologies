@@ -1166,3 +1166,25 @@ body {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+/* Subtle animated line flow in the dashboard preview chart. */
+.animated-chart .chart-grid {
+  stroke-dasharray: 3 7;
+  animation: advexon-grid-flow 12s linear infinite;
+}
+.animated-chart .chart-line,
+.animated-chart .chart-line-secondary {
+  stroke-dasharray: 620;
+  stroke-dashoffset: 0;
+  animation: advexon-chart-trace 3.2s cubic-bezier(.4,0,.2,1) both;
+}
+.animated-chart .chart-line-secondary { animation-delay: .22s; }
+.animated-chart .chart-area {
+  animation: advexon-area-breathe 5s ease-in-out infinite alternate;
+}
+@keyframes advexon-grid-flow { to { stroke-dashoffset: -100; } }
+@keyframes advexon-chart-trace { from { stroke-dashoffset: 620; opacity:.25; } to { stroke-dashoffset:0; opacity:1; } }
+@keyframes advexon-area-breathe { from { opacity:.07; } to { opacity:.17; } }
+@media (prefers-reduced-motion:reduce) {
+ .animated-chart .chart-grid,.animated-chart .chart-line,.animated-chart .chart-line-secondary,.animated-chart .chart-area { animation:none!important; }
+}
