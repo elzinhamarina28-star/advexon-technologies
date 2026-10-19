@@ -1581,3 +1581,47 @@ html, body, #root {
     opacity: .24 !important;
   }
 }
+
+/* Cinematic staggered draw: only a few full curves appear at once. */
+.hero-ribbon.intro-ribbon path.cycle-line {
+  fill: none !important;
+  stroke: #22D3EE !important;
+  stroke-width: 1.35px !important;
+  stroke-linecap: round !important;
+  stroke-dasharray: 1000 1000 !important;
+  stroke-dashoffset: 1000 !important;
+  opacity: 0 !important;
+  animation: advexon-cinematic-curve 22s linear infinite !important;
+  vector-effect: non-scaling-stroke;
+}
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(1) { animation-delay: 0s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(2) { animation-delay: 1.55s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(3) { animation-delay: 3.1s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(4) { animation-delay: 4.65s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(5) { animation-delay: 6.2s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(6) { animation-delay: 7.75s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(7) { animation-delay: 9.3s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(8) { animation-delay: 10.85s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(9) { animation-delay: 12.4s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(10) { animation-delay: 13.95s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(11) { animation-delay: 15.5s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(12) { animation-delay: 17.05s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(13) { animation-delay: 18.6s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(14) { animation-delay: 20.15s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line.cycle-right { transform: none !important; }
+@keyframes advexon-cinematic-curve {
+  0% { stroke-dashoffset: 1000; opacity: 0; }
+  3% { opacity: .56; }
+  13% { stroke-dashoffset: 0; opacity: .56; }
+  16% { stroke-dashoffset: 0; opacity: .42; }
+  21% { stroke-dashoffset: 0; opacity: 0; }
+  22%, 100% { stroke-dashoffset: 1000; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-ribbon.intro-ribbon path.cycle-line {
+    animation: none !important;
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: .18 !important;
+  }
+}
