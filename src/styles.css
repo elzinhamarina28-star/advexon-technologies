@@ -1471,3 +1471,51 @@ html, body, #root {
 @media (prefers-reduced-motion: reduce) {
  .hero-ribbon.intro-ribbon path { animation:none!important; stroke-dashoffset:0!important; opacity:.1; }
 }
+
+/* ADVEXON hero: complete lines draw one at a time, alternating from each side. */
+.hero-ribbon.intro-ribbon path.cycle-line {
+  stroke-dasharray: 1000 1000 !important;
+  stroke-dashoffset: 1000 !important;
+  opacity: 0 !important;
+  animation: advexon-alternating-line-cycle 31s linear infinite !important;
+  will-change: stroke-dashoffset, opacity;
+}
+.hero-ribbon.intro-ribbon path.cycle-line.cycle-right {
+  transform-box: view-box;
+  transform-origin: center;
+  transform: scaleX(-1);
+}
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(1) { animation-delay: 0s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(2) { animation-delay: 2.8s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(3) { animation-delay: 5.6s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(4) { animation-delay: 8.4s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(5) { animation-delay: 11.2s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(6) { animation-delay: 14s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(7) { animation-delay: 16.8s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(8) { animation-delay: 19.6s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(9) { animation-delay: 22.4s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(10) { animation-delay: 25.2s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(11) { animation-delay: 28s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(12) { animation-delay: 2.8s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(13) { animation-delay: 14s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(14) { animation-delay: 25.2s !important; }
+
+@keyframes advexon-alternating-line-cycle {
+  0% { stroke-dashoffset: 1000; opacity: 0; }
+  2% { opacity: .78; }
+  18% { stroke-dashoffset: 0; opacity: .78; }
+  22% { stroke-dashoffset: 0; opacity: .58; }
+  25% { stroke-dashoffset: 0; opacity: 0; }
+  26%, 100% { stroke-dashoffset: 1000; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-ribbon.intro-ribbon path.cycle-line {
+    animation: none !important;
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: .12 !important;
+    transform: none !important;
+  }
+}
+
