@@ -27,6 +27,16 @@ No Meta for Developers:
 - Configurar o webhook HTTPS e verificar assinatura de cada evento. Não aceitar eventos apenas porque o verify token é conhecido.
 - Para uso por várias empresas/clientes, cada conta deve ter conexão e credenciais isoladas por tenant; não reutilizar um único número global para todos.
 
+## Primeira etapa técnica: webhook WhatsApp Cloud API
+
+A branch de testes inclui `GET/POST /api/integrations/whatsapp/webhook`:
+- GET valida `hub.verify_token` e devolve o challenge exigido pela Meta.
+- POST valida `X-Hub-Signature-256` com HMAC-SHA256 sobre o corpo bruto usando `WHATSAPP_APP_SECRET`, rejeita assinatura inválida e verifica o tipo de evento.
+- Nesta etapa, eventos assinados são apenas reconhecidos; ainda NÃO são persistidos, encaminhados a agentes ou respondidos. O endpoint devolve `processed: false` para não dar a entender que mensagens foram processadas.
+- Configure `WHATSAPP_VERIFY_TOKEN` e `WHATSAPP_APP_SECRET` somente nos secrets do servidor. Depois, informe no painel Meta a URL HTTPS `https://SEU-DOMINIO/api/integrations/whatsapp/webhook`.
+
+Antes de ativar para clientes, ainda é necessário mapear com segurança cada `phone_number_id` para a empresa/conta ADVEXON correta, persistir eventos com idempotência, tratar mensagens recebidas e testar envio apenas com consentimento e dentro das regras da Meta. Não configurar um único token/número global para vários clientes.
+
 ## Requisitos de segurança
 - Tokens de provedores são segredos; criptografar em repouso com chave exclusiva do servidor.
 - Ativar RLS e associar cada conexão ao ID do usuário/empresa autenticado.
