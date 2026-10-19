@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
 import { ArrowRight, Sparkles, Menu, X, MessageSquare, TrendingUp, Repeat2, FolderOpen, Plus, ShieldCheck } from 'lucide-react';
 import { Brand } from '../shared/Brand';
+import { Dashboard } from '../product-preview/Dashboard';
 import { navigation } from '../shared/config';
 import { Agents } from '../agents/Agents';
 import { Diagnostic } from '../diagnostic/Diagnostic';
@@ -72,6 +73,15 @@ export function MarketingPage() {
           <span><FolderOpen size={12} /> Organização</span>
           <span><ShieldCheck size={12} /> Fluxo seguro</span>
         </div>
+
+        <section className="section product-preview-section" aria-label="Prévia do painel ADVEXON">
+          <div className="container">
+            <div className="hero-mockup">
+              <Dashboard />
+              <p className="mockup-caption"><ShieldCheck size={11} />Dados demonstrativos.</p>
+            </div>
+          </div>
+        </section>
 
         <Agents />
 
