@@ -19,6 +19,6 @@ export const askAthena = createServerFn({ method: 'POST' })
   .handler(async ({ data, context }): Promise<AthenaReply> => {
     const { data: sub, error } = await context.supabase.rpc('get_effective_subscription');
     if (error) return { ok: false, error: 'Não foi possível verificar sua assinatura.' };
-    if (!canUse(parseSubscription(sub), 'agent:athena')) return { ok: false, error: 'ATHENA está disponível nos planos GROWTH e PRO com acesso ativo.' };
+    if (!canUse(parseSubscription(sub), 'agent:athena')) return { ok: false, error: 'ATHENA está disponível nos planos START, GROWTH e PRO com acesso ativo.' };
     return meteredGemini(context.supabase, context.userId, data.requestId, 'A ATHENA', ATHENA_SYSTEM_PROMPT, data.messages, ATHENA_MODEL);
   });

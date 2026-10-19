@@ -17,14 +17,17 @@ export const statusLabel: Record<string, string> = {
 };
 
 export function hasPaidAccess(sub: SubscriptionRow, now = new Date()) {
-  if (!sub || sub.status !== 'active' || !sub.plan_id || !['start', 'growth', 'pro'].includes(sub.plan_id)) return false;
+  if (!sub || !sub.plan_id) return false;
+  // Canceled keeps access only until the already-paid period end (never open-ended).
+  const live = sub.status === 'active' || (sub.status === 'canceled' && !!sub.current_period_end);
+  if (!live || !sub.plan_id || !['start', 'growth', 'pro'].includes(sub.plan_id)) return false;
   if (sub.current_period_end && !(new Date(sub.current_period_end).getTime() > now.getTime())) return false;
   return true;
 }
 
 /** Paid features and the plans that include them (mirrors plan features in pricing config). */
 export const featurePlans = {
-  'agent:athena': ['growth', 'pro'],
+  'agent:athena': ['start', 'growth', 'pro'],
   'agent:ethan': ['growth', 'pro'],
   'agent:follow-up': ['growth', 'pro'],
   pipeline: ['growth', 'pro'],

@@ -34,3 +34,5 @@ Testes locais em `src/test/kiwify-webhook.test.ts`; regressão transacional do b
 - START anuncia IA básica que ainda não tem função disponível; PRO anuncia até seis agentes, mas apenas três chats existem. Não declarar entrega comercial completa.
 - O banco tem isolamento por usuário, não colaboração entre membros da mesma empresa. Limites de 3/10 usuários e empresa compartilhada ainda não estão implementados.
 - As regressões SQL com reversão foram tentadas, mas bloqueadas por permissões da sessão de teste; nenhuma compra real foi executada.
+## Atualização (cancelamento)
+Cancelamento mantém o status `canceled` sem alterar `current_period_end`; o acesso continua só até essa data já paga. Reembolso e atraso encerram o acesso. O formato real de datas da Kiwify continua não confirmado: sem payload oficial, token e IDs de produto, o webhook permanece desativado.
