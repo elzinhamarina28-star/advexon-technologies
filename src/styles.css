@@ -1475,11 +1475,11 @@ html, body, #root {
 /* ADVEXON hero: robust full-length lines, alternately drawn from both sides. */
 .hero-ribbon.intro-ribbon path.cycle-line {
   fill: none !important;
-  stroke: rgba(90, 190, 255, .58) !important;
+  stroke: rgba(90, 190, 255, .78) !important;
   stroke-width: 1.35 !important;
   stroke-linecap: round !important;
-  stroke-dasharray: 2200 !important;
-  stroke-dashoffset: 2200 !important;
+  stroke-dasharray: 1000 !important;
+  stroke-dashoffset: 1000 !important;
   opacity: .16;
   animation: advexon-alternating-line-cycle 36s linear infinite !important;
   will-change: stroke-dashoffset, opacity;
@@ -1520,12 +1520,12 @@ html, body, #root {
 .hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(14) { animation-delay: 32.5s !important; }
 
 @keyframes advexon-alternating-line-cycle {
-  0% { stroke-dashoffset: 2200; opacity: .03; }
+  0% { stroke-dashoffset: 1000; opacity: .08; }
   1% { opacity: .78; }
   10% { stroke-dashoffset: 0; opacity: .72; }
   12% { stroke-dashoffset: 0; opacity: .42; }
   15% { stroke-dashoffset: 0; opacity: 0; }
-  16%, 100% { stroke-dashoffset: 2200; opacity: .03; }
+  16%, 100% { stroke-dashoffset: 1000; opacity: .08; }
 }
 
 @media (prefers-reduced-motion: reduce) {
