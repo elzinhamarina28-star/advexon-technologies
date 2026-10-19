@@ -37,3 +37,30 @@ No Meta for Developers:
 
 ## Critério de conclusão
 Build verde não é prova de integração. Marcar como conectada somente após OAuth/API real, leitura/escrita controlada, refresh de token, revogação, isolamento entre contas e testes de falha. Não publicar nem alterar produção sem aprovação explícita.
+
+## Primeira implementação: Google Sheets OAuth
+A branch de testes inclui endpoints:
+- `POST /api/integrations/google/start`: exige token Supabase do usuário autenticado e cria estado OAuth de uso único com validade de 10 minutos.
+- `GET /api/integrations/google/callback`: valida assinatura/estado, troca o código no Google, criptografa os tokens com AES-GCM e guarda a conexão por usuário.
+- `GET /api/integrations/status`: devolve somente estado e rótulo das conexões do usuário autenticado, nunca tokens.
+
+Antes de testar, aplicar a migração `drizzle/migrations/0004_integration_connections.sql` no projeto Supabase de desenvolvimento. Configure somente no ambiente de servidor:
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `GOOGLE_REDIRECT_URI` — deve ser exatamente `https://SEU-DOMINIO/api/integrations/google/callback` e estar cadastrado nas credenciais OAuth do Google
+- `INTEGRATION_OAUTH_STATE_SECRET` — segredo aleatório forte, exclusivo do servidor
+- `INTEGRATION_TOKEN_ENCRYPTION_KEY` — base64 de 32 bytes aleatórios, exclusivo do servidor
+- `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` já precisam estar configurados no ambiente servidor
+
+Gerar segredos localmente sem os compartilhar: em Node.js, `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"`. Gere valores separados para o segredo OAuth e a chave de criptografia. Não colocar nenhum desses valores em `VITE_*`, arquivos versionados, frontend ou mensagens.
+
+O OAuth solicita acesso a planilhas; a autorização real depende de cadastrar o redirect URI correto, configurar a tela de consentimento Google e adicionar a conta como usuário de teste enquanto o app não for publicado. O callback usa o domínio atual e exige HTTPS em produção.
+
+## Checklist antes de declarar pronto
+- [ ] Aplicar migração em Supabase de desenvolvimento e verificar permissões/RLS.
+- [ ] Configurar variáveis do servidor e credenciais OAuth do Google.
+- [ ] Build e testes de integração aprovados.
+- [ ] Autorizar uma conta Google de teste e confirmar que o rótulo aparece na Central.
+- [ ] Confirmar que tokens não aparecem em respostas, logs ou no navegador.
+- [ ] Confirmar isolamento: a segunda conta de teste não consegue ver a conexão da primeira.
+- [ ] Testar desconexão/revogação e renovação de token antes de liberar a clientes.
