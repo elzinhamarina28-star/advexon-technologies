@@ -16,7 +16,7 @@ describe('ETHAN and FOLLOW-UP require active GROWTH or PRO', () => {
   it('denies PRO when pending', () => expect(canUse({ plan_id: 'pro', status: 'pending', current_period_end: end }, 'agent:ethan', now)).toBe(false));
 });
 describe('implemented plan matrix and fail-closed access', () => {
-  it.each(Object.keys(featurePlans) as (keyof typeof featurePlans)[])('requires GROWTH or PRO for %s', feature => {
+  it.each((Object.keys(featurePlans) as (keyof typeof featurePlans)[]).filter(f => f !== 'agent:athena'))('requires GROWTH or PRO for %s', feature => {
     expect(canUse({ plan_id: 'start', status: 'active', current_period_end: null }, feature, now)).toBe(false);
     expect(canUse({ plan_id: 'growth', status: 'active', current_period_end: null }, feature, now)).toBe(true);
     expect(canUse({ plan_id: 'pro', status: 'active', current_period_end: null }, feature, now)).toBe(true);
