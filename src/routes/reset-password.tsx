@@ -19,8 +19,10 @@ function ResetPage() {
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<{ type: 'error' | 'ok'; text: string } | null>(null);
   useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange((event, session) => { if (event === 'PASSWORD_RECOVERY' || session) setReady(true); });
-    supabase.auth.getSession().then(({ data: d, error }) => { if (error) setMsg({ type: 'error', text: authErrorMessage(error) }); else if (d.session) setReady(true); }).catch(error => setMsg({ type: 'error', text: authErrorMessage(error) }));
+    const { data } = supabase.auth.onAuthStateChange((event, session) => { if (event === 'PASSWORD_RECOVERY' && session) setReady(true); });
+    // Only a recovery link opens the form; an ordinary signed-in session does not.
+    const recovering = /type=recovery/.test(window.location.hash + window.location.search);
+    if (recovering) supabase.auth.getSession().then(({ data: d, error }) => { if (error) setMsg({ type: 'error', text: authErrorMessage(error) }); else if (d.session) setReady(true); }).catch(error => setMsg({ type: 'error', text: authErrorMessage(error) }));
     return () => data.subscription.unsubscribe();
   }, []);
   async function submit(e: React.FormEvent<HTMLFormElement>) {
@@ -33,7 +35,7 @@ function ResetPage() {
     try {
       const { error } = await supabase.auth.updateUser({ password });
       if (error) throw error;
-      setMsg({ type: 'ok', text: 'Senha redefinida. Abrindo seu painel…' }); setTimeout(() => navigate({ to: '/app' }), 1200);
+      setMsg({ type: 'ok', text: 'Senha redefinida. Abrindo seu painel…' }); setReady(false); setTimeout(() => navigate({ to: '/app' }), 1200);
     } catch (error) { setMsg({ type: 'error', text: authErrorMessage(error) }); }
     finally { setBusy(false); }
   }
