@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowUpRight, CheckCircle2, CircleDashed, Cloud, FileSpreadsheet, Instagram, Mail, MessageCircle, ShieldCheck } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -23,8 +23,23 @@ const connectors = [
 const labels: Record<string, string> = { auth: 'Contas', database: 'Dados', checkout: 'Pagamentos (Kiwify)', whatsapp: 'WhatsApp Business', ai: 'IA (Gemini)', sheets: 'Google Sheets', gmail: 'Gmail', excel: 'Excel', instagram: 'Instagram' };
 
 function Page() {
-  const profile = useProfile(); const qc = useQueryClient(); const [msg, setMsg] = useState(''); const [connecting, setConnecting] = useState(false); const [expanded, setExpanded] = useState<string | null>('whatsapp');
+  const profile = useProfile(); const qc = useQueryClient(); const [msg, setMsg] = useState(''); const [connecting, setConnecting] = useState(false); const [connectionMap, setConnectionMap] = useState<Record<string, { status: string; account_label?: string }>>({}); const [expanded, setExpanded] = useState<string | null>('whatsapp');
 
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      const { data } = await supabase.auth.getSession();
+      const token = data.session?.access_token;
+      if (!token) return;
+      try {
+        const response = await fetch('/api/integrations/status', { headers: { authorization: 'Bearer ' + token }, cache: 'no-store' });
+        if (!response.ok) return;
+        const result = await response.json() as { connections?: Array<{ provider: string; status: string; account_label?: string }> };
+        if (alive) setConnectionMap(Object.fromEntries((result.connections ?? []).map(item => [item.provider, item])));
+      } catch { /* Keep connectors unconnected if status is unavailable. */ }
+    })();
+    return () => { alive = false; };
+  }, []);
   async function connectGoogleSheets() {
     setMsg('');
     setConnecting(true);
@@ -64,22 +79,22 @@ function Page() {
   return <>
     <div className="flex flex-wrap items-start justify-between gap-3">
       <div><h1 className="section-title">Central de integrações</h1><p className="cd-small">Conecte as ferramentas do seu negócio para reunir atendimento, dados e tarefas na ADVEXON.</p></div>
-      <span className="cd-tag">Conexões reais ainda não ativadas</span>
+      <span className="cd-tag">Conexões autorizadas por conta</span>
     </div>
     <div className="cd-card app-gap">
-      <div className="flex items-start gap-3"><ShieldCheck size={24} /><div><h2>Suas contas, suas permissões</h2><p className="cd-small">Nenhum aplicativo aparece como conectado até que a autorização oficial seja implementada e testada. Não cole senhas ou tokens nesta tela.</p></div></div>
+      <div className="flex items-start gap-3"><ShieldCheck size={24} /><div><h2>Suas contas, suas permissões</h2><p className="cd-small">As conexões aparecem como ativas somente depois da autorização oficial. Tokens são protegidos no servidor; nunca cole senhas ou chaves nesta tela.</p></div></div>
     </div>
     <div className="cd-grid app-gap">
       {connectors.map(item => {
-        const Icon = item.icon; const status = integrations[item.id as keyof typeof integrations];
+        const Icon = item.icon; const providerKey = item.id === 'sheets' ? 'google_sheets' : item.id; const connection = connectionMap[providerKey]; const connected = connection?.status === 'connected'; const status = integrations[item.id as keyof typeof integrations];
         const isExpanded = expanded === item.id;
         return <article className="cd-card" key={item.id}>
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-start gap-3"><div className="cd-integration-icon"><Icon size={22} /></div><div><h2>{item.name}</h2><p className="cd-small">{item.group}</p></div></div>
-            <span className="cd-tag"><CircleDashed size={13} /> Não conectado</span>
+            <span className="cd-tag">{connected ? <><CheckCircle2 size={13}/> Conectado</> : <><CircleDashed size={13}/> Não conectado</>}</span>
           </div>
           <p className="app-gap">{item.description}</p>
-          <p className="cd-small">{item.phase}</p>
+          <p className="cd-small">{connected ? (connection.account_label ?? 'Conta conectada') : item.phase}</p>
           <div className="flex flex-wrap gap-2 app-gap">{item.id === 'sheets' && <Button variant="default" disabled={connecting} onClick={connectGoogleSheets}>{connecting ? 'Conectando…' : 'Conectar Google Sheets'}</Button>}<Button variant="outline" onClick={() => setExpanded(isExpanded ? null : item.id)}>{isExpanded ? 'Ocultar requisitos' : 'Ver requisitos'} <ArrowUpRight size={15}/></Button></div>
           {isExpanded && <div className="app-gap"><b className="text-sm">Para ativar esta integração</b><ul className="cd-list">{item.needs.map(need => <li key={need}><span>{need}</span></li>)}</ul><p className="cd-small">Estado técnico: {status?.note ?? 'Planejada; a conexão oficial ainda precisa ser implementada.'}</p></div>}
         </article>;
