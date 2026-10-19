@@ -1409,3 +1409,41 @@ html, body, #root {
 @media (prefers-reduced-motion: reduce) {
  .hero-ribbon.intro-ribbon path { animation:none!important; stroke-dashoffset:0!important; opacity:.1; }
 }
+
+/* Hero background curves: draw each complete curve, hold briefly, fade out, then redraw. */
+.hero-ribbon.intro-ribbon path {
+  stroke-linecap: round;
+}
+.hero-ribbon.intro-ribbon path:not(.thin) {
+  stroke: url(#hr);
+  stroke-width: 1.5;
+  stroke-dasharray: 1900 1900;
+  stroke-dashoffset: 1900;
+  opacity: 0;
+  animation: advexon-curve-cycle 8s ease-in-out infinite;
+}
+.hero-ribbon.intro-ribbon path:not(.thin):nth-of-type(2) { animation-delay: 1.2s; }
+.hero-ribbon.intro-ribbon path:not(.thin):nth-of-type(3) { animation-delay: 2.4s; }
+.hero-ribbon.intro-ribbon path:not(.thin):nth-of-type(4) { animation-delay: 3.6s; }
+.hero-ribbon.intro-ribbon path:not(.thin):nth-of-type(5) { animation-delay: 4.8s; }
+.hero-ribbon.intro-ribbon path:not(.thin):nth-of-type(6) { animation-delay: 6s; }
+.hero-ribbon.intro-ribbon path.thin {
+  stroke-width: 1;
+  stroke-dasharray: 1900 1900;
+  stroke-dashoffset: 1900;
+  opacity: 0;
+  animation: advexon-curve-cycle 10s ease-in-out infinite;
+}
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(2n) { animation-delay: 2s; }
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(3n) { animation-delay: 4s; }
+@keyframes advexon-curve-cycle {
+  0% { stroke-dashoffset: 1900; opacity: 0; }
+  8% { opacity: .14; }
+  42% { stroke-dashoffset: 0; opacity: .14; }
+  65% { stroke-dashoffset: 0; opacity: .14; }
+  82% { opacity: 0; }
+  100% { stroke-dashoffset: -1900; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+ .hero-ribbon.intro-ribbon path { animation:none!important; stroke-dashoffset:0!important; opacity:.1; }
+}
