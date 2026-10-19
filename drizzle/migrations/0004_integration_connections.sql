@@ -1,4 +1,4 @@
--- OAuth connection registry. Secrets are encrypted by server code; clients never receive token columns.
+-- Google Sheets OAuth connection storage. No direct access from browser roles.
 CREATE TABLE IF NOT EXISTS public.integration_connections (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -15,12 +15,11 @@ CREATE TABLE IF NOT EXISTS public.integration_connections (
   connected_at timestamptz,
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now(),
-  UNIQUE (user_id, provider)
+  CONSTRAINT integration_connections_user_provider_unique UNIQUE (user_id, provider)
 );
 ALTER TABLE public.integration_connections ENABLE ROW LEVEL SECURITY;
 REVOKE ALL ON public.integration_connections FROM anon, authenticated;
 GRANT ALL ON public.integration_connections TO service_role;
--- No user-facing policies: all access goes through authenticated server handlers using service role.
 
 CREATE TABLE IF NOT EXISTS public.integration_oauth_states (
   nonce text PRIMARY KEY,
@@ -32,4 +31,5 @@ CREATE TABLE IF NOT EXISTS public.integration_oauth_states (
 ALTER TABLE public.integration_oauth_states ENABLE ROW LEVEL SECURITY;
 REVOKE ALL ON public.integration_oauth_states FROM anon, authenticated;
 GRANT ALL ON public.integration_oauth_states TO service_role;
-CREATE INDEX IF NOT EXISTS integration_oauth_states_expiry_idx ON public.integration_oauth_states (expires_at);
+CREATE INDEX IF NOT EXISTS integration_oauth_states_expiry_idx
+  ON public.integration_oauth_states (expires_at);
