@@ -1447,3 +1447,27 @@ html, body, #root {
 @media (prefers-reduced-motion: reduce) {
  .hero-ribbon.intro-ribbon path { animation:none!important; stroke-dashoffset:0!important; opacity:.1; }
 }
+
+/* Stagger hero curves so only a small number draw at once. */
+.hero-ribbon.intro-ribbon path {
+  animation-duration: 18s !important;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+.hero-ribbon.intro-ribbon path:nth-of-type(6n + 1) { animation-delay: 0s !important; }
+.hero-ribbon.intro-ribbon path:nth-of-type(6n + 2) { animation-delay: 3s !important; }
+.hero-ribbon.intro-ribbon path:nth-of-type(6n + 3) { animation-delay: 6s !important; }
+.hero-ribbon.intro-ribbon path:nth-of-type(6n + 4) { animation-delay: 9s !important; }
+.hero-ribbon.intro-ribbon path:nth-of-type(6n + 5) { animation-delay: 12s !important; }
+.hero-ribbon.intro-ribbon path:nth-of-type(6n) { animation-delay: 15s !important; }
+@keyframes advexon-curve-cycle {
+  0% { stroke-dashoffset: 1900; opacity: 0; }
+  6% { opacity: .12; }
+  24% { stroke-dashoffset: 0; opacity: .12; }
+  31% { stroke-dashoffset: 0; opacity: .12; }
+  39% { opacity: 0; }
+  100% { stroke-dashoffset: -1900; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+ .hero-ribbon.intro-ribbon path { animation:none!important; stroke-dashoffset:0!important; opacity:.1; }
+}
