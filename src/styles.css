@@ -1762,3 +1762,17 @@ html, body, #root {
     transform: none !important;
   }
 }
+
+/* ADVEXON integration center */
+.cd-integration-icon {
+  display: flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(86, 190, 255, .28);
+  border-radius: .9rem;
+  color: #55d9ff;
+  background: linear-gradient(145deg, rgba(52, 115, 210, .18), rgba(110, 66, 190, .12));
+}
