@@ -1539,3 +1539,45 @@ html, body, #root {
   }
 }
 
+
+/* Reliable visibility fallback: keep every hero curve visible, then softly pulse. */
+.hero-ribbon.intro-ribbon {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 0 auto 0 !important;
+  width: 100% !important;
+  height: 900px !important;
+  min-height: 900px !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+  opacity: 1 !important;
+  z-index: 1 !important;
+}
+.hero-ribbon.intro-ribbon path.cycle-line {
+  fill: none !important;
+  stroke: #22D3EE !important;
+  stroke-width: 1.6px !important;
+  stroke-linecap: round !important;
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+  opacity: .24 !important;
+  animation: advexon-visible-curve-pulse 7s ease-in-out infinite !important;
+  vector-effect: non-scaling-stroke;
+}
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(3n + 1) { animation-delay: -2s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(3n + 2) { animation-delay: -4s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line.cycle-right { transform: none !important; }
+.hero > .container { position: relative; z-index: 2; }
+@keyframes advexon-visible-curve-pulse {
+  0%, 100% { opacity: .12; }
+  50% { opacity: .34; }
+}
+@media (max-width: 800px) {
+  .hero-ribbon.intro-ribbon { height: 720px !important; min-height: 720px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-ribbon.intro-ribbon path.cycle-line {
+    animation: none !important;
+    opacity: .24 !important;
+  }
+}
