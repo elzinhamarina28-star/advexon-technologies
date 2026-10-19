@@ -1,3 +1,5 @@
+- [x] Owner decisions applied: START basic AI (ATHENA, 100/mês, server-side), "Em breve" on unimplemented GROWTH/PRO items, canceled keeps access until paid period end, stale AI reservations expire after 2 min, reset form only via recovery link. 97 local tests pass.
+- [ ] Kiwify date/payload format and cancellation flow (blocked: no real payload, token or product IDs).
 - [x] Add missing official support email locally, PWA manifest/icons and network-only offline notice; improve real dashboard retry/mobile/focus. Public browser checks and 91 local tests passed; no publication.
 - [ ] Verify PWA installation/offline on served production assets (blocked: preview offline navigation was blank; no publication authorized). Do not advertise offline functionality.
 - [ ] Honest integration availability: Sheets/Gmail/WhatsApp/Excel/Instagram need credentials and approvals; GitHub Actions pending outside environment.
