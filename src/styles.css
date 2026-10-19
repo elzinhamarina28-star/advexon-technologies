@@ -1,11 +1,73 @@
 @import './features/shared/brand-tokens.css';
 
-/* existing file retained — tokens imported above */
-/* Tailwind and theme definitions remain unchanged below */
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
 @custom-variant dark (&:is(.dark *));
 @theme inline {
- /* rest of file left as-is (no other content moved) */
+ --font-sans: 'Poppins', sans-serif;
+ --color-background: var(--background); --color-foreground: var(--foreground);
+ --color-card: var(--card); --color-card-foreground: var(--foreground);
+ --color-popover: var(--card); --color-popover-foreground: var(--foreground);
+ --color-primary: var(--primary); --color-primary-foreground: var(--primary-foreground);
+ --color-secondary: var(--secondary); --color-secondary-foreground: var(--foreground);
+ --color-muted: var(--muted); --color-muted-foreground: var(--muted-foreground);
+ --color-accent: var(--accent); --color-accent-foreground: var(--foreground);
+ --color-destructive: var(--destructive); --color-destructive-foreground: var(--primary-foreground);
+ --color-border: var(--border); --color-input: var(--border); --color-ring: var(--primary);
+ --color-cyan: var(--cyan); --color-violet: var(--violet); --color-success: var(--success);
+ --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px; --radius-xl: 24px;
 }
+:root {
+ --background: #080D19; --foreground: #F4F6FA;
+ --card: oklch(0.275 0.028 270); --primary: #2979FF; --primary-foreground: oklch(1 0 0);
+ --secondary: oklch(0.32 0.035 270); --muted: oklch(0.26 0.02 270); --muted-foreground: oklch(0.78 0.035 267);
+ --accent: oklch(0.36 0.04 266); --border: oklch(0.64 0.035 267 / 22%); --destructive: oklch(0.66 0.21 23);
+ --cyan: #22D3EE; --violet: #8B5CF6; --magenta: #D946EF; --success: oklch(0.85 0.19 125);
+ --surface-band: oklch(0.235 0.02 270); --surface-raised: oklch(0.315 0.027 270);
+ --surface-product: oklch(0.255 0.03 267); --surface-inset: oklch(0.215 0.026 267);
+ --card-shadow: 0 24px 48px -28px oklch(0.12 0.018 270 / 40%), inset 0 1px 0 oklch(1 0 0 / 4%);
+ --cta-shadow: 0 8px 24px -10px color-mix(in srgb, var(--primary) 50%, transparent), inset 0 1px 0 oklch(1 0 0 / 18%);
+ --geometry-line: color-mix(in srgb, var(--muted-foreground) 12%, transparent);
+ --geometry-surface: linear-gradient(120deg, color-mix(in srgb, var(--violet) 16%, transparent), color-mix(in srgb, var(--primary) 10%, transparent) 55%, color-mix(in srgb, var(--cyan) 9%, transparent) 88%);
+ --section-edge: linear-gradient(90deg, transparent, var(--geometry-line) 25%, var(--geometry-line) 75%, transparent);
+ --hero-surface: linear-gradient(155deg, var(--surface-raised), var(--surface-band) 45%, var(--background) 85%);
+ --editorial: #F4F6FA; --ink: oklch(0.2 0.041 266); --editorial-muted: oklch(0.5 0.024 263);
+ --brand-gradient: linear-gradient(110deg, var(--magenta), var(--violet) 30%, var(--primary) 62%, var(--cyan));
+ --font-editorial: 'Instrument Serif', Georgia, serif; --font-display: 'Instrument Sans', 'Poppins', sans-serif;
+ --line: color-mix(in srgb, var(--muted-foreground) 20%, transparent);
+ --hero-light: radial-gradient(ellipse at 50% 54%, oklch(0.33 0.13 275 / 22%), transparent 62%);
+ --card-light: linear-gradient(130deg, oklch(0.25 0.075 275 / 35%), transparent 70%);
+ --mockup-shadow: 0 25px 90px oklch(0.08 0.03 270 / 50%), 0 0 60px oklch(0.4 0.16 270 / 10%);
+ --header-bg: color-mix(in srgb, var(--background) 92%, transparent);
+ --space-section: 168px;
+}
+* { border-color: var(--border); box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-sans); font-size: 14px; line-height: 1.7; letter-spacing: 0; }
+button, a, input { -webkit-tap-highlight-color: transparent; }
+button, input { font-family: inherit; }
+::selection { background: var(--primary); color: var(--primary-foreground); }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 5px; }
+a { text-decoration: none; }
+svg { flex-shrink: 0; }
+h1,h2,h3,p { margin: 0; letter-spacing: 0; }
+.container { width: min(1160px, calc(100% - 64px)); margin-inline: auto; }
+.section { padding-block: var(--space-section); scroll-margin-top: 70px; }
+.eyebrow { display:flex; gap:9px; align-items:center; color:var(--cyan); font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:1.8px; margin-bottom:20px; }
+.eyebrow.center { justify-content:center; }
+.eyebrow .dot { width:6px; height:6px; background:var(--cyan); border-radius:50%; }
+.section-title { font-size:40px; font-weight:600; line-height:1.25; }
+.section-copy { color:var(--muted-foreground); font-size:15px; line-height:1.9; max-width:540px; margin-top:20px; }
+.center-copy { margin-inline:auto; }
+.gradient-text { background:var(--brand-gradient); background-clip:text; -webkit-text-fill-color:transparent; }
+.brand { display:inline-flex; align-items:center; flex-shrink:0; vertical-align:middle; }
+.brand-image { display:block; width:100%; height:auto; object-fit:contain; }
+.brand-compact { width:60px; }
+.brand-full { width:240px; max-width:100%; background:var(--editorial); border-radius:6px; }
+.header { height:84px; border-bottom:1px solid var(--border); position:sticky; top:0; z-index:50; background:var(--header-bg); backdrop-filter:blur(18px); }
+.header-inner { display:flex; align-items:center; justify-content:space-between; gap:24px; height:100%; }
+.desktop-nav { display:flex; gap:27px; align-items:center; }
+.nav-link { font-size:12px; color:var(--muted-foreground); transition:color .2s; }
+.nav-link:hover { color:var(--foreground); }
+.nexa-button { background:var(--brand-gradient); color:var(--primary-foreground); border:1px solid oklch(0.72 0.11 270 / 45%); border-radius:9px; box-shadow:0 4px 18px oklch(0.42 0.2 270 / 17%); t[...]
