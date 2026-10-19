@@ -1104,3 +1104,44 @@ h1,h2,h3,p { margin: 0; letter-spacing: 0; }
 @media(max-width:850px) { .auth-layout { grid-template-columns:1fr; gap:22px; max-width:560px; padding-top:20px; }.auth-story { min-height:0; padding:30px 22px; }.auth-story:before { inset:0; }.auth-orbit { width:92px; height:92px; margin-bottom:22px; }.auth-orbit-core { width:58px; height:58px; border-radius:18px; }.auth-story h1 { font-size:45px; margin:16px 0; }.auth-story-copy { font-size:13px; }.auth-story-foot { margin-top:25px; }.auth-card { padding:24px; } }
 @media(max-width:480px) { .auth-layout { width:calc(100% - 28px); }.auth-story { padding:25px 16px; }.auth-story h1 { font-size:39px; }.auth-card { padding:21px 18px; }.auth-card h2 { font-size:21px; }.auth-form-options { align-items:flex-start; flex-direction:column; gap:7px; } }
 @media(prefers-reduced-motion:reduce) { .auth-orbit:before,.auth-orbit:after { animation:none; } }
+
+
+/* Cinematic first-load sequence: draw the background geometry, then reveal the site. */
+.hero-ribbon.intro-ribbon path {
+  stroke-dasharray: 2200;
+  stroke-dashoffset: 2200;
+  animation: advexon-line-draw 1.65s cubic-bezier(.45,0,.25,1) forwards;
+}
+.hero-ribbon.intro-ribbon path:nth-of-type(2) { animation-delay: .16s; }
+.hero-ribbon.intro-ribbon path:nth-of-type(3) { animation-delay: .3s; }
+.hero-ribbon.intro-ribbon path:nth-of-type(4) { animation-delay: .42s; }
+.hero-ribbon.intro-ribbon circle { opacity: 0; animation: advexon-node-appear .5s ease-out 1.25s forwards; }
+.header.intro-header { opacity:0; transform:translateY(-16px); animation:advexon-header-enter .72s cubic-bezier(.2,.75,.2,1) .62s forwards; }
+.hero .intro-label,
+.hero .intro-title,
+.hero .intro-support,
+.hero .intro-sub,
+.hero .intro-actions,
+.hero .intro-microcopy,
+.hero .intro-mockup {
+  opacity:0;
+  animation:advexon-content-enter .8s cubic-bezier(.2,.75,.2,1) forwards;
+}
+.hero .intro-label { animation-delay:.92s; }
+.hero .intro-title { animation-delay:1.12s; }
+.hero .intro-support { animation-delay:1.34s; }
+.hero .intro-sub { animation-delay:1.49s; }
+.hero .intro-actions { animation-delay:1.65s; }
+.hero .intro-microcopy { animation-delay:1.78s; }
+.hero .intro-mockup { animation-delay:1.92s; }
+@keyframes advexon-line-draw { to { stroke-dashoffset:0; } }
+@keyframes advexon-node-appear { to { opacity:.75; } }
+@keyframes advexon-header-enter { to { opacity:1; transform:translateY(0); } }
+@keyframes advexon-content-enter { from { opacity:0; transform:translateY(22px); filter:blur(5px); } to { opacity:1; transform:translateY(0); filter:blur(0); } }
+@media (prefers-reduced-motion:reduce) {
+ .hero-ribbon.intro-ribbon path,.hero-ribbon.intro-ribbon circle,.header.intro-header,
+ .hero .intro-label,.hero .intro-title,.hero .intro-support,.hero .intro-sub,
+ .hero .intro-actions,.hero .intro-microcopy,.hero .intro-mockup {
+   animation:none!important; opacity:1!important; transform:none!important; filter:none!important; stroke-dashoffset:0!important;
+ }
+}
