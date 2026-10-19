@@ -1689,3 +1689,39 @@ html, body, #root {
     transform: none !important;
   }
 }
+
+/* Final robust hero-line animation: visible baseline plus a traveling draw cycle. */
+.hero-ribbon.intro-ribbon path.cycle-line {
+  stroke: rgba(74, 190, 255, .9) !important;
+  stroke-width: 1.5 !important;
+  fill: none !important;
+  stroke-linecap: round !important;
+  stroke-dasharray: 1000 !important;
+  stroke-dashoffset: 1000 !important;
+  opacity: .34 !important;
+  animation: advexon-lines-from-edges 12s ease-in-out infinite !important;
+}
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(2n) { animation-delay: -6s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line.cycle-right {
+  transform-box: view-box !important;
+  transform-origin: center !important;
+  transform: scaleX(-1) !important;
+}
+.hero-ribbon.intro-ribbon path.cycle-line.cycle-left { transform: none !important; }
+@keyframes advexon-lines-from-edges {
+  0% { stroke-dashoffset: 1000; opacity: 0; }
+  4% { opacity: .48; }
+  42% { stroke-dashoffset: 0; opacity: .48; }
+  56% { stroke-dashoffset: 0; opacity: .3; }
+  68% { stroke-dashoffset: 0; opacity: 0; }
+  69%, 100% { stroke-dashoffset: 1000; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-ribbon.intro-ribbon path.cycle-line {
+    animation: none !important;
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: .24 !important;
+    transform: none !important;
+  }
+}
