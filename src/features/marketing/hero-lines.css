@@ -1,0 +1,53 @@
+/* Hero decorative animated lines — lightweight, accessible, and prefers-reduced-motion aware */
+.hero-ribbon { pointer-events: none; overflow: visible; }
+.hero-ribbon path { fill: none; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+
+/* sensible defaults when SVG doesn't provide explicit stroke */
+.hero-ribbon .cycle-line { stroke: var(--accent-cyan, var(--cyan)); stroke-opacity: 0.95; mix-blend-mode: screen; }
+.hero-ribbon .thin { stroke: color-mix(in srgb, var(--line) 45%, transparent); stroke-width: 1; }
+
+/* drawing technique using normalized pathLength="1" on the SVG paths */
+.hero-ribbon .cycle-line {
+  stroke-dasharray: 1; /* matches pathLength="1" */
+  stroke-dashoffset: 1; /* hidden at start */
+  opacity: 0; /* invisible until animated */
+  will-change: stroke-dashoffset, opacity;
+}
+
+@keyframes advexon-draw {
+  to { stroke-dashoffset: 0; opacity: 1; }
+}
+
+@keyframes advexon-fade {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* when an element has .is-animating it will be drawn then faded */
+.hero-ribbon .cycle-line.is-animating {
+  animation: advexon-draw var(--draw-duration, 1400ms) ease-in-out forwards,
+             advexon-fade var(--fade-duration, 900ms) ease-in-out var(--fade-delay, 1400ms) forwards;
+}
+
+/* limit visual intensity: only a few curves at once; JS toggles .is-animating */
+.hero-ribbon .cycle-line:not(.is-animating) { opacity: 0; }
+
+/* ensure nothing blocks pointer events over content */
+.hero-ribbon { pointer-events: none; }
+.hero-ribbon * { pointer-events: none; }
+
+/* prefers-reduced-motion: show subtle static lines instead of full animation */
+@media (prefers-reduced-motion: reduce) {
+  .hero-ribbon .cycle-line { animation: none !important; stroke-dashoffset: 0 !important; opacity: .45 !important; }
+}
+
+/* responsive stroke widths */
+@media (min-width: 1100px) {
+  .hero-ribbon .cycle-line { stroke-width: 1.5; }
+}
+@media (max-width: 1099px) {
+  .hero-ribbon .cycle-line { stroke-width: 1.2; }
+}
+@media (max-width: 600px) {
+  .hero-ribbon .cycle-line { stroke-width: 1; opacity: .85; }
+}
