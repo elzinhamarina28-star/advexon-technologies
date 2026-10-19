@@ -1188,3 +1188,38 @@ body {
 @media (prefers-reduced-motion:reduce) {
  .animated-chart .chart-grid,.animated-chart .chart-line,.animated-chart .chart-line-secondary,.animated-chart .chart-area { animation:none!important; }
 }
+
+/* Footer motion: quiet light sweep, staggered links, no visual overload. */
+.footer::after {
+  background: linear-gradient(90deg, transparent, var(--violet), var(--cyan), transparent);
+  background-size: 220% 100%;
+  animation: advexon-footer-light-sweep 5.5s ease-in-out infinite;
+}
+.footer .brand-full {
+  transition: filter .35s ease, transform .35s ease;
+}
+.footer .brand-full:hover {
+  filter: drop-shadow(0 0 22px color-mix(in srgb, var(--cyan) 30%, transparent));
+  transform: translateY(-2px);
+}
+.footer .footer-links .nav-link {
+  transition: color .25s ease, transform .25s ease;
+}
+.footer .footer-links .nav-link:hover {
+  transform: translateY(-3px);
+}
+.footer .footer-bottom {
+  transition: border-color .4s ease;
+}
+.footer .footer-bottom:hover {
+  border-top-color: color-mix(in srgb, var(--cyan) 38%, var(--line));
+}
+@keyframes advexon-footer-light-sweep {
+  0%, 100% { background-position: 100% 0; opacity: .35; }
+  50% { background-position: 0 0; opacity: .85; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer::after { animation: none; }
+  .footer .brand-full, .footer .footer-links .nav-link { transition: none; }
+  .footer .brand-full:hover, .footer .footer-links .nav-link:hover { transform: none; }
+}
