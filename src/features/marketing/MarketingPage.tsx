@@ -75,24 +75,7 @@ export function MarketingPage() {
           <span><ShieldCheck size={12} /> Fluxo seguro</span>
         </div>
 
-        <section id="equipe" className="section">
-          <div className="container">
-            <div className="agents-heading">
-              <div>
-                <div className="eyebrow">
-                  <span className="dot" />
-                  Sua equipe IA em ação
-                </div>
-                <h2 className="section-title">Agentes pensados para a operação real.</h2>
-              </div>
-              <p className="section-copy">
-                Cada agente da ADVEXON é desenhado para reduzir ruído, acelerar decisões e manter a operação em movimento com clareza.
-              </p>
-            </div>
-
-            <Agents />
-          </div>
-        </section>
+        <Agents />
 
         <section id="como-funciona" className="section editorial">
           <div className="container">
