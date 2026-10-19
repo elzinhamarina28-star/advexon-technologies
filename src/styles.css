@@ -1725,3 +1725,40 @@ html, body, #root {
     transform: none !important;
   }
 }
+
+/* Use normalized SVG path lengths so the dash animation always draws the entire curve. */
+.hero-ribbon.intro-ribbon path.cycle-line {
+  stroke: rgba(74, 190, 255, .9) !important;
+  stroke-width: 1.5 !important;
+  fill: none !important;
+  stroke-linecap: round !important;
+  stroke-dasharray: 1 1 !important;
+  stroke-dashoffset: 1 !important;
+  opacity: 0 !important;
+  animation: advexon-full-curve-cycle 14s ease-in-out infinite !important;
+  vector-effect: non-scaling-stroke;
+}
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(2n) { animation-delay: -7s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line.cycle-right {
+  transform-box: view-box !important;
+  transform-origin: center !important;
+  transform: scaleX(-1) !important;
+}
+.hero-ribbon.intro-ribbon path.cycle-line.cycle-left { transform: none !important; }
+@keyframes advexon-full-curve-cycle {
+  0% { stroke-dashoffset: 1; opacity: 0; }
+  5% { opacity: .58; }
+  42% { stroke-dashoffset: 0; opacity: .58; }
+  54% { stroke-dashoffset: 0; opacity: .4; }
+  65% { stroke-dashoffset: 0; opacity: 0; }
+  66%, 100% { stroke-dashoffset: 1; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-ribbon.intro-ribbon path.cycle-line {
+    animation: none !important;
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: .24 !important;
+    transform: none !important;
+  }
+}
