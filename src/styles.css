@@ -1037,3 +1037,35 @@ h1,h2,h3,p { margin: 0; letter-spacing: 0; }
  .ops-app .section-title { font-size:28px; }
  .ops-app .cd-card { padding:20px; }
 }
+
+
+/* Scroll-triggered reveal — keeps the original ADVEXON homepage layout intact. */
+.scroll-reveal {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  filter: blur(3px);
+  transition:
+    opacity 720ms cubic-bezier(.2,.7,.2,1),
+    transform 720ms cubic-bezier(.2,.7,.2,1),
+    filter 720ms cubic-bezier(.2,.7,.2,1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
+}
+.hero .hero-label.scroll-reveal { transform: translate3d(0, 16px, 0); }
+.hero .hero-label.scroll-reveal.is-visible { transform: translate3d(0, 0, 0); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .scroll-reveal,
+  .scroll-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+    will-change: auto;
+  }
+}
