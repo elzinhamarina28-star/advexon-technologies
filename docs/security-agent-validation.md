@@ -11,10 +11,10 @@
 
 ## Validação automatizada
 
-GitHub Actions — [execução de validação](https://github.com/elzinhamarina28-star/advexon-technologies/actions/runs/39452383811):
+GitHub Actions — [execução de validação](https://github.com/elzinhamarina28-star/advexon-technologies/actions/runs/39453352896):
 
 - Build da aplicação: aprovado.
-- 170 testes aprovados em 20 arquivos.
+- 171 testes aprovados em 20 arquivos.
 - Cobertura adicionada para matriz de permissões por plano, vigência ausente/expirada, conta interna de teste, autorização nos handlers dos agentes, validação de entradas, configuração de modelo e tratamento de falhas HTTP do adaptador Gemini.
 
 ## Limites desta validação
