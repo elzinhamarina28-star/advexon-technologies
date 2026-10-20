@@ -35,6 +35,7 @@ import { Route as ApiIntegrationsGoogleCallbackRouteImport } from './routes/api/
 import { Route as ApiIntegrationsGoogleStartRouteImport } from './routes/api/integrations/google/start'
 import { Route as ApiIntegrationsWhatsappWebhookRouteImport } from './routes/api/integrations/whatsapp/webhook'
 import { Route as ApiPublicWebhooksKiwifyRouteImport } from './routes/api/public/webhooks/kiwify'
+import { Route as ApiPublicIntegrationsWhatsappWebhookRouteImport } from './routes/api/public/integrations/whatsapp/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -173,6 +174,12 @@ const ApiPublicWebhooksKiwifyRoute = ApiPublicWebhooksKiwifyRouteImport.update({
   path: '/api/public/webhooks/kiwify',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicIntegrationsWhatsappWebhookRoute =
+  ApiPublicIntegrationsWhatsappWebhookRouteImport.update({
+    id: '/api/public/integrations/whatsapp/webhook',
+    path: '/api/public/integrations/whatsapp/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -200,6 +207,7 @@ export interface FileRoutesByFullPath {
   '/api/integrations/google/start': typeof ApiIntegrationsGoogleStartRoute
   '/api/integrations/whatsapp/webhook': typeof ApiIntegrationsWhatsappWebhookRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
+  '/api/public/integrations/whatsapp/webhook': typeof ApiPublicIntegrationsWhatsappWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -226,6 +234,7 @@ export interface FileRoutesByTo {
   '/api/integrations/google/start': typeof ApiIntegrationsGoogleStartRoute
   '/api/integrations/whatsapp/webhook': typeof ApiIntegrationsWhatsappWebhookRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
+  '/api/public/integrations/whatsapp/webhook': typeof ApiPublicIntegrationsWhatsappWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -255,6 +264,7 @@ export interface FileRoutesById {
   '/api/integrations/google/start': typeof ApiIntegrationsGoogleStartRoute
   '/api/integrations/whatsapp/webhook': typeof ApiIntegrationsWhatsappWebhookRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
+  '/api/public/integrations/whatsapp/webhook': typeof ApiPublicIntegrationsWhatsappWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -284,6 +294,7 @@ export interface FileRouteTypes {
     | '/api/integrations/google/start'
     | '/api/integrations/whatsapp/webhook'
     | '/api/public/webhooks/kiwify'
+    | '/api/public/integrations/whatsapp/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -310,6 +321,7 @@ export interface FileRouteTypes {
     | '/api/integrations/google/start'
     | '/api/integrations/whatsapp/webhook'
     | '/api/public/webhooks/kiwify'
+    | '/api/public/integrations/whatsapp/webhook'
   id:
     | '__root__'
     | '/'
@@ -338,6 +350,7 @@ export interface FileRouteTypes {
     | '/api/integrations/google/start'
     | '/api/integrations/whatsapp/webhook'
     | '/api/public/webhooks/kiwify'
+    | '/api/public/integrations/whatsapp/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -357,6 +370,7 @@ export interface RootRouteChildren {
   ApiIntegrationsGoogleStartRoute: typeof ApiIntegrationsGoogleStartRoute
   ApiIntegrationsWhatsappWebhookRoute: typeof ApiIntegrationsWhatsappWebhookRoute
   ApiPublicWebhooksKiwifyRoute: typeof ApiPublicWebhooksKiwifyRoute
+  ApiPublicIntegrationsWhatsappWebhookRoute: typeof ApiPublicIntegrationsWhatsappWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -543,6 +557,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicWebhooksKiwifyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/integrations/whatsapp/webhook': {
+      id: '/api/public/integrations/whatsapp/webhook'
+      path: '/api/public/integrations/whatsapp/webhook'
+      fullPath: '/api/public/integrations/whatsapp/webhook'
+      preLoaderRoute: typeof ApiPublicIntegrationsWhatsappWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -601,6 +622,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiIntegrationsGoogleStartRoute: ApiIntegrationsGoogleStartRoute,
   ApiIntegrationsWhatsappWebhookRoute: ApiIntegrationsWhatsappWebhookRoute,
   ApiPublicWebhooksKiwifyRoute: ApiPublicWebhooksKiwifyRoute,
+  ApiPublicIntegrationsWhatsappWebhookRoute:
+    ApiPublicIntegrationsWhatsappWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
