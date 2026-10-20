@@ -8,7 +8,7 @@ function deps(over: Record<string, unknown> = {}) {
     verifyUser: async (token: string) => token === 'good' ? 'user-1' : null,
     getConnection: async () => null,
     saveTokens: async () => true,
-    fetch: vi.fn(async () => Response.json({ messages: [{ id: 'm1' }] })),
+    fetch: vi.fn(async (_input: string | URL | Request) => Response.json({ messages: [{ id: 'm1' }] })),
     now: () => 1_800_000_000_000,
     ...over,
   } as any;
