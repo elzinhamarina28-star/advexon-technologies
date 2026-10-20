@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { startMetaOAuth, handleMetaCallback, META_SCOPES } from '@/features/integrations/meta-oauth.server';
 
-const keys = ['META_APP_ID', 'META_APP_SECRET', 'META_REDIRECT_URI', 'INTEGRATION_OAUTH_STATE_SECRET'] as const;
+const keys = ['META_APP_ID', 'META_APP_SECRET', 'META_REDIRECT_URI', 'INTEGRATION_OAUTH_STATE_SECRET', 'INTEGRATION_TOKEN_ENCRYPTION_KEY'] as const;
 const original = Object.fromEntries(keys.map(key => [key, process.env[key]]));
 afterEach(() => { for (const key of keys) { if (original[key] === undefined) delete process.env[key]; else process.env[key] = original[key]; } });
 function configured() {
@@ -9,6 +9,7 @@ function configured() {
   process.env['META_APP_SECRET'] = 'meta-secret';
   process.env['META_REDIRECT_URI'] = 'https://advexon.test/api/integrations/meta/callback';
   process.env['INTEGRATION_OAUTH_STATE_SECRET'] = 'test-state-secret';
+  process.env['INTEGRATION_TOKEN_ENCRYPTION_KEY'] = btoa(String.fromCharCode(...new Uint8Array(32).fill(5)));
 }
 function deps(over: Record<string, unknown> = {}) {
   return {
