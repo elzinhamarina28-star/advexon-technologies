@@ -40,16 +40,16 @@ function Page() {
     })();
     return () => { alive = false; };
   }, []);
-  async function connectGoogleSheets() {
+  async function connectGoogle(endpoint: string, label: string) {
     setMsg('');
     setConnecting(true);
     try {
       const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
       if (sessionError || !sessionData.session?.access_token) {
-        setMsg('Entre novamente na sua conta para conectar o Google Sheets.');
+        setMsg(`Entre novamente na sua conta para conectar o ${label}.`);
         return;
       }
-      const response = await fetch('/api/integrations/google/start', {
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { authorization: 'Bearer ' + sessionData.session.access_token },
       });
@@ -95,7 +95,7 @@ function Page() {
           </div>
           <p className="app-gap">{item.description}</p>
           <p className="cd-small">{connected ? (connection.account_label ?? 'Conta conectada') : item.phase}</p>
-          <div className="flex flex-wrap gap-2 app-gap">{item.id === 'sheets' && <Button variant="default" disabled={connecting} onClick={connectGoogleSheets}>{connecting ? 'Conectando…' : 'Conectar Google Sheets'}</Button>}<Button variant="outline" onClick={() => setExpanded(isExpanded ? null : item.id)}>{isExpanded ? 'Ocultar requisitos' : 'Ver requisitos'} <ArrowUpRight size={15}/></Button></div>
+          <div className="flex flex-wrap gap-2 app-gap">{item.id === 'sheets' && !connected && <Button variant="default" disabled={connecting} onClick={() => connectGoogle('/api/integrations/google/start', 'Google Sheets')}>{connecting ? 'Conectando…' : 'Conectar Google Sheets'}</Button>}{item.id === 'gmail' && !connected && <Button variant="default" disabled={connecting} onClick={() => connectGoogle('/api/integrations/gmail/start', 'Gmail')}>{connecting ? 'Conectando…' : 'Conectar Gmail (somente leitura)'}</Button>}<Button variant="outline" onClick={() => setExpanded(isExpanded ? null : item.id)}>{isExpanded ? 'Ocultar requisitos' : 'Ver requisitos'} <ArrowUpRight size={15}/></Button></div>
           {isExpanded && <div className="app-gap"><b className="text-sm">Para ativar esta integração</b><ul className="cd-list">{item.needs.map(need => <li key={need}><span>{need}</span></li>)}</ul><p className="cd-small">Estado técnico: {status?.note ?? 'Planejada; a conexão oficial ainda precisa ser implementada.'}</p></div>}
         </article>;
       })}
