@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { ArrowUpRight, CheckCircle2, CircleDashed, Cloud, FileSpreadsheet, Instagram, Mail, MessageCircle, ShieldCheck } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, CircleDashed, Cloud, FileSpreadsheet, Instagram, Mail, MessageCircle, ShieldCheck, Layers3, LockKeyhole, PlugZap } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { integrations } from '@/features/shared/integrations';
@@ -21,6 +21,8 @@ const connectors = [
 ] as const;
 
 const labels: Record<string, string> = { auth: 'Contas', database: 'Dados', checkout: 'Pagamentos (Kiwify)', whatsapp: 'WhatsApp Business', ai: 'IA (Gemini)', sheets: 'Google Sheets', gmail: 'Gmail', excel: 'Excel', instagram: 'Instagram' };
+
+const stageLabels = { available: 'Disponível', testing: 'Validação técnica', setup: 'Configuração pendente', planned: 'Planejada' } as const;
 
 function Page() {
   const profile = useProfile(); const qc = useQueryClient(); const [msg, setMsg] = useState(''); const [connecting, setConnecting] = useState(false); const [connectionMap, setConnectionMap] = useState<Record<string, { status: string; account_label?: string }>>({}); const [expanded, setExpanded] = useState<string | null>('whatsapp');
@@ -126,13 +128,20 @@ function Page() {
     const { error } = await supabase.from('diagnostics').delete().eq('user_id', id);
     setMsg(error ? 'Erro ao apagar.' : 'Histórico apagado.'); qc.invalidateQueries({ queryKey: ['diagnostic-latest'] });
   }
+  const connectedCount = Object.values(connectionMap).filter(connection => connection.status === 'connected').length;
+  const inValidation = Object.values(integrations).filter(item => item.stage === 'testing').length;
   return <>
     <div className="flex flex-wrap items-start justify-between gap-3">
       <div><h1 className="section-title">Central de integrações</h1><p className="cd-small">Conecte as ferramentas do seu negócio para reunir atendimento, dados e tarefas na ADVEXON.</p></div>
-      <span className="cd-tag">Conexões autorizadas por conta</span>
+      <span className="cd-tag"><LockKeyhole size={13}/> Conexões autorizadas por conta</span>
+    </div>
+    <div className="cd-grid app-gap">
+      <article className="cd-card"><div className="flex items-center gap-3"><div className="cd-integration-icon"><PlugZap size={22}/></div><div><p className="cd-small">Contas conectadas</p><strong className="cd-big">{connectedCount}</strong></div></div><p className="cd-small app-gap">Somente autorizações confirmadas aparecem como conectadas.</p></article>
+      <article className="cd-card"><div className="flex items-center gap-3"><div className="cd-integration-icon"><Layers3 size={22}/></div><div><p className="cd-small">Conectores mapeados</p><strong className="cd-big">{connectors.length}</strong></div></div><p className="cd-small app-gap">Google, Microsoft, Meta e WhatsApp organizados por finalidade.</p></article>
+      <article className="cd-card"><div className="flex items-center gap-3"><div className="cd-integration-icon"><ShieldCheck size={22}/></div><div><p className="cd-small">Em validação técnica</p><strong className="cd-big">{inValidation}</strong></div></div><p className="cd-small app-gap">Código preparado não significa que a integração já esteja liberada para uso.</p></article>
     </div>
     <div className="cd-card app-gap">
-      <div className="flex items-start gap-3"><ShieldCheck size={24} /><div><h2>Suas contas, suas permissões</h2><p className="cd-small">As conexões aparecem como ativas somente depois da autorização oficial. Tokens são protegidos no servidor; nunca cole senhas ou chaves nesta tela.</p></div></div>
+      <div className="flex items-start gap-3"><ShieldCheck size={24} /><div><h2>Suas contas, suas permissões</h2><p className="cd-small">Cada conector mostra sua situação real. Tokens ficam protegidos no servidor. Não cole senhas, tokens ou chaves nesta tela.</p></div></div>
     </div>
     <div className="cd-grid app-gap">
       {connectors.map(item => {
@@ -141,12 +150,12 @@ function Page() {
         return <article className="cd-card" key={item.id}>
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-start gap-3"><div className="cd-integration-icon"><Icon size={22} /></div><div><h2>{item.name}</h2><p className="cd-small">{item.group}</p></div></div>
-            <span className="cd-tag">{connected ? <><CheckCircle2 size={13}/> Conectado</> : <><CircleDashed size={13}/> Não conectado</>}</span>
+            <span className="cd-tag">{connected ? <><CheckCircle2 size={13}/> Conectado</> : <><CircleDashed size={13}/> {stageLabels[status?.stage ?? 'planned']}</>}</span>
           </div>
           <p className="app-gap">{item.description}</p>
           <p className="cd-small">{connected ? (connection.account_label ?? 'Conta conectada') : item.phase}</p>
-          <div className="flex flex-wrap gap-2 app-gap">{item.id === 'sheets' && !connected && <Button variant="default" disabled={connecting} onClick={() => connectGoogle('/api/integrations/google/start', 'Google Sheets')}>{connecting ? 'Conectando…' : 'Conectar Google Sheets'}</Button>}{item.id === 'gmail' && !connected && <Button variant="default" disabled={connecting} onClick={() => connectGoogle('/api/integrations/gmail/start', 'Gmail')}>{connecting ? 'Conectando…' : 'Conectar Gmail (somente leitura)'}</Button>}{item.id === 'outlook' && !connected && <Button variant="default" disabled={connecting} onClick={() => connectMicrosoft('outlook', 'Outlook')}>{connecting ? 'Conectando…' : 'Conectar Outlook (somente leitura)'}</Button>}{item.id === 'onedrive' && !connected && <Button variant="default" disabled={connecting} onClick={() => connectMicrosoft('onedrive', 'OneDrive / Excel')}>{connecting ? 'Conectando…' : 'Conectar OneDrive / Excel'}</Button>}{item.id === 'drive' && !connected && <Button variant="default" disabled={connecting} onClick={() => connectGoogle('/api/integrations/google/drive-start', 'Google Drive')}>{connecting ? 'Conectando…' : 'Conectar Google Drive'}</Button>}{item.id === 'facebook' && !connected && <Button variant="default" disabled={connecting} onClick={() => connectMeta('facebook', 'Facebook Pages')}>{connecting ? 'Conectando…' : 'Conectar Facebook Pages'}</Button>}{item.id === 'instagram' && !connected && <Button variant="default" disabled={connecting} onClick={() => connectMeta('instagram', 'Instagram profissional')}>{connecting ? 'Conectando…' : 'Conectar Instagram'}</Button>}<Button variant="outline" onClick={() => setExpanded(isExpanded ? null : item.id)}>{isExpanded ? 'Ocultar requisitos' : 'Ver requisitos'} <ArrowUpRight size={15}/></Button></div>
-          {isExpanded && <div className="app-gap"><b className="text-sm">Para ativar esta integração</b><ul className="cd-list">{item.needs.map(need => <li key={need}><span>{need}</span></li>)}</ul><p className="cd-small">Estado técnico: {status?.note ?? 'Planejada; a conexão oficial ainda precisa ser implementada.'}</p></div>}
+          <div className="flex flex-wrap gap-2 app-gap">{item.id === 'sheets' && !connected && <Button variant="default" disabled={connecting} onClick={() => connectGoogle('/api/integrations/google/start', 'Google Sheets')}>{connecting ? 'Conectando…' : 'Conectar Google Sheets'}</Button>}{item.id === 'gmail' && !connected && <Button variant="default" disabled={connecting} onClick={() => connectGoogle('/api/integrations/gmail/start', 'Gmail')}>{connecting ? 'Conectando…' : 'Conectar Gmail (somente leitura)'}</Button>}{item.id === 'outlook' && !connected && <Button variant="default" disabled={connecting} onClick={() => connectMicrosoft('outlook', 'Outlook')}>{connecting ? 'Conectando…' : 'Conectar Outlook (somente leitura)'}</Button>}{item.id === 'onedrive' && !connected && <Button variant="default" disabled={connecting} onClick={() => connectMicrosoft('onedrive', 'OneDrive / Excel')}>{connecting ? 'Conectando…' : 'Conectar OneDrive / Excel'}</Button>}{item.id === 'drive' && !connected && <Button variant="default" disabled={connecting} onClick={() => connectGoogle('/api/integrations/google/drive-start', 'Google Drive')}>{connecting ? 'Conectando…' : 'Conectar Google Drive'}</Button>}{item.id === 'facebook' && !connected && <Button variant="default" disabled={connecting} onClick={() => connectMeta('facebook', 'Facebook Pages')}>{connecting ? 'Conectando…' : 'Conectar Facebook Pages'}</Button>}{item.id === 'instagram' && !connected && <Button variant="default" disabled={connecting} onClick={() => connectMeta('instagram', 'Instagram profissional')}>{connecting ? 'Conectando…' : 'Conectar Instagram'}</Button>}{item.id === 'whatsapp' && !connected && <Button variant="outline" disabled>Webhook em preparação</Button>}<Button variant="outline" onClick={() => setExpanded(isExpanded ? null : item.id)}>{isExpanded ? 'Ocultar requisitos' : 'Ver requisitos'} <ArrowUpRight size={15}/></Button></div>
+          {isExpanded && <div className="app-gap"><b className="text-sm">Para ativar esta integração</b><ul className="cd-list">{item.needs.map(need => <li key={need}><span>{need}</span></li>)}</ul><p className="cd-small">Estado técnico: {status?.note ?? 'A conexão oficial ainda precisa ser implementada.'}</p><p className="cd-small">A disponibilidade comercial dos conectores será confirmada após os testes e conforme o plano.</p></div>}
         </article>;
       })}
     </div>
@@ -158,7 +167,7 @@ function Page() {
         {msg && <p className="cd-small" role="status">{msg}</p>}
       </div>
       <div className="cd-card">
-        <h2>Serviços internos</h2>
+        <h2>Serviços internos</h2><p className="cd-small">Estado de configuração, separado do estado das contas externas.</p>
         <ul className="cd-list">{Object.entries(integrations).filter(([k]) => ['auth', 'database', 'ai', 'checkout'].includes(k)).map(([k, v]) => <li key={k}><span><b>{labels[k] ?? k}</b><p className="cd-small">{v.note}</p></span><em className="cd-tag">{v.enabled ? <><CheckCircle2 size={13}/> Configurada</> : 'Pendente'}</em></li>)}</ul>
       </div>
     </div>
