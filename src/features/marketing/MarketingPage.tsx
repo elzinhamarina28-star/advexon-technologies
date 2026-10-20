@@ -18,29 +18,44 @@ const faqs=[
 ];
 function HeroRibbon() {
   return (
-    <svg className="hero-ribbon intro-ribbon" viewBox="0 0 1440 760" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+    <svg
+      className="hero-ribbon intro-ribbon"
+      viewBox="0 0 1440 760"
+      preserveAspectRatio="xMidYMin slice"
+      aria-hidden="true"
+    >
       <defs>
         <linearGradient id="hr" x1="0" x2="1">
-          <stop stopColor="var(--violet)" stopOpacity="0" />
-          <stop offset=".3" stopColor="var(--violet)" stopOpacity=".55" />
-          <stop offset=".65" stopColor="var(--primary)" stopOpacity=".5" />
-          <stop offset="1" stopColor="var(--cyan)" stopOpacity="0" />
+          <stop stopColor="var(--violet)" stopOpacity="0.08" />
+          <stop offset=".3" stopColor="var(--violet)" stopOpacity=".82" />
+          <stop offset=".65" stopColor="var(--primary)" stopOpacity=".82" />
+          <stop offset="1" stopColor="var(--cyan)" stopOpacity=".08" />
         </linearGradient>
       </defs>
-      <path pathLength="1" className="cycle-line cycle-left thin" d="M-40 560C260 520 380 180 620 210S980 560 1480 300" />
-      <path pathLength="1" className="cycle-line cycle-right thin" d="M-40 610C300 570 420 240 640 260S1000 600 1480 360" />
-      <path pathLength="1" className="cycle-line cycle-left" d="M-40 585C280 545 400 210 630 235S990 580 1480 330" stroke="url(#hr)" strokeWidth="2" />
-      <path pathLength="1" className="cycle-line cycle-right thin" d="M1120 80 1380 340" />
-      <path pathLength="1" className="cycle-line cycle-left thin" d="M60 120 260 320" />
-      <path pathLength="1" className="cycle-line cycle-right thin" d="M-80 675C220 650 400 360 650 390S1030 680 1510 470" />
-      <path pathLength="1" className="cycle-line cycle-left thin" d="M-90 705C240 675 420 395 670 425S1060 710 1530 505" />
-      <path pathLength="1" className="cycle-line cycle-right thin" d="M-100 735C260 700 440 430 690 460S1080 735 1550 540" />
-      <path pathLength="1" className="cycle-line cycle-left thin" d="M-70 500C180 470 350 240 560 270S900 490 1510 245" />
-      <path pathLength="1" className="cycle-line cycle-right thin" d="M-60 455C170 420 345 200 550 225S910 450 1500 205" />
-      <path pathLength="1" className="cycle-line cycle-left thin" d="M-60 390C180 360 350 140 560 170S910 390 1500 150" />
-      <path pathLength="1" className="cycle-line cycle-right thin" d="M80 60C300 180 430 80 620 110S950 240 1190 110" />
-      <path pathLength="1" className="cycle-line cycle-left thin" d="M250 760C400 600 520 600 670 620S980 760 1250 650" />
-      <path pathLength="1" className="cycle-line cycle-right thin" d="M-40 560C260 520 380 180 620 210S980 560 1480 300" transform="translate(0 20)" />
+      <path
+        pathLength={1000}
+        className="nascent-line from-left"
+        d="M-60 570 C190 550 360 230 590 250 S980 570 1500 310"
+        stroke="url(#hr)"
+      />
+      <path
+        pathLength={1000}
+        className="nascent-line from-right"
+        d="M-70 625 C210 590 390 300 630 315 S1010 610 1510 375"
+        stroke="url(#hr)"
+      />
+      <path
+        pathLength={1000}
+        className="nascent-line from-left"
+        d="M-50 470 C220 440 355 190 590 205 S970 485 1510 245"
+        stroke="url(#hr)"
+      />
+      <path
+        pathLength={1000}
+        className="nascent-line from-right"
+        d="M-70 390 C220 370 370 130 600 165 S1000 410 1510 190"
+        stroke="url(#hr)"
+      />
     </svg>
   );
 }
