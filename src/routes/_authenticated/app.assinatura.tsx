@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { Loader2 } from 'lucide-react';
+import { Loader2, PlugZap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { plans, formatPrice } from '@/features/pricing/config';
 import { pageHead, useSubscription } from '@/features/client-app/data';
@@ -22,7 +22,7 @@ function Page() {
           <ul className="cd-list app-gap">{plan.features.map(f => <li key={f}>{f}</li>)}</ul></>
           : <p className="cd-small">Você usa os recursos gratuitos: diagnóstico e ADVEXON Score.</p>}
         {!active && <p className="cd-small">A contratação online ainda não está disponível. Quando estiver, o plano é ativado automaticamente só após a confirmação do pagamento.</p>}
-        <Button asChild variant="nexa" className="app-gap"><Link to="/planos">Ver planos</Link></Button>
+        <div className="flex flex-wrap gap-2 app-gap"><Button asChild variant="nexa"><Link to="/planos">Ver planos</Link></Button><Button asChild variant="outline"><Link to="/app/configuracoes"><PlugZap size={16}/> Ver integrações</Link></Button></div>
         <p className="cd-small app-gap">Suporte: <a className="nav-link" href="mailto:suporteadvexon@gmail.com">suporteadvexon@gmail.com</a></p>
       </>}
     </article>
