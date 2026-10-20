@@ -11,7 +11,7 @@ function deps(over: Record<string, unknown> = {}) {
     fetch: vi.fn(async () => Response.json({ messages: [{ id: 'm1' }] })),
     now: () => 1_800_000_000_000,
     ...over,
-  } as never;
+  } as any;
 }
 const req = (query = '', token = 'good') => new Request('https://x.test/api/integrations/gmail/messages' + query, { headers: { authorization: 'Bearer ' + token } });
 describe('Gmail read-only API', () => {
