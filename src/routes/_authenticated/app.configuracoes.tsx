@@ -111,7 +111,7 @@ function Page() {
     </div>
     <div className="cd-grid app-gap">
       {connectors.map(item => {
-        const Icon = item.icon; const providerKey = item.id === 'sheets' ? 'google_sheets' : item.id; const connection = connectionMap[providerKey]; const connected = connection?.status === 'connected'; const status = integrations[item.id as keyof typeof integrations];
+        const Icon = item.icon; const providerKey = item.id === 'sheets' ? 'google_sheets' : item.id === 'drive' ? 'google_drive' : item.id; const connection = connectionMap[providerKey]; const connected = connection?.status === 'connected'; const status = integrations[item.id as keyof typeof integrations];
         const isExpanded = expanded === item.id;
         return <article className="cd-card" key={item.id}>
           <div className="flex items-start justify-between gap-3">
