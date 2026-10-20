@@ -1,45 +1,58 @@
 # Validação de segurança dos planos e agentes — ADVEXON
 
-## Resultado desta rodada
+**Última atualização:** 20/10/2026  
+**Escopo:** branch de trabalho `feat/hero-tokens-scroll`; sem merge ou publicação por esta auditoria.
 
-- Regras de acesso fecham por padrão: uma assinatura real precisa ter status `active` ou `canceled` e uma data de fim de vigência válida e futura.
-- Uma conta interna só usa vigência sem data final quando a função autenticada retorna explicitamente `internal_test: true`; o cliente não escolhe essa designação.
-- A autorização é repetida no servidor: ATHENA aceita START, GROWTH e PRO; ETHAN e FOLLOW-UP exigem GROWTH ou PRO.
-- A reserva de uso de IA mantém idempotência, quotas por mês e persistência de resposta pelo servidor. O webhook de cobrança continua sendo o caminho para atualizar a assinatura.
-- O adaptador Gemini normaliza erros do provedor e não devolve detalhes internos da resposta HTTP para o usuário.
-- O ID do modelo foi atualizado para `gemini-3.8-flash`, substituindo o identificador anterior `gemini-3.7-flash`, que a documentação atual do Google marca como descontinuado.
+## Resultado automatizado
 
-## Validação automatizada
-
-GitHub Actions — [execução de validação](https://github.com/elzinhamarina28-star/advexon-technologies/actions/runs/39453352896):
+GitHub Actions — [última execução de validação](https://github.com/elzinhamarina28-star/advexon-technologies/actions/runs/39492290961), commit `6394ef647e392d8e9f7d8b9e7ae4e6a24bd37621`:
 
 - Build da aplicação: aprovado.
 - 171 testes aprovados em 20 arquivos.
-- Cobertura adicionada para matriz de permissões por plano, vigência ausente/expirada, conta interna de teste, autorização nos handlers dos agentes, validação de entradas, configuração de modelo e tratamento de falhas HTTP do adaptador Gemini.
+- O workflow executou instalação de dependências, build e testes; todos os passos terminaram com sucesso.
 
-## Limites desta validação
+Os testes automatizados usam respostas simuladas para o provedor Gemini. Portanto, o resultado não comprova que uma chave real esteja configurada nem que chamadas reais ao Google funcionem.
 
-Os testes de Gemini usam chave fictícia e resposta HTTP simulada. Eles validam o contrato do adaptador, não provam que uma chave real está configurada nem que o provedor devolve respostas ao vivo. Os handlers são testados com o serviço de IA simulado para comprovar que a autorização acontece antes da chamada.
+## Revisão da autorização dos agentes
 
-A migration `0012_fail_closed_subscription_access.sql` foi criada no repositório e **não foi aplicada ao Supabase hospedado** nesta rodada. Também não foram executadas consultas de regressão SQL em um banco real. Isso requer acesso autorizado ao projeto e deve ocorrer antes de considerar a correção ativa no ambiente hospedado.
+A inspeção do código da branch confirmou:
 
-## Próximos testes necessários para concluir
+- As funções de servidor exigem um token Bearer de sessão e validam as claims com Supabase Auth.
+- ATHENA consulta `get_effective_subscription` e verifica a permissão `agent:athena` no servidor antes da chamada de IA.
+- ETHAN e FOLLOW-UP consultam a assinatura e verificam suas permissões no servidor antes da chamada de IA; ambos exigem GROWTH ou PRO.
+- A chamada passa por `reserve_ai_interaction`, que aplica a regra de acesso e a quota mensal antes da chamada ao modelo.
+- A resposta é persistida pelo servidor para suportar idempotência; erros do provedor não são devolvidos como detalhes HTTP internos ao usuário.
+- A função Gemini usa a variável de ambiente `GEMINI_API_KEY` no servidor. Nenhum valor de segredo foi exibido nesta auditoria.
 
-1. Aplicar e validar a migration no projeto Supabase correto, após revisão.
-2. Confirmar `GEMINI_API_KEY` nas configurações seguras do ambiente de servidor (nunca em arquivo público ou código do navegador).
-3. Entrar com uma conta autorizada e testar ao vivo ATHENA no START; ETHAN e FOLLOW-UP apenas no GROWTH/PRO; além de assinatura expirada, cancelada e reembolso.
-4. Confirmar quota mensal e persistência/resposta na base de testes.
+O código configura o modelo `gemini-3.8-flash`. A documentação oficial do Google lista esse ID como modelo estável: https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash. Essa confirmação de documentação não substitui uma chamada real.
 
-**Estado:** validação automatizada aprovada; teste real com provedor e aplicação no Supabase ainda pendentes. Nenhum merge, deploy ou alteração direta no banco de produção foi feito.
+## Regressão SQL no banco conectado ao projeto de trabalho
 
+A migration `drizzle/migrations/0012_fail_closed_subscription_access.sql` foi aplicada à conexão de banco associada ao projeto Lovable de trabalho. Foram substituídas as definições de `reserve_ai_interaction`, `has_operational_access` e `enforce_opportunity_limit`; não houve alteração deliberada dos registros de clientes ou assinaturas.
 
-## Pós-aplicação no Supabase conectado — 20/10/2026
+Os testes SQL com identidade sintética passaram:
 
-- A migration `0012_fail_closed_subscription_access.sql` foi aplicada à conexão de banco associada ao projeto Lovable de trabalho. Foram substituídas apenas as definições de `reserve_ai_interaction`, `has_operational_access` e `enforce_opportunity_limit`; não houve alteração deliberada de registros de clientes ou assinaturas.
-- Regressão SQL no banco conectado passou com identidade sintética temporária: assinatura ativa sem fim de vigência negada; GROWTH ativa com vigência futura permitida; assinatura cancelada expirada negada; cancelada com período pago futuro permitida; criação de oportunidade sem vigência válida bloqueada.
-- A verificação posterior confirmou zero registros de fixtures restantes.
-- **Limite de ambiente:** a conexão usada foi a do projeto Lovable chamado “ADVEXON : Your AI Team Identical Backup (45)”. Não foi possível provar, por metadados disponíveis, que essa instância é exatamente a mesma usada pelo domínio público `advexon.tech`. Portanto, não declarar a correção validada na produção até comparar o projeto/ref do Supabase.
-- **Gemini real e agentes autenticados ainda pendentes:** a validação tentou iniciar uma execução no Lovable, mas o workspace não tinha créditos para iniciar o agente. Nenhum valor de segredo foi lido ou exposto, nenhuma chamada autenticada real ao Gemini foi feita e ATHENA/ETHAN/FOLLOW-UP não foram testados ponta a ponta contra o provedor real.
-- **Build e testes automatizados:** o workflow do GitHub Actions executado para o commit `bffe3778e3d490cbcaa552b0e467f030f6186e7f` terminou com sucesso; o log confirma build aprovado e 171 testes aprovados em 20 arquivos. Esses testes usam simulação do provedor Gemini.
+- Assinatura `active` sem data de fim de vigência: acesso negado.
+- GROWTH `active` com vigência futura: acesso operacional e reserva de IA permitidos.
+- Assinatura `canceled` com período expirado: acesso negado.
+- Assinatura `canceled` com período pago ainda futuro: acesso permitido durante a vigência.
+- Criação de oportunidade sem vigência válida: bloqueada.
+- Limpeza ao final: zero registros de fixtures temporárias restantes.
 
-Não foi feito merge, nem deploy/publicação do código.
+## Limites e bloqueios restantes
+
+- **Ambiente de produção:** a conexão de banco usada pertence ao projeto Lovable de trabalho. Não foi possível provar que é exatamente o backend que atende `advexon.tech`. A tentativa de consultar o domínio publicamente não retornou conteúdo acessível nesta sessão. Assim, a correção SQL está validada apenas no banco conectado ao projeto de trabalho, não certificada para produção.
+- **Chave Gemini:** o arquivo de ambiente inspecionado contém configurações de Supabase, mas não uma entrada `GEMINI_API_KEY`. A chave pode estar configurada separadamente como segredo do servidor; esse estado não pôde ser consultado. Não foi lido nem exposto nenhum valor secreto.
+- **Gemini real e agentes ponta a ponta:** nenhuma chamada autenticada real ao Gemini foi feita e ATHENA, ETHAN e FOLLOW-UP não foram testados em fluxo ponta a ponta contra o provedor real. O workspace Lovable reportou ausência de créditos e recusou iniciar a execução do agente.
+- **Contas de teste:** a regressão usou identidade sintética apenas em transação de teste; não foi executado um fluxo de navegador autenticado com conta interna real. Não foram modificadas assinaturas de clientes.
+- **Deploy/merge:** nenhum merge para `main`, deploy ou alteração de configuração de produção foi feito por esta auditoria.
+
+## Próximos passos necessários para concluir
+
+1. Adicionar créditos ao workspace Lovable e verificar, nas configurações seguras do servidor, se `GEMINI_API_KEY` está configurada sem revelar seu valor.
+2. Confirmar o projeto/ref do backend usado por `advexon.tech` e compará-lo com o banco onde a migration foi aplicada.
+3. Fazer uma chamada mínima real ao modelo `gemini-3.8-flash`, registrando apenas resultado e erro sanitizado.
+4. Com contas de teste autorizadas, validar ATHENA no START e GROWTH/PRO; ETHAN e FOLLOW-UP apenas em GROWTH/PRO; e testar sessão sem autenticação, assinatura sem vigência, expirada e cancelada.
+5. Confirmar quota mensal, persistência e estados de cobrança em ambiente de teste antes de autorizar qualquer alteração de produção.
+
+**Estado final desta rodada:** build e testes automatizados aprovados; revisão estática de autorização concluída; regressão SQL aprovada no banco conectado de trabalho. A chamada real Gemini, os testes autenticados ponta a ponta e a confirmação do ambiente de produção continuam pendentes por falta de créditos e de evidência do backend público.
