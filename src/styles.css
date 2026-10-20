@@ -1776,3 +1776,89 @@ html, body, #root {
   color: #55d9ff;
   background: linear-gradient(145deg, rgba(52, 115, 210, .18), rgba(110, 66, 190, .12));
 }
+
+
+/* Mobile layout hardening: keep demo metric cards inside the viewport. */
+.central-panel,
+.central-grid,
+.central-metrics,
+.central-metrics > div {
+  min-width: 0;
+  max-width: 100%;
+}
+.central-panel { box-sizing: border-box; }
+.central-metrics > div { overflow-wrap: anywhere; }
+.central-metrics span { display: block; line-height: 1.55; overflow-wrap: anywhere; }
+@media (max-width: 640px) {
+  .central-panel {
+    width: 100%;
+    padding: clamp(14px, 4vw, 22px);
+    overflow: hidden;
+  }
+  .central-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px;
+    width: 100%;
+  }
+  .central-metrics > div {
+    min-width: 0;
+    padding: clamp(14px, 4vw, 20px);
+  }
+  .central-metrics strong {
+    font-size: clamp(28px, 8vw, 40px);
+    line-height: 1.2;
+  }
+  .central-metrics span {
+    font-size: clamp(12px, 3.5vw, 15px);
+  }
+  .central-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .central-list li {
+    min-width: 0;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .central-list li > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Visible, continuous birth-and-travel animation for the hero's nascent lines. */
+.hero-ribbon.intro-ribbon {
+  overflow: visible;
+  opacity: 1;
+}
+.hero-ribbon.intro-ribbon path.cycle-line {
+  stroke: #53cfff !important;
+  stroke-width: 1.65 !important;
+  stroke-dasharray: 1 !important;
+  stroke-dashoffset: 1 !important;
+  opacity: 0 !important;
+  animation: advexon-nascent-line 12s linear infinite !important;
+}
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(2n) { animation-delay: -6s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line:nth-of-type(3n) { animation-delay: -3s !important; }
+.hero-ribbon.intro-ribbon path.cycle-line.cycle-right {
+  transform-box: view-box !important;
+  transform-origin: center !important;
+  transform: scaleX(-1) !important;
+}
+@keyframes advexon-nascent-line {
+  0% { stroke-dashoffset: 1; opacity: 0; }
+  7% { opacity: .82; }
+  46% { stroke-dashoffset: 0; opacity: .82; }
+  58% { stroke-dashoffset: 0; opacity: .5; }
+  70% { stroke-dashoffset: 0; opacity: 0; }
+  71%, 100% { stroke-dashoffset: 1; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-ribbon.intro-ribbon path.cycle-line {
+    animation: none !important;
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: .3 !important;
+    transform: none !important;
+  }
+}
