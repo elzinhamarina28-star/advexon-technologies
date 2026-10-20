@@ -1,0 +1,58 @@
+name: Gemini live smoke test
+
+on:
+  push:
+    branches: [feat/hero-tokens-scroll]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gemini-live-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gemini-live-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Checkout working branch
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Call the same Gemini adapter used by the agents
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${GEMINI_API_KEY:-}" ]]; then
+            echo "::error title=Missing secret::GitHub Actions secret GEMINI_API_KEY is not configured. No Gemini request was sent."
+            exit 1
+          fi
+
+          bun -e '
+            const { callGemini } = await import(`${process.env.GITHUB_WORKSPACE}/src/features/shared/gemini.ts`);
+            const result = await callGemini(
+              "Gemini live smoke test",
+              "Responda apenas OK.",
+              [{ role: "user", content: "Responda apenas OK." }]
+            );
+
+            if (!result.ok) {
+              console.error(`Gemini live smoke test failed: ${result.error}`);
+              process.exit(1);
+            }
+
+            if (!/\bOK\b/i.test(result.reply)) {
+              console.error("Gemini live smoke test returned a response but not the expected confirmation.");
+              process.exit(1);
+            }
+
+            console.log("PASS: one live call through the application's Gemini adapter returned the expected confirmation. Secret and response body were not logged.");
+          '
