@@ -28,8 +28,12 @@ import { Route as AuthenticatedAppDiagnosticoRouteImport } from './routes/_authe
 import { Route as AuthenticatedAppEquipeRouteImport } from './routes/_authenticated/app.equipe'
 import { Route as AuthenticatedAppOrganizacaoRouteImport } from './routes/_authenticated/app.organizacao'
 import { Route as AuthenticatedAppVendasRouteImport } from './routes/_authenticated/app.vendas'
+import { Route as ApiIntegrationsStatusRouteImport } from './routes/api/integrations/status'
 import { Route as ApiWebhooksKiwifyRouteImport } from './routes/api/webhooks/kiwify'
 import { Route as AuthenticatedAppAgentesIdRouteImport } from './routes/_authenticated/app.agentes.$id'
+import { Route as ApiIntegrationsGoogleCallbackRouteImport } from './routes/api/integrations/google/callback'
+import { Route as ApiIntegrationsGoogleStartRouteImport } from './routes/api/integrations/google/start'
+import { Route as ApiIntegrationsWhatsappWebhookRouteImport } from './routes/api/integrations/whatsapp/webhook'
 import { Route as ApiPublicWebhooksKiwifyRouteImport } from './routes/api/public/webhooks/kiwify'
 
 const IndexRoute = IndexRouteImport.update({
@@ -130,6 +134,11 @@ const AuthenticatedAppVendasRoute = AuthenticatedAppVendasRouteImport.update({
   path: '/vendas',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const ApiIntegrationsStatusRoute = ApiIntegrationsStatusRouteImport.update({
+  id: '/api/integrations/status',
+  path: '/api/integrations/status',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiWebhooksKiwifyRoute = ApiWebhooksKiwifyRouteImport.update({
   id: '/api/webhooks/kiwify',
   path: '/api/webhooks/kiwify',
@@ -140,6 +149,24 @@ const AuthenticatedAppAgentesIdRoute =
     id: '/agentes/$id',
     path: '/agentes/$id',
     getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const ApiIntegrationsGoogleCallbackRoute =
+  ApiIntegrationsGoogleCallbackRouteImport.update({
+    id: '/api/integrations/google/callback',
+    path: '/api/integrations/google/callback',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiIntegrationsGoogleStartRoute =
+  ApiIntegrationsGoogleStartRouteImport.update({
+    id: '/api/integrations/google/start',
+    path: '/api/integrations/google/start',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiIntegrationsWhatsappWebhookRoute =
+  ApiIntegrationsWhatsappWebhookRouteImport.update({
+    id: '/api/integrations/whatsapp/webhook',
+    path: '/api/integrations/whatsapp/webhook',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const ApiPublicWebhooksKiwifyRoute = ApiPublicWebhooksKiwifyRouteImport.update({
   id: '/api/public/webhooks/kiwify',
@@ -165,9 +192,13 @@ export interface FileRoutesByFullPath {
   '/app/equipe': typeof AuthenticatedAppEquipeRoute
   '/app/organizacao': typeof AuthenticatedAppOrganizacaoRoute
   '/app/vendas': typeof AuthenticatedAppVendasRoute
+  '/api/integrations/status': typeof ApiIntegrationsStatusRoute
   '/api/webhooks/kiwify': typeof ApiWebhooksKiwifyRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/app/agentes/$id': typeof AuthenticatedAppAgentesIdRoute
+  '/api/integrations/google/callback': typeof ApiIntegrationsGoogleCallbackRoute
+  '/api/integrations/google/start': typeof ApiIntegrationsGoogleStartRoute
+  '/api/integrations/whatsapp/webhook': typeof ApiIntegrationsWhatsappWebhookRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
 export interface FileRoutesByTo {
@@ -187,9 +218,13 @@ export interface FileRoutesByTo {
   '/app/equipe': typeof AuthenticatedAppEquipeRoute
   '/app/organizacao': typeof AuthenticatedAppOrganizacaoRoute
   '/app/vendas': typeof AuthenticatedAppVendasRoute
+  '/api/integrations/status': typeof ApiIntegrationsStatusRoute
   '/api/webhooks/kiwify': typeof ApiWebhooksKiwifyRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/app/agentes/$id': typeof AuthenticatedAppAgentesIdRoute
+  '/api/integrations/google/callback': typeof ApiIntegrationsGoogleCallbackRoute
+  '/api/integrations/google/start': typeof ApiIntegrationsGoogleStartRoute
+  '/api/integrations/whatsapp/webhook': typeof ApiIntegrationsWhatsappWebhookRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
 export interface FileRoutesById {
@@ -212,9 +247,13 @@ export interface FileRoutesById {
   '/_authenticated/app/equipe': typeof AuthenticatedAppEquipeRoute
   '/_authenticated/app/organizacao': typeof AuthenticatedAppOrganizacaoRoute
   '/_authenticated/app/vendas': typeof AuthenticatedAppVendasRoute
+  '/api/integrations/status': typeof ApiIntegrationsStatusRoute
   '/api/webhooks/kiwify': typeof ApiWebhooksKiwifyRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/app/agentes/$id': typeof AuthenticatedAppAgentesIdRoute
+  '/api/integrations/google/callback': typeof ApiIntegrationsGoogleCallbackRoute
+  '/api/integrations/google/start': typeof ApiIntegrationsGoogleStartRoute
+  '/api/integrations/whatsapp/webhook': typeof ApiIntegrationsWhatsappWebhookRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
 export interface FileRouteTypes {
@@ -237,9 +276,13 @@ export interface FileRouteTypes {
     | '/app/equipe'
     | '/app/organizacao'
     | '/app/vendas'
+    | '/api/integrations/status'
     | '/api/webhooks/kiwify'
     | '/app/'
     | '/app/agentes/$id'
+    | '/api/integrations/google/callback'
+    | '/api/integrations/google/start'
+    | '/api/integrations/whatsapp/webhook'
     | '/api/public/webhooks/kiwify'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -259,9 +302,13 @@ export interface FileRouteTypes {
     | '/app/equipe'
     | '/app/organizacao'
     | '/app/vendas'
+    | '/api/integrations/status'
     | '/api/webhooks/kiwify'
     | '/app'
     | '/app/agentes/$id'
+    | '/api/integrations/google/callback'
+    | '/api/integrations/google/start'
+    | '/api/integrations/whatsapp/webhook'
     | '/api/public/webhooks/kiwify'
   id:
     | '__root__'
@@ -283,9 +330,13 @@ export interface FileRouteTypes {
     | '/_authenticated/app/equipe'
     | '/_authenticated/app/organizacao'
     | '/_authenticated/app/vendas'
+    | '/api/integrations/status'
     | '/api/webhooks/kiwify'
     | '/_authenticated/app/'
     | '/_authenticated/app/agentes/$id'
+    | '/api/integrations/google/callback'
+    | '/api/integrations/google/start'
+    | '/api/integrations/whatsapp/webhook'
     | '/api/public/webhooks/kiwify'
   fileRoutesById: FileRoutesById
 }
@@ -300,7 +351,11 @@ export interface RootRouteChildren {
   PlanosRoute: typeof PlanosRoute
   PreviaRoute: typeof PreviaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  ApiIntegrationsStatusRoute: typeof ApiIntegrationsStatusRoute
   ApiWebhooksKiwifyRoute: typeof ApiWebhooksKiwifyRoute
+  ApiIntegrationsGoogleCallbackRoute: typeof ApiIntegrationsGoogleCallbackRoute
+  ApiIntegrationsGoogleStartRoute: typeof ApiIntegrationsGoogleStartRoute
+  ApiIntegrationsWhatsappWebhookRoute: typeof ApiIntegrationsWhatsappWebhookRoute
   ApiPublicWebhooksKiwifyRoute: typeof ApiPublicWebhooksKiwifyRoute
 }
 
@@ -439,6 +494,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppVendasRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/api/integrations/status': {
+      id: '/api/integrations/status'
+      path: '/api/integrations/status'
+      fullPath: '/api/integrations/status'
+      preLoaderRoute: typeof ApiIntegrationsStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/webhooks/kiwify': {
       id: '/api/webhooks/kiwify'
       path: '/api/webhooks/kiwify'
@@ -452,6 +514,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/agentes/$id'
       preLoaderRoute: typeof AuthenticatedAppAgentesIdRouteImport
       parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/api/integrations/google/callback': {
+      id: '/api/integrations/google/callback'
+      path: '/api/integrations/google/callback'
+      fullPath: '/api/integrations/google/callback'
+      preLoaderRoute: typeof ApiIntegrationsGoogleCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/integrations/google/start': {
+      id: '/api/integrations/google/start'
+      path: '/api/integrations/google/start'
+      fullPath: '/api/integrations/google/start'
+      preLoaderRoute: typeof ApiIntegrationsGoogleStartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/integrations/whatsapp/webhook': {
+      id: '/api/integrations/whatsapp/webhook'
+      path: '/api/integrations/whatsapp/webhook'
+      fullPath: '/api/integrations/whatsapp/webhook'
+      preLoaderRoute: typeof ApiIntegrationsWhatsappWebhookRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/webhooks/kiwify': {
       id: '/api/public/webhooks/kiwify'
@@ -512,7 +595,11 @@ const rootRouteChildren: RootRouteChildren = {
   PlanosRoute: PlanosRoute,
   PreviaRoute: PreviaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  ApiIntegrationsStatusRoute: ApiIntegrationsStatusRoute,
   ApiWebhooksKiwifyRoute: ApiWebhooksKiwifyRoute,
+  ApiIntegrationsGoogleCallbackRoute: ApiIntegrationsGoogleCallbackRoute,
+  ApiIntegrationsGoogleStartRoute: ApiIntegrationsGoogleStartRoute,
+  ApiIntegrationsWhatsappWebhookRoute: ApiIntegrationsWhatsappWebhookRoute,
   ApiPublicWebhooksKiwifyRoute: ApiPublicWebhooksKiwifyRoute,
 }
 export const routeTree = rootRouteImport
