@@ -11,7 +11,7 @@ function deps(over: Record<string, unknown> = {}) {
     fetch: vi.fn(async () => Response.json({ files: [{ id: 'file-1', name: 'example.pdf' }] })),
     now: () => 1_800_000_000_000,
     ...over,
-  } as never;
+  } as any;
 }
 const req = (query = '', token = 'good') => new Request('https://x.test/api/integrations/google/drive/files' + query, { headers: { authorization: 'Bearer ' + token } });
 describe('Google Drive read API', () => {
