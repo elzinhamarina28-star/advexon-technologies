@@ -1584,3 +1584,49 @@ html, body, #root {
     filter: none;
   }
 }
+
+
+/* Hero finishing pass: straighter blue-slate backplate and tighter paired line births. */
+.hero::before {
+  width: min(1120px, 94vw);
+  height: 500px;
+  top: 148px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-5deg);
+  border: 1px solid color-mix(in srgb, var(--text-muted) 18%, transparent);
+  border-radius: 34px;
+  clip-path: inset(0 round 34px);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--violet) 17%, #263248),
+    color-mix(in srgb, var(--primary) 18%, #202c42) 56%,
+    color-mix(in srgb, var(--cyan) 10%, #0b2546)
+  );
+  opacity: .82;
+}
+.hero-ribbon.intro-ribbon path.nascent-line {
+  animation-duration: 12s !important;
+}
+.hero-ribbon.intro-ribbon path.nascent-line:nth-of-type(1) { animation-delay: 0s !important; }
+.hero-ribbon.intro-ribbon path.nascent-line:nth-of-type(2) { animation-delay: 1.6s !important; }
+.hero-ribbon.intro-ribbon path.nascent-line:nth-of-type(3) { animation-delay: 6s !important; }
+.hero-ribbon.intro-ribbon path.nascent-line:nth-of-type(4) { animation-delay: 7.6s !important; }
+@media (max-width: 800px) {
+  .hero::before {
+    width: 110vw;
+    height: 410px;
+    top: 108px;
+    border-radius: 28px;
+    clip-path: inset(0 round 28px);
+    transform: translateX(-50%) rotate(-4deg);
+  }
+}
+@media (max-width: 480px) {
+  .hero::before {
+    width: 112vw;
+    height: 370px;
+    top: 104px;
+    border-radius: 24px;
+    clip-path: inset(0 round 24px);
+  }
+}
