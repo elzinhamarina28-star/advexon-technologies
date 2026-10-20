@@ -6,8 +6,9 @@
     <div style="padding:28px 30px;border-bottom:1px solid #27334b"><div style="font-size:12px;letter-spacing:3px;color:#b6e556;font-weight:700">ADVEXON</div><div style="margin-top:8px;color:#9fb3cc;font-size:12px">SUA EQUIPE IA EM AÇÃO</div></div>
     <div style="padding:32px 30px">
       <h1 style="margin:0 0 16px;font-size:26px;line-height:1.25;color:#ffffff">{{ if .Data.full_name }}{{ .Data.full_name }}, confirme seu novo e-mail.{{ else }}Confirme seu novo e-mail.{{ end }}</h1>
-      <p style="margin:0 0 24px;color:#c4cede;font-size:15px;line-height:1.7">Recebemos uma solicitação para alterar o endereço de e-mail associado à sua conta ADVEXON. Confirme a alteração pelo botão abaixo para manter seus dados atualizados.</p>
+      <p style="margin:0 0 24px;color:#c4cede;font-size:15px;line-height:1.7">Recebemos uma solicitação para alterar o endereço de e-mail associado à sua conta ADVEXON. {{ if .NewEmail }}O novo endereço informado é <strong style="color:#fff">{{ .NewEmail }}</strong>. {{ end }}Confirme a alteração pelo botão abaixo para manter seus dados atualizados.</p>
       <a href="{{ .ConfirmationURL }}" style="display:inline-block;padding:14px 22px;background:#b6e556;color:#10150a;text-decoration:none;font-weight:700;border-radius:10px">Confirmar alteração</a>
+      <p style="margin:24px 0 0;color:#9fb3cc;font-size:12px;line-height:1.7">Se o botão não funcionar, copie este endereço para o navegador:<br><a href="{{ .ConfirmationURL }}" style="color:#b6e556;word-break:break-all">{{ .ConfirmationURL }}</a></p>
       <p style="margin:24px 0 0;color:#9fb3cc;font-size:12px;line-height:1.7">Se você não solicitou essa alteração, não clique no link e entre em contato com o suporte.</p>
     </div>
     <div style="padding:20px 30px;background:#0b1220;border-top:1px solid #27334b;color:#9fb3cc;font-size:12px;line-height:1.7">ADVEXON Technologies<br><a href="mailto:suporteadvexon@gmail.com" style="color:#b6e556">suporteadvexon@gmail.com</a></div>
