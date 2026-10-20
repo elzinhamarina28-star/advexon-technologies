@@ -36,3 +36,5 @@
 - [x] Dedicated agents page (/agentes); links from diagnostic result and footer.
 - [ ] Live ATHENA reply via Gemini (blocked: Gemini returned 503 "high demand"; retry later).
 - [x] /planos route; integration flags in shared/integrations.ts (auth, database, Kiwify, WhatsApp off).
+- [x] WhatsApp webhook public alias (/api/public/integrations/whatsapp/webhook) with shared handlers and tests.
+- [ ] WhatsApp live verification (blocked: WHATSAPP_VERIFY_TOKEN/WHATSAPP_APP_SECRET not configured; publish needs approval).
