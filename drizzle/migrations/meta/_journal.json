@@ -2,16 +2,89 @@
   "version": "7",
   "dialect": "postgresql",
   "entries": [
-    {"idx":0,"version":"7","when":1791428183783,"tag":"0000_client_app_core","breakpoints":true},
-    {"idx":1,"version":"7","when":1791474073553,"tag":"0001_internal_test_plan_entitlements","breakpoints":true},
-    {"idx":2,"version":"7","when":1791474166804,"tag":"0002_lock_internal_test_designation_writes","breakpoints":true},
-    {"idx":3,"version":"7","when":1791815652880,"tag":"0003_kiwify_atomic_order_webhook","breakpoints":true},
-    {"idx":4,"version":"7","when":1792113676405,"tag":"0004_enforce_ai_contact_limits","breakpoints":true},
-    {"idx":5,"version":"7","when":1792113689609,"tag":"0005_allow_own_ai_reservation","breakpoints":true},
-    {"idx":6,"version":"7","when":1792374484333,"tag":"0006_start_ai_cancel_grace_stale_reservations","breakpoints":true},
-    {"idx":7,"version":"7","when":1792425000000,"tag":"0007_integration_connections","breakpoints":true},
-    {"idx":8,"version":"7","when":1792454400000,"tag":"0008_allow_gmail_oauth_state","breakpoints":true},
-    {"idx":9,"version":"7","when":1792458000000,"tag":"0009_allow_microsoft_oauth_state","breakpoints":true},
-    {"idx":10,"version":"7","when":1792461600000,"tag":"0010_allow_google_drive_oauth_state","breakpoints":true}
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1791428183783,
+      "tag": "0000_client_app_core",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791474073553,
+      "tag": "0001_internal_test_plan_entitlements",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791474166804,
+      "tag": "0002_lock_internal_test_designation_writes",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791815652880,
+      "tag": "0003_kiwify_atomic_order_webhook",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1792113676405,
+      "tag": "0004_enforce_ai_contact_limits",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792113689609,
+      "tag": "0005_allow_own_ai_reservation",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792374484333,
+      "tag": "0006_start_ai_cancel_grace_stale_reservations",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1792425000000,
+      "tag": "0007_integration_connections",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1792454400000,
+      "tag": "0008_allow_gmail_oauth_state",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1792458000000,
+      "tag": "0009_allow_microsoft_oauth_state",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1792461600000,
+      "tag": "0010_allow_google_drive_oauth_state",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1792465200000,
+      "tag": "0011_allow_meta_oauth_state",
+      "breakpoints": true
+    }
   ]
 }
