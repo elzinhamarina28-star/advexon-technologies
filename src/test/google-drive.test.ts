@@ -8,7 +8,7 @@ function deps(over: Record<string, unknown> = {}) {
     verifyUser: vi.fn(async (token: string) => token === 'good' ? 'user-1' : null),
     getConnection: vi.fn(async () => null),
     saveTokens: vi.fn(async () => true),
-    fetch: vi.fn(async () => Response.json({ files: [{ id: 'file-1', name: 'example.pdf' }] })),
+    fetch: vi.fn(async (_input: string | URL | Request) => Response.json({ files: [{ id: 'file-1', name: 'example.pdf' }] })),
     now: () => 1_800_000_000_000,
     ...over,
   } as any;
