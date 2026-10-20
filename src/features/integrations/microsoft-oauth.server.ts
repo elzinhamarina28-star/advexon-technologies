@@ -1,6 +1,7 @@
 // Server-only Microsoft identity platform OAuth foundation for Outlook and OneDrive/Excel.
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from '@/integrations/supabase/types';
+import { encryptToken, signState } from '@/features/integrations/google-oauth.server';
 
 export const MICROSOFT_SCOPES = {
   outlook: ['openid', 'email', 'offline_access', 'User.Read', 'Mail.Read'],
@@ -24,9 +25,11 @@ function base64url(bytes: Uint8Array) {
   for (const byte of bytes) out += String.fromCharCode(byte);
   return btoa(out).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
 }
-async function sign(value: string, secret: string) {
-  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
-  return base64url(new Uint8Array(await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(value))));
+function sameString(a: string, b: string) {
+  if (a.length !== b.length) return false;
+  let mismatch = 0;
+  for (let i = 0; i < a.length; i++) mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return mismatch === 0;
 }
 function bearer(request: Request) {
   const value = request.headers.get('authorization') ?? '';
@@ -83,7 +86,7 @@ export async function startMicrosoftOAuth(request: Request, provider: MicrosoftP
   url.search = new URLSearchParams({
     client_id: clientId, response_type: 'code', redirect_uri: redirectUri,
     response_mode: 'query', scope: MICROSOFT_SCOPES[provider].join(' '),
-    state: nonce + '.' + await sign(nonce, secret), prompt: 'select_account',
+    state: nonce + '.' + await signState(nonce, secret), prompt: 'select_account',
   }).toString();
   return Response.json({ authorizationUrl: url.toString() }, { headers: { 'cache-control': 'no-store' } });
 }
@@ -99,7 +102,7 @@ export async function handleMicrosoftCallback(request: Request, deps: Deps): Pro
   const encryptionKey = process.env['INTEGRATION_TOKEN_ENCRYPTION_KEY'];
   if (!secret || !clientId || !clientSecret || !redirectUri || !encryptionKey) return responseText('A conexão Microsoft não está configurada.', 503);
   const [nonce, signature, extra] = state.split('.');
-  if (!code || !nonce || !signature || extra !== undefined || await sign(nonce, secret) !== signature) return responseText('Estado OAuth inválido.', 400);
+  if (!code || !nonce || !signature || extra !== undefined || !sameString(await signState(nonce, secret), signature)) return responseText('Estado OAuth inválido.', 400);
   const row = await deps.consumeState(nonce);
   if (!row || !validProvider(row.provider) || new Date(row.expires_at).getTime() < deps.now()) return responseText('A sessão de autorização expirou. Volte à ADVEXON e tente novamente.', 400);
   const provider = row.provider;
@@ -113,24 +116,25 @@ export async function handleMicrosoftCallback(request: Request, deps: Deps): Pro
       console.error('[microsoft-oauth] token exchange failed', data.error ?? tokenRes.status);
       return responseText('A Microsoft não concluiu a autorização. Tente novamente.', 502);
     }
-    const profileRes = await deps.fetch('https://graph.microsoft.com/v1.0/me', { headers: { authorization: 'Bearer ' + data.access_token } });
-    const profile = profileRes.ok ? await profileRes.json() as { displayName?: string; mail?: string; userPrincipalName?: string; id?: string } : {};
-    const keyBytes = Uint8Array.from(atob(encryptionKey), c => c.charCodeAt(0));
-    if (keyBytes.length !== 32) return responseText('A chave de proteção de tokens está inválida.', 503);
-    const cryptoKey = await crypto.subtle.importKey('raw', keyBytes, 'AES-GCM', false, ['encrypt']);
-    const encrypt = async (value: string) => {
-      const iv = crypto.getRandomValues(new Uint8Array(12));
-      const encrypted = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, cryptoKey, new TextEncoder().encode(value)));
-      return 'v1.' + base64url(iv) + '.' + base64url(encrypted);
-    };
+    const granted = (data.scope ?? '').split(' ').filter(Boolean);
+    const required = MICROSOFT_SCOPES[provider].filter(scope => !['openid', 'email', 'offline_access'].includes(scope));
+    if (!required.every(scope => granted.some(item => item.toLowerCase() === scope.toLowerCase()))) {
+      return responseText('A permissão necessária não foi concedida. Reconecte e aceite as permissões solicitadas.', 400);
+    }
+    const profileRes = await deps.fetch('https://graph.microsoft.com/v1.0/me?$select=id,displayName,mail,userPrincipalName', { headers: { authorization: 'Bearer ' + data.access_token } });
+    if (!profileRes.ok) {
+      console.error('[microsoft-oauth] profile lookup failed', profileRes.status);
+      return responseText('A Microsoft autorizou, mas não foi possível confirmar a conta.', 502);
+    }
+    const profile = await profileRes.json() as { displayName?: string; mail?: string; userPrincipalName?: string; id?: string };
     const now = new Date(deps.now()).toISOString();
     const saved = await deps.saveConnection({
       user_id: row.user_id, provider, status: 'connected',
       account_label: profile.mail ?? profile.userPrincipalName ?? profile.displayName ?? 'Conta Microsoft',
       provider_account_id: profile.id ?? null,
-      scopes: (data.scope ?? '').split(' ').filter(Boolean),
-      access_token_ciphertext: await encrypt(data.access_token),
-      ...(data.refresh_token ? { refresh_token_ciphertext: await encrypt(data.refresh_token) } : {}),
+      scopes: granted,
+      access_token_ciphertext: await encryptToken(data.access_token, encryptionKey),
+      ...(data.refresh_token ? { refresh_token_ciphertext: await encryptToken(data.refresh_token, encryptionKey) } : {}),
       token_expires_at: new Date(deps.now() + Math.max(60, data.expires_in ?? 3600) * 1000).toISOString(),
       connected_at: now, updated_at: now, last_error_code: null,
     });
