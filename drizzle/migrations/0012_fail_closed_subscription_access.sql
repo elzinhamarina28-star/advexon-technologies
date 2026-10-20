@@ -1,5 +1,6 @@
 -- Fail closed for normal subscriptions without a confirmed, future billing period.
 -- Internal test entitlements remain available only through the service-managed designation table.
+-- COALESCE is intentional: a NULL plan/status must fail closed rather than make IF NOT (NULL) skip the denial.
 
 CREATE OR REPLACE FUNCTION public.reserve_ai_interaction(request_key uuid, content_hash text)
 RETURNS jsonb
