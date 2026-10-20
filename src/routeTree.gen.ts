@@ -31,6 +31,7 @@ import { Route as AuthenticatedAppVendasRouteImport } from './routes/_authentica
 import { Route as ApiIntegrationsStatusRouteImport } from './routes/api/integrations/status'
 import { Route as ApiWebhooksKiwifyRouteImport } from './routes/api/webhooks/kiwify'
 import { Route as AuthenticatedAppAgentesIdRouteImport } from './routes/_authenticated/app.agentes.$id'
+import { Route as ApiIntegrationsGmailStartRouteImport } from './routes/api/integrations/gmail/start'
 import { Route as ApiIntegrationsGoogleCallbackRouteImport } from './routes/api/integrations/google/callback'
 import { Route as ApiIntegrationsGoogleStartRouteImport } from './routes/api/integrations/google/start'
 import { Route as ApiIntegrationsWhatsappWebhookRouteImport } from './routes/api/integrations/whatsapp/webhook'
@@ -151,6 +152,12 @@ const AuthenticatedAppAgentesIdRoute =
     path: '/agentes/$id',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const ApiIntegrationsGmailStartRoute =
+  ApiIntegrationsGmailStartRouteImport.update({
+    id: '/api/integrations/gmail/start',
+    path: '/api/integrations/gmail/start',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiIntegrationsGoogleCallbackRoute =
   ApiIntegrationsGoogleCallbackRouteImport.update({
     id: '/api/integrations/google/callback',
@@ -203,6 +210,7 @@ export interface FileRoutesByFullPath {
   '/api/webhooks/kiwify': typeof ApiWebhooksKiwifyRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/app/agentes/$id': typeof AuthenticatedAppAgentesIdRoute
+  '/api/integrations/gmail/start': typeof ApiIntegrationsGmailStartRoute
   '/api/integrations/google/callback': typeof ApiIntegrationsGoogleCallbackRoute
   '/api/integrations/google/start': typeof ApiIntegrationsGoogleStartRoute
   '/api/integrations/whatsapp/webhook': typeof ApiIntegrationsWhatsappWebhookRoute
@@ -230,6 +238,7 @@ export interface FileRoutesByTo {
   '/api/webhooks/kiwify': typeof ApiWebhooksKiwifyRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/app/agentes/$id': typeof AuthenticatedAppAgentesIdRoute
+  '/api/integrations/gmail/start': typeof ApiIntegrationsGmailStartRoute
   '/api/integrations/google/callback': typeof ApiIntegrationsGoogleCallbackRoute
   '/api/integrations/google/start': typeof ApiIntegrationsGoogleStartRoute
   '/api/integrations/whatsapp/webhook': typeof ApiIntegrationsWhatsappWebhookRoute
@@ -260,6 +269,7 @@ export interface FileRoutesById {
   '/api/webhooks/kiwify': typeof ApiWebhooksKiwifyRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/app/agentes/$id': typeof AuthenticatedAppAgentesIdRoute
+  '/api/integrations/gmail/start': typeof ApiIntegrationsGmailStartRoute
   '/api/integrations/google/callback': typeof ApiIntegrationsGoogleCallbackRoute
   '/api/integrations/google/start': typeof ApiIntegrationsGoogleStartRoute
   '/api/integrations/whatsapp/webhook': typeof ApiIntegrationsWhatsappWebhookRoute
@@ -290,6 +300,7 @@ export interface FileRouteTypes {
     | '/api/webhooks/kiwify'
     | '/app/'
     | '/app/agentes/$id'
+    | '/api/integrations/gmail/start'
     | '/api/integrations/google/callback'
     | '/api/integrations/google/start'
     | '/api/integrations/whatsapp/webhook'
@@ -317,6 +328,7 @@ export interface FileRouteTypes {
     | '/api/webhooks/kiwify'
     | '/app'
     | '/app/agentes/$id'
+    | '/api/integrations/gmail/start'
     | '/api/integrations/google/callback'
     | '/api/integrations/google/start'
     | '/api/integrations/whatsapp/webhook'
@@ -346,6 +358,7 @@ export interface FileRouteTypes {
     | '/api/webhooks/kiwify'
     | '/_authenticated/app/'
     | '/_authenticated/app/agentes/$id'
+    | '/api/integrations/gmail/start'
     | '/api/integrations/google/callback'
     | '/api/integrations/google/start'
     | '/api/integrations/whatsapp/webhook'
@@ -366,6 +379,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   ApiIntegrationsStatusRoute: typeof ApiIntegrationsStatusRoute
   ApiWebhooksKiwifyRoute: typeof ApiWebhooksKiwifyRoute
+  ApiIntegrationsGmailStartRoute: typeof ApiIntegrationsGmailStartRoute
   ApiIntegrationsGoogleCallbackRoute: typeof ApiIntegrationsGoogleCallbackRoute
   ApiIntegrationsGoogleStartRoute: typeof ApiIntegrationsGoogleStartRoute
   ApiIntegrationsWhatsappWebhookRoute: typeof ApiIntegrationsWhatsappWebhookRoute
@@ -529,6 +543,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppAgentesIdRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/api/integrations/gmail/start': {
+      id: '/api/integrations/gmail/start'
+      path: '/api/integrations/gmail/start'
+      fullPath: '/api/integrations/gmail/start'
+      preLoaderRoute: typeof ApiIntegrationsGmailStartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/integrations/google/callback': {
       id: '/api/integrations/google/callback'
       path: '/api/integrations/google/callback'
@@ -618,6 +639,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   ApiIntegrationsStatusRoute: ApiIntegrationsStatusRoute,
   ApiWebhooksKiwifyRoute: ApiWebhooksKiwifyRoute,
+  ApiIntegrationsGmailStartRoute: ApiIntegrationsGmailStartRoute,
   ApiIntegrationsGoogleCallbackRoute: ApiIntegrationsGoogleCallbackRoute,
   ApiIntegrationsGoogleStartRoute: ApiIntegrationsGoogleStartRoute,
   ApiIntegrationsWhatsappWebhookRoute: ApiIntegrationsWhatsappWebhookRoute,
