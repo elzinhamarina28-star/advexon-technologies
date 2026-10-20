@@ -33,6 +33,8 @@ export const featurePlans = {
   pipeline: ['growth', 'pro'],
   organization: ['growth', 'pro'],
   'dashboard:operational': ['growth', 'pro'],
+  // Integration entitlements are intentionally not enforced until connectors are verified end-to-end.
+
 } as const satisfies Record<string, readonly string[]>;
 export type PaidFeature = keyof typeof featurePlans;
 
