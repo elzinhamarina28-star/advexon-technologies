@@ -31,3 +31,15 @@ A migration `0012_fail_closed_subscription_access.sql` foi criada no repositóri
 4. Confirmar quota mensal e persistência/resposta na base de testes.
 
 **Estado:** validação automatizada aprovada; teste real com provedor e aplicação no Supabase ainda pendentes. Nenhum merge, deploy ou alteração direta no banco de produção foi feito.
+
+
+## Pós-aplicação no Supabase conectado — 20/10/2026
+
+- A migration `0012_fail_closed_subscription_access.sql` foi aplicada à conexão de banco associada ao projeto Lovable de trabalho. Foram substituídas apenas as definições de `reserve_ai_interaction`, `has_operational_access` e `enforce_opportunity_limit`; não houve alteração deliberada de registros de clientes ou assinaturas.
+- Regressão SQL no banco conectado passou com identidade sintética temporária: assinatura ativa sem fim de vigência negada; GROWTH ativa com vigência futura permitida; assinatura cancelada expirada negada; cancelada com período pago futuro permitida; criação de oportunidade sem vigência válida bloqueada.
+- A verificação posterior confirmou zero registros de fixtures restantes.
+- **Limite de ambiente:** a conexão usada foi a do projeto Lovable chamado “ADVEXON : Your AI Team Identical Backup (45)”. Não foi possível provar, por metadados disponíveis, que essa instância é exatamente a mesma usada pelo domínio público `advexon.tech`. Portanto, não declarar a correção validada na produção até comparar o projeto/ref do Supabase.
+- **Gemini real e agentes autenticados ainda pendentes:** a validação tentou iniciar uma execução no Lovable, mas o workspace não tinha créditos para iniciar o agente. Nenhum valor de segredo foi lido ou exposto, nenhuma chamada autenticada real ao Gemini foi feita e ATHENA/ETHAN/FOLLOW-UP não foram testados ponta a ponta contra o provedor real.
+- **Build e testes automatizados:** o workflow do GitHub Actions executado para o commit `bffe3778e3d490cbcaa552b0e467f030f6186e7f` terminou com sucesso; o log confirma build aprovado e 171 testes aprovados em 20 arquivos. Esses testes usam simulação do provedor Gemini.
+
+Não foi feito merge, nem deploy/publicação do código.
