@@ -16,7 +16,7 @@ export const plans: Plan[] = [
     id: 'start', name: 'START', price: 9.99, billingPeriod: 'mês',
     description: 'O primeiro passo para organizar sua rotina com IA.',
     features: ['Diagnóstico IA', 'ADVEXON Score', 'IA básica (ATHENA)', '1 usuário', '100 interações IA/mês', 'Central de integrações (visualização)'],
-    limits: { companies: 1, users: 1, interactions: 100, contacts: null, agents: 1 },
+    limits: { companies: 1, users: 1, interactions: 100, contacts: null, agents: null },
     checkoutUrl: 'https://pay.kiwify.com.br/5tsqOdv', active: true,
   },
   {
