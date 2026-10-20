@@ -27,6 +27,10 @@ No Supabase hospedado, a configuração em Git não aplica automaticamente os mo
 6. No provedor de e-mail, publique os registros DNS exigidos (SPF, DKIM e DMARC) e confirme que o domínio está verificado antes de enviar e-mails reais.
 7. Em **Authentication → URL Configuration**, confira a URL principal e a lista de URLs de redirecionamento permitidas. Inclua apenas os endereços oficiais usados pela aplicação, incluindo `/auth` e `/reset-password` no domínio de produção e no ambiente de teste autorizado.
 
+## Como concluir o envio real
+
+Siga `supabase/templates/EMAIL_PROVIDER_SETUP.md` para configurar Resend, DNS e SMTP no projeto hospedado. Credenciais são inseridas diretamente nos painéis; nunca as armazene no GitHub.
+
 ## Personalização do texto e assinatura
 
 Consulte `supabase/templates/EMAIL_COPY_GUIDELINES.md` para o prompt padrão de redação, regras de personalização segura e assinatura oficial da marca. Os modelos do Supabase Auth aceitam variáveis de template, mas não executam prompts de IA nem geram um texto novo a cada envio. A personalização fica limitada aos dados que o Supabase disponibiliza no evento.
