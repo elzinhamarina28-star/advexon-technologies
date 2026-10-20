@@ -6,6 +6,7 @@ export const GOOGLE_PROVIDER_SCOPES = {
   google_sheets: ['openid', 'email', 'https://www.googleapis.com/auth/spreadsheets'],
   // First Gmail step is read-only; sending is intentionally not requested.
   gmail: ['openid', 'email', 'https://www.googleapis.com/auth/gmail.readonly'],
+  google_drive: ['openid', 'email', 'https://www.googleapis.com/auth/drive.file'],
 } as const;
 export type GoogleProvider = keyof typeof GOOGLE_PROVIDER_SCOPES;
 export const STATE_TTL_MS = 10 * 60 * 1000;
