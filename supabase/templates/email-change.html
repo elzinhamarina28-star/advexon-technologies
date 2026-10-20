@@ -5,8 +5,8 @@
   <div style="max-width:560px;margin:0 auto;background:#10182a;border:1px solid #27334b;border-radius:18px;overflow:hidden">
     <div style="padding:28px 30px;border-bottom:1px solid #27334b"><div style="font-size:12px;letter-spacing:3px;color:#b6e556;font-weight:700">ADVEXON</div><div style="margin-top:8px;color:#9fb3cc;font-size:12px">SUA EQUIPE IA EM AÇÃO</div></div>
     <div style="padding:32px 30px">
-      <h1 style="margin:0 0 16px;font-size:26px;line-height:1.25;color:#ffffff">Confirme seu novo e-mail.</h1>
-      <p style="margin:0 0 24px;color:#c4cede;font-size:15px;line-height:1.7">Recebemos uma solicitação para alterar o endereço de e-mail associado à sua conta ADVEXON. Confirme a alteração pelo botão abaixo.</p>
+      <h1 style="margin:0 0 16px;font-size:26px;line-height:1.25;color:#ffffff">{{ if .Data.full_name }}{{ .Data.full_name }}, confirme seu novo e-mail.{{ else }}Confirme seu novo e-mail.{{ end }}</h1>
+      <p style="margin:0 0 24px;color:#c4cede;font-size:15px;line-height:1.7">Recebemos uma solicitação para alterar o endereço de e-mail associado à sua conta ADVEXON. Confirme a alteração pelo botão abaixo para manter seus dados atualizados.</p>
       <a href="{{ .ConfirmationURL }}" style="display:inline-block;padding:14px 22px;background:#b6e556;color:#10150a;text-decoration:none;font-weight:700;border-radius:10px">Confirmar alteração</a>
       <p style="margin:24px 0 0;color:#9fb3cc;font-size:12px;line-height:1.7">Se você não solicitou essa alteração, não clique no link e entre em contato com o suporte.</p>
     </div>
