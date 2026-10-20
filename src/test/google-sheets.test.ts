@@ -11,7 +11,7 @@ function deps(over: Record<string, unknown> = {}) {
     fetch: vi.fn(async () => Response.json({ values: [['A1']] })),
     now: () => 1_800_000_000_000,
     ...over,
-  } as never;
+  } as any;
 }
 function request(body: unknown, token = 'good') {
   return new Request('https://x.test/api/integrations/google/sheets', {
