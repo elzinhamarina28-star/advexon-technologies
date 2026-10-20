@@ -59,6 +59,13 @@ describe('agent server-side entitlement checks', () => {
     expect(mocks.metered).toHaveBeenCalledWith(context.supabase, 'test-user', '00000000-0000-4000-8000-000000000001', 'A ATHENA', ATHENA_SYSTEM_PROMPT, validMessage, ATHENA_MODEL);
   });
 
+  it('allows ATHENA for a service-designated internal test account without a billing period', async () => {
+    const context = contextFor({ ...active('start', null), internal_test: true });
+    const result = await invokeAthena({ data: { requestId: crypto.randomUUID(), messages: validMessage }, context });
+    expect(result.ok).toBe(true);
+    expect(mocks.metered).toHaveBeenCalledOnce();
+  });
+
   it('denies ATHENA without an active, valid subscription and never calls the model', async () => {
     for (const sub of [
       { plan_id: null, status: 'inactive', current_period_end: null, internal_test: false },

@@ -17,7 +17,7 @@ BEGIN
   sub := public.get_effective_subscription();
 
   IF NOT (
-    sub->>'plan_id' IN ('start','growth','pro')
+    COALESCE(sub->>'plan_id' IN ('start','growth','pro'), false)
     AND COALESCE(
       (sub->>'internal_test' = 'true' AND sub->>'status' = 'active')
       OR (sub->>'status' = 'active' AND sub->>'current_period_end' IS NOT NULL
