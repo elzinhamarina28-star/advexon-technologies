@@ -1,6 +1,5 @@
 // Paid access is decided ONLY from backend effective subscription data, which is written exclusively by the
-// server (future verified Kiwify webhook: checkout → webhook → validate → identify user → activate plan).
-// Clicking a checkout button never grants access by itself.
+// server (verified Kiwify webhook). Clicking a checkout button never grants access by itself.
 export type EffectiveSubscription = { plan_id: string | null; status: string; current_period_end: string | null; internal_test?: boolean };
 export type SubscriptionRow = EffectiveSubscription | null | undefined;
 
@@ -16,13 +15,17 @@ export const statusLabel: Record<string, string> = {
   canceled: 'Cancelada', expired: 'Expirada', refunded: 'Reembolsada',
 };
 
+/**
+ * Normal subscriptions must have a valid, future period end. Only the effective-subscription
+ * RPC's server-designated internal test accounts may use an active plan without an end date.
+ */
 export function hasPaidAccess(sub: SubscriptionRow, now = new Date()) {
-  if (!sub || !sub.plan_id) return false;
-  // Canceled keeps access only until the already-paid period end (never open-ended).
-  const live = sub.status === 'active' || (sub.status === 'canceled' && !!sub.current_period_end);
-  if (!live || !sub.plan_id || !['start', 'growth', 'pro'].includes(sub.plan_id)) return false;
-  if (sub.current_period_end && !(new Date(sub.current_period_end).getTime() > now.getTime())) return false;
-  return true;
+  if (!sub?.plan_id || !['start', 'growth', 'pro'].includes(sub.plan_id)) return false;
+  if (sub.internal_test === true) return sub.status === 'active';
+  if (sub.status !== 'active' && sub.status !== 'canceled') return false;
+  if (!sub.current_period_end) return false;
+  const periodEnd = Date.parse(sub.current_period_end);
+  return Number.isFinite(periodEnd) && periodEnd > now.getTime();
 }
 
 /** Paid features and the plans that include them (mirrors plan features in pricing config). */
@@ -34,7 +37,6 @@ export const featurePlans = {
   organization: ['growth', 'pro'],
   'dashboard:operational': ['growth', 'pro'],
   // Integration entitlements are intentionally not enforced until connectors are verified end-to-end.
-
 } as const satisfies Record<string, readonly string[]>;
 export type PaidFeature = keyof typeof featurePlans;
 

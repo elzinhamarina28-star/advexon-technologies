@@ -21,8 +21,14 @@ BEGIN
  INSERT INTO public.ai_requests(user_id,request_id,fingerprint) SELECT uid,gen_random_uuid(),repeat('a',64) FROM generate_series(1,5000);
  r:=public.reserve_ai_interaction(gen_random_uuid(),repeat('a',64));
  IF r->>'reason'<>'limit' THEN RAISE EXCEPTION 'Pro cap failed'; END IF;
+ -- START includes ATHENA basic AI with its own 100-interaction monthly allowance.
+ -- The database reservation endpoint does not select an agent; server handlers enforce agent entitlements.
  UPDATE public.internal_test_accounts SET plan_id='start' WHERE user_id=uid;
- r:=public.reserve_ai_interaction(gen_random_uuid(),repeat('a',64));
- IF r->>'reason'<>'access' THEN RAISE EXCEPTION 'Start agent gate failed'; END IF;
+ DELETE FROM public.ai_requests WHERE user_id=uid;
+ r:=public.reserve_ai_interaction(gen_random_uuid(),repeat('b',64));
+ IF r->>'allowed'<>'true' THEN RAISE EXCEPTION 'START basic AI reservation failed'; END IF;
+ INSERT INTO public.ai_requests(user_id,request_id,fingerprint) SELECT uid,gen_random_uuid(),repeat('b',64) FROM generate_series(1,99);
+ r:=public.reserve_ai_interaction(gen_random_uuid(),repeat('c',64));
+ IF r->>'reason'<>'limit' THEN RAISE EXCEPTION 'START quota failed'; END IF;
 END $$;
 ROLLBACK;

@@ -1,6 +1,6 @@
-/** Shared Gemini infrastructure (server-side only usage). V1 uses one key; extra names can be appended later for fallback. */
+/** Shared Gemini infrastructure (server-side only usage). V1 uses one key; extra names can be appended later. */
 const GEMINI_KEY_NAMES = ['GEMINI_API_KEY'] as const;
-export const GEMINI_MODEL = 'gemini-3.7-flash';
+export const GEMINI_MODEL = 'gemini-3.8-flash';
 
 export type ChatMsg = { role: 'user' | 'assistant'; content: string };
 export type AgentReply = { ok: true; reply: string } | { ok: false; error: string };
