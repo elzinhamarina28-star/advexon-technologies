@@ -20,7 +20,7 @@ function deps(over: Record<string, unknown> = {}) {
     fetch: vi.fn(async () => Response.json({ access_token: 'access', refresh_token: 'refresh', expires_in: 3600, scope: 'User.Read Mail.Read' })),
     now: () => 1_800_000_000_000,
     ...over,
-  } as never;
+  } as any;
 }
 describe('Microsoft OAuth', () => {
   it('requests least-privilege delegated scopes for each connector', () => {
