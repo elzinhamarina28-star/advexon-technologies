@@ -4,6 +4,11 @@
   padding-top: 0;
 }
 
+/* Hide the older flat capsule so the glass material remains the single hero motif. */
+#produto.hero::before {
+  display: none;
+}
+
 #produto.hero > .hero-intro-stage {
   position: relative;
   isolation: isolate;
@@ -19,8 +24,8 @@
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 70% 50% at 50% 45%, rgba(8, 13, 25, 0.08), rgba(8, 13, 25, 0.28) 80%),
-    linear-gradient(180deg, rgba(8, 13, 25, 0.28) 0%, rgba(8, 13, 25, 0.48) 54%, rgba(8, 13, 25, 0.72) 100%);
+    radial-gradient(ellipse 70% 50% at 50% 45%, rgba(8, 13, 25, 0.04), rgba(8, 13, 25, 0.18) 80%),
+    linear-gradient(180deg, rgba(8, 13, 25, 0.16) 0%, rgba(8, 13, 25, 0.32) 54%, rgba(8, 13, 25, 0.56) 100%);
 }
 
 #produto.hero > .hero-intro-stage > .hero-ribbon.intro-ribbon {
@@ -60,8 +65,8 @@
 
 #produto.hero .hero-glass-ribbons path.glass-ribbon-blur {
   fill: none;
-  stroke-width: 78;
-  opacity: 0.12;
+  stroke-width: 84;
+  opacity: 0.18;
   filter: url(#hero-glass-blur);
   stroke-dasharray: none !important;
   stroke-dashoffset: 0 !important;
@@ -70,8 +75,9 @@
 
 #produto.hero .hero-glass-ribbons path.glass-ribbon-body {
   fill: none;
-  stroke-width: 48;
-  opacity: 0.13;
+  stroke-width: 56;
+  opacity: 0.38;
+  filter: drop-shadow(0 12px 14px rgba(25, 48, 119, 0.16));
   stroke-dasharray: none !important;
   stroke-dashoffset: 0 !important;
   animation: none !important;
@@ -79,8 +85,8 @@
 
 #produto.hero .hero-glass-ribbons path.glass-ribbon-edge {
   fill: none;
-  stroke-width: 1.8;
-  opacity: 0.38;
+  stroke-width: 2;
+  opacity: 0.44;
   stroke-dasharray: 45 120 !important;
   stroke-dashoffset: 0;
   animation: advexon-glass-ribbon-shimmer 26s linear infinite !important;
@@ -89,9 +95,9 @@
 
 #produto.hero .hero-glass-ribbons path.glass-ribbon-specular {
   fill: none;
-  stroke: rgba(226, 237, 255, 0.42);
-  stroke-width: 1;
-  opacity: 0.16;
+  stroke: rgba(226, 237, 255, 0.58);
+  stroke-width: 1.25;
+  opacity: 0.24;
   stroke-dasharray: none !important;
   stroke-dashoffset: 0 !important;
   animation: none !important;
@@ -120,13 +126,14 @@
 
   #produto.hero > .hero-intro-stage > .hero-intro-shade {
     background:
-      radial-gradient(ellipse 75% 50% at 50% 42%, rgba(8, 13, 25, 0.16), rgba(8, 13, 25, 0.38) 82%),
-      linear-gradient(180deg, rgba(8, 13, 25, 0.34) 0%, rgba(8, 13, 25, 0.54) 60%, rgba(8, 13, 25, 0.78) 100%);
+      radial-gradient(ellipse 75% 50% at 50% 42%, rgba(8, 13, 25, 0.08), rgba(8, 13, 25, 0.24) 82%),
+      linear-gradient(180deg, rgba(8, 13, 25, 0.2) 0%, rgba(8, 13, 25, 0.4) 60%, rgba(8, 13, 25, 0.64) 100%);
   }
 
-  #produto.hero .hero-glass-ribbons path.glass-ribbon-blur { stroke-width: 66; opacity: 0.1; }
-  #produto.hero .hero-glass-ribbons path.glass-ribbon-body { stroke-width: 42; opacity: 0.1; }
-  #produto.hero .hero-glass-ribbons path.glass-ribbon-edge { stroke-width: 1.45; opacity: 0.32; }
+  #produto.hero .hero-glass-ribbons path.glass-ribbon-blur { stroke-width: 70; opacity: 0.14; }
+  #produto.hero .hero-glass-ribbons path.glass-ribbon-body { stroke-width: 46; opacity: 0.3; }
+  #produto.hero .hero-glass-ribbons path.glass-ribbon-edge { stroke-width: 1.6; opacity: 0.38; }
+  #produto.hero .hero-glass-ribbons path.glass-ribbon-specular { opacity: 0.18; }
 }
 
 @media (prefers-reduced-motion: reduce) {
