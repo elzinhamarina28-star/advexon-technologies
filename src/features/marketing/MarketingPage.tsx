@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Sparkles, Menu, X, MessageSquare, TrendingUp, Repeat2, FolderOpen, Plus, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import './hero-glass.css';
@@ -17,64 +17,45 @@ const faqs=[
  {q:'Como funciona a cobrança?',a:'A cobrança recorrente será realizada pelo checkout oficial configurado para a ADVEXON. As condições finais serão apresentadas antes da confirmação.'},
  {q:'Posso cancelar minha assinatura?',a:'Os detalhes e condições de cancelamento serão apresentados no checkout e na política comercial da ADVEXON antes da contratação.'},
 ];
-function HeroRibbon() {
+function HeroVideoBackground() {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const syncPlayback = () => {
+      if (motionQuery.matches || document.hidden) {
+        video.pause();
+        return;
+      }
+      video.play().catch(() => undefined);
+    };
+
+    syncPlayback();
+    document.addEventListener('visibilitychange', syncPlayback);
+    motionQuery.addEventListener('change', syncPlayback);
+
+    return () => {
+      document.removeEventListener('visibilitychange', syncPlayback);
+      motionQuery.removeEventListener('change', syncPlayback);
+    };
+  }, []);
+
   return (
-    <svg
-      className="hero-ribbon intro-ribbon hero-glass-ribbons"
-      viewBox="0 0 1440 760"
-      preserveAspectRatio="xMidYMin slice"
+    <video
+      ref={videoRef}
+      className="hero-video-bg"
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      disablePictureInPicture
       aria-hidden="true"
-    >
-      <defs>
-        <linearGradient id="hr" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop stopColor="var(--violet)" stopOpacity="0.08" />
-          <stop offset="30%" stopColor="var(--violet)" stopOpacity="0.78" />
-          <stop offset="65%" stopColor="var(--primary)" stopOpacity="0.74" />
-          <stop offset="100%" stopColor="var(--cyan)" stopOpacity="0.08" />
-        </linearGradient>
-        <linearGradient id="hero-glass-body" x1="0%" y1="0%" x2="100%" y2="18%">
-          <stop offset="0%" stopColor="var(--magenta)" stopOpacity="0.2" />
-          <stop offset="38%" stopColor="var(--violet)" stopOpacity="0.12" />
-          <stop offset="72%" stopColor="var(--primary)" stopOpacity="0.18" />
-          <stop offset="100%" stopColor="var(--cyan)" stopOpacity="0.22" />
-        </linearGradient>
-        <linearGradient id="hero-glass-edge" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="var(--magenta)" stopOpacity="0.08" />
-          <stop offset="28%" stopColor="var(--violet)" stopOpacity="0.68" />
-          <stop offset="64%" stopColor="var(--primary)" stopOpacity="0.72" />
-          <stop offset="100%" stopColor="var(--cyan)" stopOpacity="0.12" />
-        </linearGradient>
-        <filter id="hero-glass-blur" x="-20%" y="-45%" width="140%" height="190%">
-          <feGaussianBlur stdDeviation="12" />
-        </filter>
-      </defs>
-
-      <g className="glass-ribbon-group glass-ribbon-upper">
-        <path className="glass-ribbon-blur" d="M-110 190 C110 105 220 -12 430 82 S735 260 930 142 S1270 54 1540 190" stroke="url(#hero-glass-edge)" />
-        <path className="glass-ribbon-body" d="M-110 190 C110 105 220 -12 430 82 S735 260 930 142 S1270 54 1540 190" stroke="url(#hero-glass-body)" />
-        <path className="glass-ribbon-edge" d="M-110 178 C110 93 220 -24 430 70 S735 248 930 130 S1270 42 1540 178" stroke="url(#hero-glass-edge)" />
-        <path className="glass-ribbon-specular" d="M-110 183 C110 98 220 -19 430 75 S735 253 930 135 S1270 47 1540 183" />
-      </g>
-
-      <g className="glass-ribbon-group glass-ribbon-middle">
-        <path className="glass-ribbon-blur" d="M-120 390 C140 300 220 130 435 226 S770 500 1010 370 S1320 290 1550 400" stroke="url(#hero-glass-edge)" />
-        <path className="glass-ribbon-body" d="M-120 390 C140 300 220 130 435 226 S770 500 1010 370 S1320 290 1550 400" stroke="url(#hero-glass-body)" />
-        <path className="glass-ribbon-edge" d="M-120 378 C140 288 220 118 435 214 S770 488 1010 358 S1320 278 1550 388" stroke="url(#hero-glass-edge)" />
-        <path className="glass-ribbon-specular" d="M-120 383 C140 293 220 123 435 219 S770 493 1010 363 S1320 283 1550 393" />
-      </g>
-
-      <g className="glass-ribbon-group glass-ribbon-lower">
-        <path className="glass-ribbon-blur" d="M-100 570 C150 445 300 710 540 605 S850 430 1050 565 S1320 680 1540 510" stroke="url(#hero-glass-edge)" />
-        <path className="glass-ribbon-body" d="M-100 570 C150 445 300 710 540 605 S850 430 1050 565 S1320 680 1540 510" stroke="url(#hero-glass-body)" />
-        <path className="glass-ribbon-edge" d="M-100 558 C150 433 300 698 540 593 S850 418 1050 553 S1320 668 1540 498" stroke="url(#hero-glass-edge)" />
-        <path className="glass-ribbon-specular" d="M-100 563 C150 438 300 703 540 598 S850 423 1050 558 S1320 673 1540 503" />
-      </g>
-
-      <path pathLength={1000} className="nascent-line from-left" d="M-60 570 C190 550 360 230 590 250 S980 570 1500 310" stroke="url(#hr)" />
-      <path pathLength={1000} className="nascent-line from-right" d="M-70 625 C210 590 390 300 630 315 S1010 610 1510 375" stroke="url(#hr)" />
-      <path pathLength={1000} className="nascent-line from-left" d="M-50 470 C220 440 355 190 590 205 S970 485 1510 245" stroke="url(#hr)" />
-      <path pathLength={1000} className="nascent-line from-right" d="M-70 390 C220 370 370 130 600 165 S1000 410 1510 190" stroke="url(#hr)" />
-    </svg>
+      tabIndex={-1}
+      src="/advexon-hero-bg-loop.mp4"
+    />
   );
 }
 export function MarketingPage() {
