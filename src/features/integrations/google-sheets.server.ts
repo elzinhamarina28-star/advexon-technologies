@@ -50,7 +50,7 @@ export async function defaultSheetsDeps(): Promise<Deps> {
     },
     saveTokens: async (userId, accessCipher, refreshCipher, expiresAt) => {
       const update: Record<string, unknown> = { access_token_ciphertext: accessCipher, token_expires_at: expiresAt, updated_at: new Date().toISOString() };
-      if (refreshCipher) update.refresh_token_ciphertext = refreshCipher;
+      if (refreshCipher) update['refresh_token_ciphertext'] = refreshCipher;
       const { error } = await db.from('integration_connections').update(update).eq('user_id', userId).eq('provider', 'google_sheets');
       if (error) console.error('[google-sheets] token refresh save failed', error.code);
       return !error;

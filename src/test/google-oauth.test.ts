@@ -42,8 +42,8 @@ describe('Gmail OAuth start', () => {
     expect(scope).not.toContain('gmail.send');
     expect(scope).not.toContain('spreadsheets');
     const [row] = [...states.values()];
-    expect(row.provider).toBe('gmail');
-    expect(new Date(row.expires_at).getTime() - NOW).toBe(STATE_TTL_MS);
+    expect(row?.provider).toBe('gmail');
+    expect(new Date(row?.expires_at ?? 0).getTime() - NOW).toBe(STATE_TTL_MS);
   });
   it('returns 503 when server is not configured', async () => {
     delete process.env['GOOGLE_CLIENT_ID'];
@@ -71,10 +71,10 @@ describe('Google OAuth callback', () => {
     const res = await handleGoogleCallback(cb(`code=c&state=${state}`), deps);
     expect(res.status).toBe(302);
     expect(res.headers.get('location')).toContain('integration=gmail');
-    expect(saved[0].provider).toBe('gmail');
-    expect(saved[0].access_token_ciphertext).not.toBe('AT');
-    expect(String(saved[0].access_token_ciphertext)).toMatch(/^v1\./);
-    expect(saved[0].refresh_token_ciphertext).not.toBe('RT');
+    expect(saved[0]?.['provider']).toBe('gmail');
+    expect(saved[0]?.['access_token_ciphertext']).not.toBe('AT');
+    expect(String(saved[0]?.['access_token_ciphertext'])).toMatch(/^v1\./);
+    expect(saved[0]?.['refresh_token_ciphertext']).not.toBe('RT');
     expect((await handleGoogleCallback(cb(`code=c&state=${state}`), deps)).status).toBe(400);
   });
   it('rejects when the Gmail scope was not granted', async () => {
