@@ -20,7 +20,7 @@ export async function defaultGraphDeps():Promise<Deps>{
  return {
   verifyUser:async token=>{const url=process.env['SUPABASE_URL'],key=process.env['SUPABASE_PUBLISHABLE_KEY'];if(!url||!key)return null;const c=createClient<Database>(url,key,{auth:{persistSession:false,autoRefreshToken:false}});const {data,error}=await c.auth.getClaims(token);return !error&&typeof data?.claims?.sub==='string'?data.claims.sub:null;},
   getConnection:async(userId,provider)=>{const {data,error}=await db.from('integration_connections').select('access_token_ciphertext,refresh_token_ciphertext,token_expires_at,scopes').eq('user_id',userId).eq('provider',provider).eq('status','connected').maybeSingle();if(error)console.error('[microsoft-graph] lookup failed',error.code);return error?null:data;},
-  saveTokens:async(userId,provider,access,refresh,expiry)=>{const row:Record<string,unknown>={access_token_ciphertext:access,token_expires_at:expiry,updated_at:new Date().toISOString()};if(refresh)row.refresh_token_ciphertext=refresh;const {error}=await db.from('integration_connections').update(row).eq('user_id',userId).eq('provider',provider);if(error)console.error('[microsoft-graph] refresh save failed',error.code);return !error;},
+  saveTokens:async(userId,provider,access,refresh,expiry)=>{const row:Record<string,unknown>={access_token_ciphertext:access,token_expires_at:expiry,updated_at:new Date().toISOString()};if(refresh)row['refresh_token_ciphertext']=refresh;const {error}=await db.from('integration_connections').update(row).eq('user_id',userId).eq('provider',provider);if(error)console.error('[microsoft-graph] refresh save failed',error.code);return !error;},
   fetch:(...args)=>fetch(...args),now:()=>Date.now(),
  };
 }
