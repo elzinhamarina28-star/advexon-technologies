@@ -31,11 +31,21 @@ import { Route as AuthenticatedAppVendasRouteImport } from './routes/_authentica
 import { Route as ApiIntegrationsStatusRouteImport } from './routes/api/integrations/status'
 import { Route as ApiWebhooksKiwifyRouteImport } from './routes/api/webhooks/kiwify'
 import { Route as AuthenticatedAppAgentesIdRouteImport } from './routes/_authenticated/app.agentes.$id'
+import { Route as ApiIntegrationsGmailMessagesRouteImport } from './routes/api/integrations/gmail/messages'
 import { Route as ApiIntegrationsGmailStartRouteImport } from './routes/api/integrations/gmail/start'
 import { Route as ApiIntegrationsGoogleCallbackRouteImport } from './routes/api/integrations/google/callback'
+import { Route as ApiIntegrationsGoogleDriveStartRouteImport } from './routes/api/integrations/google/drive-start'
+import { Route as ApiIntegrationsGoogleSheetsRouteImport } from './routes/api/integrations/google/sheets'
 import { Route as ApiIntegrationsGoogleStartRouteImport } from './routes/api/integrations/google/start'
+import { Route as ApiIntegrationsMetaCallbackRouteImport } from './routes/api/integrations/meta/callback'
+import { Route as ApiIntegrationsMetaStartRouteImport } from './routes/api/integrations/meta/start'
+import { Route as ApiIntegrationsMicrosoftCallbackRouteImport } from './routes/api/integrations/microsoft/callback'
+import { Route as ApiIntegrationsMicrosoftStartRouteImport } from './routes/api/integrations/microsoft/start'
+import { Route as ApiIntegrationsOnedriveFilesRouteImport } from './routes/api/integrations/onedrive/files'
+import { Route as ApiIntegrationsOutlookMessagesRouteImport } from './routes/api/integrations/outlook/messages'
 import { Route as ApiIntegrationsWhatsappWebhookRouteImport } from './routes/api/integrations/whatsapp/webhook'
 import { Route as ApiPublicWebhooksKiwifyRouteImport } from './routes/api/public/webhooks/kiwify'
+import { Route as ApiIntegrationsGoogleDriveFilesRouteImport } from './routes/api/integrations/google/drive/files'
 import { Route as ApiPublicIntegrationsWhatsappWebhookRouteImport } from './routes/api/public/integrations/whatsapp/webhook'
 
 const IndexRoute = IndexRouteImport.update({
@@ -152,6 +162,12 @@ const AuthenticatedAppAgentesIdRoute =
     path: '/agentes/$id',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const ApiIntegrationsGmailMessagesRoute =
+  ApiIntegrationsGmailMessagesRouteImport.update({
+    id: '/api/integrations/gmail/messages',
+    path: '/api/integrations/gmail/messages',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiIntegrationsGmailStartRoute =
   ApiIntegrationsGmailStartRouteImport.update({
     id: '/api/integrations/gmail/start',
@@ -164,10 +180,58 @@ const ApiIntegrationsGoogleCallbackRoute =
     path: '/api/integrations/google/callback',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiIntegrationsGoogleDriveStartRoute =
+  ApiIntegrationsGoogleDriveStartRouteImport.update({
+    id: '/api/integrations/google/drive-start',
+    path: '/api/integrations/google/drive-start',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiIntegrationsGoogleSheetsRoute =
+  ApiIntegrationsGoogleSheetsRouteImport.update({
+    id: '/api/integrations/google/sheets',
+    path: '/api/integrations/google/sheets',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiIntegrationsGoogleStartRoute =
   ApiIntegrationsGoogleStartRouteImport.update({
     id: '/api/integrations/google/start',
     path: '/api/integrations/google/start',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiIntegrationsMetaCallbackRoute =
+  ApiIntegrationsMetaCallbackRouteImport.update({
+    id: '/api/integrations/meta/callback',
+    path: '/api/integrations/meta/callback',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiIntegrationsMetaStartRoute =
+  ApiIntegrationsMetaStartRouteImport.update({
+    id: '/api/integrations/meta/start',
+    path: '/api/integrations/meta/start',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiIntegrationsMicrosoftCallbackRoute =
+  ApiIntegrationsMicrosoftCallbackRouteImport.update({
+    id: '/api/integrations/microsoft/callback',
+    path: '/api/integrations/microsoft/callback',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiIntegrationsMicrosoftStartRoute =
+  ApiIntegrationsMicrosoftStartRouteImport.update({
+    id: '/api/integrations/microsoft/start',
+    path: '/api/integrations/microsoft/start',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiIntegrationsOnedriveFilesRoute =
+  ApiIntegrationsOnedriveFilesRouteImport.update({
+    id: '/api/integrations/onedrive/files',
+    path: '/api/integrations/onedrive/files',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiIntegrationsOutlookMessagesRoute =
+  ApiIntegrationsOutlookMessagesRouteImport.update({
+    id: '/api/integrations/outlook/messages',
+    path: '/api/integrations/outlook/messages',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ApiIntegrationsWhatsappWebhookRoute =
@@ -181,6 +245,12 @@ const ApiPublicWebhooksKiwifyRoute = ApiPublicWebhooksKiwifyRouteImport.update({
   path: '/api/public/webhooks/kiwify',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiIntegrationsGoogleDriveFilesRoute =
+  ApiIntegrationsGoogleDriveFilesRouteImport.update({
+    id: '/api/integrations/google/drive/files',
+    path: '/api/integrations/google/drive/files',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicIntegrationsWhatsappWebhookRoute =
   ApiPublicIntegrationsWhatsappWebhookRouteImport.update({
     id: '/api/public/integrations/whatsapp/webhook',
@@ -210,11 +280,21 @@ export interface FileRoutesByFullPath {
   '/api/webhooks/kiwify': typeof ApiWebhooksKiwifyRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/app/agentes/$id': typeof AuthenticatedAppAgentesIdRoute
+  '/api/integrations/gmail/messages': typeof ApiIntegrationsGmailMessagesRoute
   '/api/integrations/gmail/start': typeof ApiIntegrationsGmailStartRoute
   '/api/integrations/google/callback': typeof ApiIntegrationsGoogleCallbackRoute
+  '/api/integrations/google/drive-start': typeof ApiIntegrationsGoogleDriveStartRoute
+  '/api/integrations/google/sheets': typeof ApiIntegrationsGoogleSheetsRoute
   '/api/integrations/google/start': typeof ApiIntegrationsGoogleStartRoute
+  '/api/integrations/meta/callback': typeof ApiIntegrationsMetaCallbackRoute
+  '/api/integrations/meta/start': typeof ApiIntegrationsMetaStartRoute
+  '/api/integrations/microsoft/callback': typeof ApiIntegrationsMicrosoftCallbackRoute
+  '/api/integrations/microsoft/start': typeof ApiIntegrationsMicrosoftStartRoute
+  '/api/integrations/onedrive/files': typeof ApiIntegrationsOnedriveFilesRoute
+  '/api/integrations/outlook/messages': typeof ApiIntegrationsOutlookMessagesRoute
   '/api/integrations/whatsapp/webhook': typeof ApiIntegrationsWhatsappWebhookRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
+  '/api/integrations/google/drive/files': typeof ApiIntegrationsGoogleDriveFilesRoute
   '/api/public/integrations/whatsapp/webhook': typeof ApiPublicIntegrationsWhatsappWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -238,11 +318,21 @@ export interface FileRoutesByTo {
   '/api/webhooks/kiwify': typeof ApiWebhooksKiwifyRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/app/agentes/$id': typeof AuthenticatedAppAgentesIdRoute
+  '/api/integrations/gmail/messages': typeof ApiIntegrationsGmailMessagesRoute
   '/api/integrations/gmail/start': typeof ApiIntegrationsGmailStartRoute
   '/api/integrations/google/callback': typeof ApiIntegrationsGoogleCallbackRoute
+  '/api/integrations/google/drive-start': typeof ApiIntegrationsGoogleDriveStartRoute
+  '/api/integrations/google/sheets': typeof ApiIntegrationsGoogleSheetsRoute
   '/api/integrations/google/start': typeof ApiIntegrationsGoogleStartRoute
+  '/api/integrations/meta/callback': typeof ApiIntegrationsMetaCallbackRoute
+  '/api/integrations/meta/start': typeof ApiIntegrationsMetaStartRoute
+  '/api/integrations/microsoft/callback': typeof ApiIntegrationsMicrosoftCallbackRoute
+  '/api/integrations/microsoft/start': typeof ApiIntegrationsMicrosoftStartRoute
+  '/api/integrations/onedrive/files': typeof ApiIntegrationsOnedriveFilesRoute
+  '/api/integrations/outlook/messages': typeof ApiIntegrationsOutlookMessagesRoute
   '/api/integrations/whatsapp/webhook': typeof ApiIntegrationsWhatsappWebhookRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
+  '/api/integrations/google/drive/files': typeof ApiIntegrationsGoogleDriveFilesRoute
   '/api/public/integrations/whatsapp/webhook': typeof ApiPublicIntegrationsWhatsappWebhookRoute
 }
 export interface FileRoutesById {
@@ -269,11 +359,21 @@ export interface FileRoutesById {
   '/api/webhooks/kiwify': typeof ApiWebhooksKiwifyRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/app/agentes/$id': typeof AuthenticatedAppAgentesIdRoute
+  '/api/integrations/gmail/messages': typeof ApiIntegrationsGmailMessagesRoute
   '/api/integrations/gmail/start': typeof ApiIntegrationsGmailStartRoute
   '/api/integrations/google/callback': typeof ApiIntegrationsGoogleCallbackRoute
+  '/api/integrations/google/drive-start': typeof ApiIntegrationsGoogleDriveStartRoute
+  '/api/integrations/google/sheets': typeof ApiIntegrationsGoogleSheetsRoute
   '/api/integrations/google/start': typeof ApiIntegrationsGoogleStartRoute
+  '/api/integrations/meta/callback': typeof ApiIntegrationsMetaCallbackRoute
+  '/api/integrations/meta/start': typeof ApiIntegrationsMetaStartRoute
+  '/api/integrations/microsoft/callback': typeof ApiIntegrationsMicrosoftCallbackRoute
+  '/api/integrations/microsoft/start': typeof ApiIntegrationsMicrosoftStartRoute
+  '/api/integrations/onedrive/files': typeof ApiIntegrationsOnedriveFilesRoute
+  '/api/integrations/outlook/messages': typeof ApiIntegrationsOutlookMessagesRoute
   '/api/integrations/whatsapp/webhook': typeof ApiIntegrationsWhatsappWebhookRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
+  '/api/integrations/google/drive/files': typeof ApiIntegrationsGoogleDriveFilesRoute
   '/api/public/integrations/whatsapp/webhook': typeof ApiPublicIntegrationsWhatsappWebhookRoute
 }
 export interface FileRouteTypes {
@@ -300,11 +400,21 @@ export interface FileRouteTypes {
     | '/api/webhooks/kiwify'
     | '/app/'
     | '/app/agentes/$id'
+    | '/api/integrations/gmail/messages'
     | '/api/integrations/gmail/start'
     | '/api/integrations/google/callback'
+    | '/api/integrations/google/drive-start'
+    | '/api/integrations/google/sheets'
     | '/api/integrations/google/start'
+    | '/api/integrations/meta/callback'
+    | '/api/integrations/meta/start'
+    | '/api/integrations/microsoft/callback'
+    | '/api/integrations/microsoft/start'
+    | '/api/integrations/onedrive/files'
+    | '/api/integrations/outlook/messages'
     | '/api/integrations/whatsapp/webhook'
     | '/api/public/webhooks/kiwify'
+    | '/api/integrations/google/drive/files'
     | '/api/public/integrations/whatsapp/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -328,11 +438,21 @@ export interface FileRouteTypes {
     | '/api/webhooks/kiwify'
     | '/app'
     | '/app/agentes/$id'
+    | '/api/integrations/gmail/messages'
     | '/api/integrations/gmail/start'
     | '/api/integrations/google/callback'
+    | '/api/integrations/google/drive-start'
+    | '/api/integrations/google/sheets'
     | '/api/integrations/google/start'
+    | '/api/integrations/meta/callback'
+    | '/api/integrations/meta/start'
+    | '/api/integrations/microsoft/callback'
+    | '/api/integrations/microsoft/start'
+    | '/api/integrations/onedrive/files'
+    | '/api/integrations/outlook/messages'
     | '/api/integrations/whatsapp/webhook'
     | '/api/public/webhooks/kiwify'
+    | '/api/integrations/google/drive/files'
     | '/api/public/integrations/whatsapp/webhook'
   id:
     | '__root__'
@@ -358,11 +478,21 @@ export interface FileRouteTypes {
     | '/api/webhooks/kiwify'
     | '/_authenticated/app/'
     | '/_authenticated/app/agentes/$id'
+    | '/api/integrations/gmail/messages'
     | '/api/integrations/gmail/start'
     | '/api/integrations/google/callback'
+    | '/api/integrations/google/drive-start'
+    | '/api/integrations/google/sheets'
     | '/api/integrations/google/start'
+    | '/api/integrations/meta/callback'
+    | '/api/integrations/meta/start'
+    | '/api/integrations/microsoft/callback'
+    | '/api/integrations/microsoft/start'
+    | '/api/integrations/onedrive/files'
+    | '/api/integrations/outlook/messages'
     | '/api/integrations/whatsapp/webhook'
     | '/api/public/webhooks/kiwify'
+    | '/api/integrations/google/drive/files'
     | '/api/public/integrations/whatsapp/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -379,11 +509,21 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   ApiIntegrationsStatusRoute: typeof ApiIntegrationsStatusRoute
   ApiWebhooksKiwifyRoute: typeof ApiWebhooksKiwifyRoute
+  ApiIntegrationsGmailMessagesRoute: typeof ApiIntegrationsGmailMessagesRoute
   ApiIntegrationsGmailStartRoute: typeof ApiIntegrationsGmailStartRoute
   ApiIntegrationsGoogleCallbackRoute: typeof ApiIntegrationsGoogleCallbackRoute
+  ApiIntegrationsGoogleDriveStartRoute: typeof ApiIntegrationsGoogleDriveStartRoute
+  ApiIntegrationsGoogleSheetsRoute: typeof ApiIntegrationsGoogleSheetsRoute
   ApiIntegrationsGoogleStartRoute: typeof ApiIntegrationsGoogleStartRoute
+  ApiIntegrationsMetaCallbackRoute: typeof ApiIntegrationsMetaCallbackRoute
+  ApiIntegrationsMetaStartRoute: typeof ApiIntegrationsMetaStartRoute
+  ApiIntegrationsMicrosoftCallbackRoute: typeof ApiIntegrationsMicrosoftCallbackRoute
+  ApiIntegrationsMicrosoftStartRoute: typeof ApiIntegrationsMicrosoftStartRoute
+  ApiIntegrationsOnedriveFilesRoute: typeof ApiIntegrationsOnedriveFilesRoute
+  ApiIntegrationsOutlookMessagesRoute: typeof ApiIntegrationsOutlookMessagesRoute
   ApiIntegrationsWhatsappWebhookRoute: typeof ApiIntegrationsWhatsappWebhookRoute
   ApiPublicWebhooksKiwifyRoute: typeof ApiPublicWebhooksKiwifyRoute
+  ApiIntegrationsGoogleDriveFilesRoute: typeof ApiIntegrationsGoogleDriveFilesRoute
   ApiPublicIntegrationsWhatsappWebhookRoute: typeof ApiPublicIntegrationsWhatsappWebhookRoute
 }
 
@@ -543,6 +683,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppAgentesIdRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/api/integrations/gmail/messages': {
+      id: '/api/integrations/gmail/messages'
+      path: '/api/integrations/gmail/messages'
+      fullPath: '/api/integrations/gmail/messages'
+      preLoaderRoute: typeof ApiIntegrationsGmailMessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/integrations/gmail/start': {
       id: '/api/integrations/gmail/start'
       path: '/api/integrations/gmail/start'
@@ -557,11 +704,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiIntegrationsGoogleCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/integrations/google/drive-start': {
+      id: '/api/integrations/google/drive-start'
+      path: '/api/integrations/google/drive-start'
+      fullPath: '/api/integrations/google/drive-start'
+      preLoaderRoute: typeof ApiIntegrationsGoogleDriveStartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/integrations/google/sheets': {
+      id: '/api/integrations/google/sheets'
+      path: '/api/integrations/google/sheets'
+      fullPath: '/api/integrations/google/sheets'
+      preLoaderRoute: typeof ApiIntegrationsGoogleSheetsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/integrations/google/start': {
       id: '/api/integrations/google/start'
       path: '/api/integrations/google/start'
       fullPath: '/api/integrations/google/start'
       preLoaderRoute: typeof ApiIntegrationsGoogleStartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/integrations/meta/callback': {
+      id: '/api/integrations/meta/callback'
+      path: '/api/integrations/meta/callback'
+      fullPath: '/api/integrations/meta/callback'
+      preLoaderRoute: typeof ApiIntegrationsMetaCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/integrations/meta/start': {
+      id: '/api/integrations/meta/start'
+      path: '/api/integrations/meta/start'
+      fullPath: '/api/integrations/meta/start'
+      preLoaderRoute: typeof ApiIntegrationsMetaStartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/integrations/microsoft/callback': {
+      id: '/api/integrations/microsoft/callback'
+      path: '/api/integrations/microsoft/callback'
+      fullPath: '/api/integrations/microsoft/callback'
+      preLoaderRoute: typeof ApiIntegrationsMicrosoftCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/integrations/microsoft/start': {
+      id: '/api/integrations/microsoft/start'
+      path: '/api/integrations/microsoft/start'
+      fullPath: '/api/integrations/microsoft/start'
+      preLoaderRoute: typeof ApiIntegrationsMicrosoftStartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/integrations/onedrive/files': {
+      id: '/api/integrations/onedrive/files'
+      path: '/api/integrations/onedrive/files'
+      fullPath: '/api/integrations/onedrive/files'
+      preLoaderRoute: typeof ApiIntegrationsOnedriveFilesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/integrations/outlook/messages': {
+      id: '/api/integrations/outlook/messages'
+      path: '/api/integrations/outlook/messages'
+      fullPath: '/api/integrations/outlook/messages'
+      preLoaderRoute: typeof ApiIntegrationsOutlookMessagesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/integrations/whatsapp/webhook': {
@@ -576,6 +779,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/webhooks/kiwify'
       fullPath: '/api/public/webhooks/kiwify'
       preLoaderRoute: typeof ApiPublicWebhooksKiwifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/integrations/google/drive/files': {
+      id: '/api/integrations/google/drive/files'
+      path: '/api/integrations/google/drive/files'
+      fullPath: '/api/integrations/google/drive/files'
+      preLoaderRoute: typeof ApiIntegrationsGoogleDriveFilesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/integrations/whatsapp/webhook': {
@@ -639,11 +849,21 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   ApiIntegrationsStatusRoute: ApiIntegrationsStatusRoute,
   ApiWebhooksKiwifyRoute: ApiWebhooksKiwifyRoute,
+  ApiIntegrationsGmailMessagesRoute: ApiIntegrationsGmailMessagesRoute,
   ApiIntegrationsGmailStartRoute: ApiIntegrationsGmailStartRoute,
   ApiIntegrationsGoogleCallbackRoute: ApiIntegrationsGoogleCallbackRoute,
+  ApiIntegrationsGoogleDriveStartRoute: ApiIntegrationsGoogleDriveStartRoute,
+  ApiIntegrationsGoogleSheetsRoute: ApiIntegrationsGoogleSheetsRoute,
   ApiIntegrationsGoogleStartRoute: ApiIntegrationsGoogleStartRoute,
+  ApiIntegrationsMetaCallbackRoute: ApiIntegrationsMetaCallbackRoute,
+  ApiIntegrationsMetaStartRoute: ApiIntegrationsMetaStartRoute,
+  ApiIntegrationsMicrosoftCallbackRoute: ApiIntegrationsMicrosoftCallbackRoute,
+  ApiIntegrationsMicrosoftStartRoute: ApiIntegrationsMicrosoftStartRoute,
+  ApiIntegrationsOnedriveFilesRoute: ApiIntegrationsOnedriveFilesRoute,
+  ApiIntegrationsOutlookMessagesRoute: ApiIntegrationsOutlookMessagesRoute,
   ApiIntegrationsWhatsappWebhookRoute: ApiIntegrationsWhatsappWebhookRoute,
   ApiPublicWebhooksKiwifyRoute: ApiPublicWebhooksKiwifyRoute,
+  ApiIntegrationsGoogleDriveFilesRoute: ApiIntegrationsGoogleDriveFilesRoute,
   ApiPublicIntegrationsWhatsappWebhookRoute:
     ApiPublicIntegrationsWhatsappWebhookRoute,
 }
