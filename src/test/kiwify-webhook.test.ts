@@ -4,11 +4,10 @@ import { handleKiwify, parseProductMap, toBillingCommand, webhookSchema } from '
 vi.stubGlobal('crypto', webcrypto);
 
 const productConfig = {
-  product_id: 'advexon-product',
-  subscription_plans: {
-    'subscription-plan-start': 'start',
-    'subscription-plan-growth': 'growth',
-    'subscription-plan-pro': 'pro',
+  products: {
+    'product-start': 'start',
+    'product-growth': 'growth',
+    'product-pro': 'pro',
   },
 };
 const config = { token: 'local-test-only-not-a-provider-secret', products: JSON.stringify(productConfig) };
@@ -18,7 +17,7 @@ const base = {
   webhook_event_type: 'compra_aprovada',
   order_status: 'paid',
   Customer: { email: 'OWNER@EXAMPLE.COM' },
-  Product: { product_id: 'advexon-product' },
+  Product: { product_id: 'product-growth' },
   subscription_id: 'sub-001',
   Subscription: {
     id: 'sub-001',
@@ -49,13 +48,13 @@ describe('Kiwify segura', () => {
     expect(process).not.toHaveBeenCalled();
   });
 
-  it('usa o ID do produto para validar o produto e o ID do plano da assinatura para liberar o plano correto', async () => {
+  it('usa o ID do produto separado para liberar o plano correto', async () => {
     const process = vi.fn().mockResolvedValue(undefined);
     expect((await handleKiwify(request(base), config, process)).status).toBe(200);
     expect(process).toHaveBeenCalledWith(expect.objectContaining({
       order_id: 'order-001',
       email: 'owner@example.com',
-      product_id: 'advexon-product',
+      product_id: 'product-growth',
       plan_id: 'growth',
       subscription_id: 'sub-001',
       status: 'active',
@@ -65,33 +64,18 @@ describe('Kiwify segura', () => {
   });
 
   it.each([
-    ['start', 'subscription-plan-start'],
-    ['growth', 'subscription-plan-growth'],
-    ['pro', 'subscription-plan-pro'],
-  ] as const)('distingue o plano %s dentro do mesmo produto', (expectedPlan, providerPlanId) => {
-    const value = webhookSchema.parse({
-      ...base,
-      Subscription: {
-        ...base.Subscription,
-        plan: { ...base.Subscription.plan, id: providerPlanId, name: expectedPlan.toUpperCase() },
-      },
-    });
+    ['start', 'product-start'],
+    ['growth', 'product-growth'],
+    ['pro', 'product-pro'],
+  ] as const)('distingue o plano %s pelo ID do produto', (expectedPlan, productId) => {
+    const value = webhookSchema.parse({ ...base, Product: { product_id: productId } });
     expect(toBillingCommand(value, parseProductMap(config.products))?.plan_id).toBe(expectedPlan);
   });
 
-  it('rejeita outro produto mesmo se o plano da assinatura for conhecido', async () => {
+  it('rejeita produto sem mapeamento', async () => {
     const process = vi.fn();
     expect((await handleKiwify(request({
-      ...base, Product: { product_id: 'different-product' },
-    }), config, process)).status).toBe(422);
-    expect(process).not.toHaveBeenCalled();
-  });
-
-  it('não presume um plano quando Subscription.plan.id não está mapeado', async () => {
-    const process = vi.fn();
-    expect((await handleKiwify(request({
-      ...base,
-      Subscription: { ...base.Subscription, plan: { ...base.Subscription.plan, id: 'unknown-plan' } },
+      ...base, Product: { product_id: 'unknown-product' },
     }), config, process)).status).toBe(422);
     expect(process).not.toHaveBeenCalled();
   });
@@ -176,8 +160,7 @@ describe('Kiwify segura', () => {
 
   it('exige os três planos no mapeamento de configuração', () => {
     expect(() => parseProductMap(JSON.stringify({
-      product_id: 'advexon-product',
-      subscription_plans: { 'only-growth': 'growth' },
+      products: { 'only-growth': 'growth' },
     }))).toThrow();
   });
 });
