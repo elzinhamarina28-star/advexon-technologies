@@ -148,6 +148,14 @@ describe('Kiwify segura', () => {
     )?.status).toBe(status);
   });
 
+  it('trata assinatura cancelada por reembolso como reembolso, não cancelamento comum', () => {
+    const command = toBillingCommand(
+      webhookSchema.parse({ ...base, webhook_event_type: 'subscription_canceled', order_status: 'refunded' }),
+      parseProductMap(config.products),
+    );
+    expect(command?.status).toBe('refunded');
+  });
+
   it('ignora eventos desconhecidos sem escrever', async () => {
     const process = vi.fn();
     expect((await handleKiwify(request({ ...base, webhook_event_type: 'unknown' }), config, process)).status).toBe(200);
