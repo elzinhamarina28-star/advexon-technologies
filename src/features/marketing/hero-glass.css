@@ -75,7 +75,8 @@
 }
 #produto.hero > .hero-intro-stage + .container {
   /* Full-bleed fade painted outside the container box (border-image outset), no extra element. */
-  border-image: linear-gradient(180deg, var(--background) 0, var(--background) 40px, color-mix(in srgb, var(--background) 0%, transparent) 320px) fill 0 / 0 / 96px 100vw 0;
+  border-image: linear-gradient(180deg, var(--background) 0, var(--background) 40px, color-mix(in srgb, var(--background) 0%, transparent) 320px) fill 0 / 0 / 0 100vw;
+  display: flow-root;
 }
 #produto.hero { overflow-x: clip; }
 
