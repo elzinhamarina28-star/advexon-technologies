@@ -29,3 +29,4 @@
 - The client dashboard (/painel) derives its score only from the browser-local diagnostic session and shows labeled demo data otherwise; no persistence until auth/database exist.
 
 - Build executive diagnostic analysis in a browser-safe module separate from score and UI; preserve score arithmetic and preview rendering, and distinguish missing evidence from scored unknown options.
+- Keep marketing background media inside the intro stage; mount video only after motion preferences permit it and retain a frame-derived static asset underneath, so reduced-motion and playback failures remain readable without affecting other sections.
