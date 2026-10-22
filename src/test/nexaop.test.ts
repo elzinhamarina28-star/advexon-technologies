@@ -16,6 +16,6 @@ describe('ADVEXON commercial rules',()=>{
  it('START costs R$ 9.99 with 1 user and 100 interactions',()=>{expect(plans[0]?.price).toBe(9.99);expect(plans[0]?.limits).toEqual({companies:1,users:1,interactions:100,contacts:null,agents:null});});
  it('GROWTH costs R$ 89.99 with requested limits',()=>{expect(plans[1]?.price).toBe(89.99);expect(plans[1]?.limits).toEqual({companies:1,users:3,interactions:1000,contacts:500,agents:3});});
  it('PRO costs R$ 229.99 with requested limits',()=>{expect(plans[2]?.price).toBe(229.99);expect(plans[2]?.limits).toEqual({companies:1,users:10,interactions:5000,contacts:2000,agents:6});});
- it.each([['start','https://pay.kiwify.com.br/5tsqOdv'],['growth','https://pay.kiwify.com.br/5IvKxZs'],['pro','https://pay.kiwify.com.br/gZ4lqrv']])('%s preserves its official checkout', (id, url) => expect(plans.find(plan => plan.id === id)?.checkoutUrl).toBe(url));
+ it.each([['start','https://pay.kiwify.com.br/mvbyFpb'],['growth','https://pay.kiwify.com.br/vOEnp57'],['pro','https://pay.kiwify.com.br/9dDlNkl']])('%s preserves its official checkout', (id, url) => expect(plans.find(plan => plan.id === id)?.checkoutUrl).toBe(url));
  it('only Athena and Ethan are initial agents',()=>expect(agents.filter(a=>a.status==='initial').map(a=>a.name)).toEqual(['ATHENA','ETHAN']));
 });

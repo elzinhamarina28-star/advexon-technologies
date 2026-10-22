@@ -1,38 +1,69 @@
 # Recebimento Kiwify — implementação e pendências
 
-- Rota solicitada: `POST /api/webhooks/kiwify`.
-- Alias para chamadas externas após publicação: `POST /api/public/webhooks/kiwify`. Só `/api/public/*` contorna a autenticação do site publicado. Ambos usam o mesmo processamento, com token obrigatório antes de qualquer acesso privilegiado.
-- Não foi publicado. Nenhuma URL HTTPS de recebimento foi confirmada; não cadastrar uma URL presumida.
-- Os três links oficiais estão associados aos planos no código. Isso permite abrir o checkout, mas NÃO comprova recorrência, pagamento ou liberação automática. Nenhum segredo Kiwify foi criado.
+## Produtos recorrentes da ADVEXON
 
-## Configuração manual necessária
+Cada plano tem seu próprio produto recorrente na Kiwify:
 
-Depois de autorização explícita para publicar e da verificação do endereço público, configure o MESMO token na Kiwify e no armazenamento seguro como `KIWIFY_WEBHOOK_TOKEN`, usando o formulário seguro de segredo compartilhado. Não enviar pelo chat. Esta implementação exige `token` no JSON; a documentação de criação oficial possui token, mas a entrega real precisa ser confirmada com um payload oficial. Não confundir SHA1 público do corpo com autenticação nem utilizar as assinaturas da API bancária.
+- START — produto `a2a02780-ce26-11f1-9bfa-85be018fca64`, checkout `https://pay.kiwify.com.br/mvbyFpb`
+- PRO — produto `efe1fc80-ce26-11f1-9bfa-85be018fca64`, checkout `https://pay.kiwify.com.br/9dDlNkl`
+- GROWTH — produto `d8926d30-ce26-11f1-a270-0f56b2a713a8`, checkout `https://pay.kiwify.com.br/vOEnp57`
 
-Salvar também `KIWIFY_PRODUCT_PLAN_MAP`: objeto JSON dos IDs reais dos produtos Kiwify para `start`, `growth` ou `pro`. Não usar nomes, preços ou IDs inventados. Sem ambas as configurações, a rota retorna 503 e não modifica assinaturas.
+Os IDs foram obtidos da URL de edição dos produtos; os links de checkout foram fornecidos pela proprietária. Não confundir IDs de produto com códigos curtos de checkout.
 
-## Contrato conservador e limitações
+## Autenticação correta do webhook
 
-Campos esperados: `order_id`, `webhook_event_type`, `order_status`, `Customer.email`, `Product.product_id`, `Subscription.id` e `Subscription.next_payment_date` ou `next_payment`. Aprovação/renovação requer `order_status=paid` e próxima data ISO-8601 com fuso explícito, futura. Não adivinhamos duração ou fuso; payload em outro formato retorna 422, sem liberar acesso. **O formato de entrega, campo de evento e data precisam de confirmação com um payload oficial real antes da ativação.**
+A implementação desta branch valida o parâmetro de consulta `signature` usando HMAC-SHA1 com o token como segredo; o corpo JSON não precisa conter um campo `token`. A validação considera tanto o JSON reserializado quanto os bytes originais. **Antes de ativar cobranças, validar esse formato com uma entrega real de teste da Kiwify**, pois a confirmação de CI não substitui a validação de integração externa.
 
-Eventos oficiais de configuração: `compra_aprovada`, `compra_reembolsada`, `chargeback`, `subscription_canceled`, `subscription_late`, `subscription_renewed`, `pix_gerado`, `boleto_gerado`, `compra_recusada`. Aliases de entrega `order_approved`/`order_refunded` também aceitos. Outros são ignorados. Fonte: https://docs.kiwify.com.br/api-reference/webhooks/create . A documentação consultada não especifica completamente a autenticação e todos os campos do payload recebido; a compatibilidade real não está declarada como verificada.
+Guardar segredos somente no gerenciador de secrets do ambiente de execução, nunca no código ou neste chat:
 
-Associação somente a exatamente uma conta com e-mail confirmado em auth, nunca por perfil editável. Conta inexistente/ambígua retorna falha genérica para retry, sem cadastro automático. Registro mínimo sem token, e-mail ou dados sensíveis. RPC exclusiva de `service_role`; usuários comuns não podem processar eventos. Log e assinatura são gravados na mesma transação com bloqueio por conta.
+- `KIWIFY_WEBHOOK_TOKEN`: token novo gerado na Kiwify para o webhook.
+- `KIWIFY_PRODUCT_PLAN_MAP`: JSON que associa cada ID de produto ao plano interno.
 
-Idempotência por `order_id` + estado normalizado: aprovação repetida não duplica, mas reembolso posterior da mesma compra é processado. Eventos antigos não estendem vigência para trás; reembolso de compra anterior não revoga renovação mais recente; cancelamento da assinatura impede reativação por replay. Cancelamento/reembolso retiram acesso imediatamente; pagamentos pendentes não liberam nem derrubam assinatura válida. Assinaturas de outros provedores não são sobrescritas.
+Exemplo de `KIWIFY_PRODUCT_PLAN_MAP`:
 
-## Verificação
+```json
+{
+  "products": {
+    "a2a02780-ce26-11f1-9bfa-85be018fca64": "start",
+    "efe1fc80-ce26-11f1-9bfa-85be018fca64": "pro",
+    "d8926d30-ce26-11f1-a270-0f56b2a713a8": "growth"
+  }
+}
+```
 
-Testes locais em `src/test/kiwify-webhook.test.ts`; regressão transacional do banco em `src/test/kiwify-idempotency.sql` (somente com BEGIN/ROLLBACK). Fluxo real autenticado, entregas oficiais, retries concorrentes e URL pública dependem de configuração e publicação; não foram simulados como pagamentos reais.
+A configuração é recusada se não mapear START, GROWTH e PRO. O plano é selecionado exclusivamente pelo `Product.product_id` do webhook; produtos desconhecidos são rejeitados. O servidor não confia em nomes, preços, links de checkout nem num `plan_id` enviado pelo comprador.
 
-## Bloqueios de lançamento confirmados
+## Endpoint e eventos
 
-- Não há token ou mapa de IDs Kiwify entre os segredos configurados. URLs de checkout NÃO são IDs dos produtos.
-- Recorrência mensal e disponibilidade dos produtos não foram verificadas dentro da conta Kiwify.
-- Compra antes do cadastro atualmente depende de retry: não existe armazenamento/associação posterior automática. Não declarar provisionamento desse caso concluído.
-- Cancelamento e atraso hoje suspendem imediatamente; faltam regras comerciais confirmadas para preservar período já pago. Reembolso parcial também não possui regra validada. Não alterar esses comportamentos com suposições.
-- START anuncia IA básica que ainda não tem função disponível; PRO anuncia até seis agentes, mas apenas três chats existem. Não declarar entrega comercial completa.
-- O banco tem isolamento por usuário, não colaboração entre membros da mesma empresa. Limites de 3/10 usuários e empresa compartilhada ainda não estão implementados.
-- As regressões SQL com reversão foram tentadas, mas bloqueadas por permissões da sessão de teste; nenhuma compra real foi executada.
-## Atualização (cancelamento)
-Cancelamento mantém o status `canceled` sem alterar `current_period_end`; o acesso continua só até essa data já paga. Reembolso e atraso encerram o acesso. O formato real de datas da Kiwify continua não confirmado: sem payload oficial, token e IDs de produto, o webhook permanece desativado.
+- Endpoint previsto: `POST /api/public/webhooks/kiwify`. Só cadastrar quando a versão contendo esta implementação estiver realmente implantada.
+- Rota alternativa: `POST /api/webhooks/kiwify`; usar somente se for confirmado que não exige sessão/autenticação.
+- Configurar um webhook por produto caso a interface da Kiwify exija selecionar apenas um produto por webhook.
+- Selecionar compra aprovada, assinatura renovada, assinatura atrasada, assinatura cancelada, reembolso e chargeback. Pix/boleto gerados e compra recusada são opcionais e não concedem acesso.
+
+## Validações de segurança e lógica
+
+- Assinatura verificada antes de processar o evento; comparação em tempo constante.
+- Corpo limitado a 64 KiB; erros de validação não retornam dados pessoais.
+- Compra aprovada/renovação só libera acesso com `order_status=paid`, período de acesso futuro e sem contradição de `customer_access.has_access=false`.
+- Evento `subscription_canceled` com `order_status=refunded` é normalizado como reembolso.
+- RPC do banco restrita a `service_role`; associação apenas a exatamente uma conta existente com e-mail confirmado.
+- Idempotência/transação protegem contra eventos repetidos. O fluxo de cancelamento, reembolso e acesso até o fim do período pago ainda exige teste ponta a ponta.
+
+## Estado de validação
+
+Na branch `fix/kiwify-subscription-plan-mapping`, o CI passou em **108 testes distribuídos por 9 arquivos**, e o build de produção passou para client, SSR e Nitro/Cloudflare. Isso valida a branch no GitHub, **não** a versão atualmente publicada no Lovable.
+
+Ainda pendente:
+1. Sincronizar esta branch com o código do projeto Lovable antes de publicar.
+2. Configurar `KIWIFY_WEBHOOK_TOKEN` e `KIWIFY_PRODUCT_PLAN_MAP` como secrets no ambiente real.
+3. Confirmar a URL pública e a autenticação do endpoint.
+4. Fazer entrega de teste da Kiwify e validar compra aprovada, renovação, atraso, cancelamento, reembolso e chargeback.
+5. Confirmar que o banco concede/revoga acesso corretamente para contas reais de teste.
+
+Não ativar a venda recorrente em produção até concluir essas verificações. Nenhuma compra real foi feita nesta validação.
+
+## Fontes
+
+- Kiwify — Como funcionam os webhooks: https://ajuda.kiwify.com.br/pt-br/article/como-funcionam-os-webhooks-2ydtgl/
+- Kiwify — documentação dos payloads: https://kiwify.notion.site/Webhooks-pt-br-c77eb84be10c42e6bb97cd391bca9dce
+- Kiwify — Onde encontro a ID do produto?: https://ajuda.kiwify.com.br/pt-br/article/onde-encontro-a-id-do-produto-1li295v/
