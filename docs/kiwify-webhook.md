@@ -47,6 +47,7 @@ Não cadastrar URL presumida. Após verificar que a versão correta foi publicad
 
 - Token validado antes de acessar banco; limite de corpo de 64 KiB; mensagens de erro sem dados pessoais.
 - Aprovação/renovação exige `order_status=paid`, período válido/futuro e não pode contrariar `customer_access.has_access=false`.
+- Se `subscription_canceled` chegar com `order_status=refunded`, o evento é normalizado como `refunded`; cancelamento comum continua `canceled`. Isso evita tratar um reembolso como simples cancelamento com período pago restante.
 - `customer_access.access_until` é preferido a `next_payment`; a data precisa ter fuso explícito. Não é inferida duração de assinatura.
 - Eventos sem produto/plano reconhecido não alteram a assinatura.
 - RPC de banco restrita a `service_role`; associação apenas a exatamente uma conta existente com e-mail confirmado.
