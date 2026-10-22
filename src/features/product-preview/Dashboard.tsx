@@ -19,7 +19,7 @@ export function Dashboard({ initialTab = 'Visão geral' }: { initialTab?: string
    <div className="dashboard-side-footer"><Settings size={12}/><span>Ambiente demonstrativo</span></div>
   </aside>
   <div className="dashboard-main"><div className="dashboard-top"><span>Minha empresa / {tab}</span><div className="dashboard-tools"><Button variant="ghost" size="icon" aria-label="Notificações demonstrativas" title="Notificações" onClick={()=>setNotifications(!notifications)}><Bell size={13}/></Button><span className="avatar">NE</span></div></div>
-   <div className="dashboard-content">
+   <div key={tab} className="dashboard-content dashboard-content-switch">
     {notifications&&<div className="notification-popover" role="status"><strong>Notificações · Dados demonstrativos</strong><p>Athena organizou uma nova conversa. Ethan identificou uma oportunidade.</p></div>}
     <div className="dashboard-heading"><div><h3>{tab==='Visão geral'?'Sua operação, em perspectiva.':tab}</h3><p>{tab==='Visão geral'?'Tudo o que importa. Organizado em um só lugar.':'Uma visão integrada dos próximos passos.'}</p></div><span className="demo-tag">Dados demonstrativos</span></div>
     {tab==='Visão geral'?<>

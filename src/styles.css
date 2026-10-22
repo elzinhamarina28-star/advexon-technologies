@@ -1665,3 +1665,97 @@ html, body, #root {
   background: color-mix(in srgb, var(--advexon-lime) 7%, transparent);
   border-color: color-mix(in srgb, var(--advexon-lime) 24%, transparent);
 }
+
+
+/* ADVEXON motion polish — preserve the existing palette and component layout. */
+/* The scroll observer already reveals primary sections; include the demo's sub-steps. */
+.demo-flow li.scroll-reveal,
+.demo-agent.scroll-reveal {
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* A short, staggered signal communicates the hand-off between agents without perpetual motion. */
+.team-flow.is-visible > svg {
+  animation: advexon-flow-arrive 900ms cubic-bezier(.2,.7,.2,1) both;
+}
+.team-flow.is-visible > svg:nth-of-type(2) { animation-delay: 120ms; }
+.team-flow.is-visible > svg:nth-of-type(3) { animation-delay: 240ms; }
+.team-flow.is-visible > svg:nth-of-type(4) { animation-delay: 360ms; }
+
+.demo-flow li.scroll-reveal.is-visible:not(:last-child)::after {
+  animation: advexon-flow-arrow-arrive 650ms ease-out both;
+}
+.demo-flow li:nth-child(2).scroll-reveal.is-visible::after { animation-delay: 90ms; }
+.demo-flow li:nth-child(3).scroll-reveal.is-visible::after { animation-delay: 180ms; }
+.demo-flow li:nth-child(4).scroll-reveal.is-visible::after { animation-delay: 270ms; }
+
+@keyframes advexon-flow-arrive {
+  0% { opacity: .35; filter: none; }
+  58% { opacity: 1; filter: drop-shadow(0 0 7px color-mix(in srgb, var(--cyan) 45%, transparent)); }
+  100% { opacity: .9; filter: none; }
+}
+@keyframes advexon-flow-arrow-arrive {
+  0% { color: var(--primary); opacity: .5; }
+  55% { color: var(--cyan); opacity: 1; text-shadow: 0 0 8px color-mix(in srgb, var(--cyan) 45%, transparent); }
+  100% { color: var(--primary); opacity: 1; text-shadow: none; }
+}
+
+/* Message entry is tied to each explicit user-controlled demo step. */
+.demo-msg.reveal {
+  animation: advexon-chat-message-in 420ms cubic-bezier(.2,.7,.2,1) both;
+}
+@keyframes advexon-chat-message-in {
+  from { opacity: 0; transform: translateY(10px) scale(.99); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Restrained depth on mouse/trackpad devices; touch users do not get sticky hover effects. */
+.agent-card,
+.demo-agent,
+.plan-card {
+  transition:
+    transform 280ms cubic-bezier(.2,.7,.2,1),
+    border-color 280ms ease,
+    box-shadow 280ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .agent-card:hover,
+  .demo-agent:hover,
+  .plan-card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--primary) 48%, var(--line));
+    box-shadow:
+      0 22px 48px -34px color-mix(in srgb, var(--violet) 55%, transparent),
+      var(--card-shadow);
+  }
+}
+
+/* Switching dashboard tabs has a small, content-only transition (no layout motion). */
+.dashboard-content-switch {
+  animation: advexon-dashboard-panel-in 320ms cubic-bezier(.2,.7,.2,1) both;
+}
+@keyframes advexon-dashboard-panel-in {
+  from { opacity: .65; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Motion settings take precedence over every enhancement above. */
+@media (prefers-reduced-motion: reduce) {
+  .team-flow.is-visible > svg,
+  .demo-flow li.scroll-reveal.is-visible:not(:last-child)::after,
+  .demo-msg.reveal,
+  .dashboard-content-switch {
+    animation: none !important;
+  }
+  .agent-card,
+  .demo-agent,
+  .plan-card {
+    transition: none !important;
+  }
+  .agent-card:hover,
+  .demo-agent:hover,
+  .plan-card:hover {
+    transform: none !important;
+    box-shadow: var(--card-shadow);
+  }
+}
