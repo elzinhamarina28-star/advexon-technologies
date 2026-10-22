@@ -179,9 +179,6 @@ export async function handleKiwify(
   const parsed = webhookSchema.safeParse(payload);
   if (!parsed.success) return reply(400, 'Evento inválido.');
 
-  const parsed = webhookSchema.safeParse(payload);
-  if (!parsed.success) return reply(400, 'Evento inválido.');
-
   let products: KiwifyProductPlanConfig;
   try { products = parseProductMap(config.products); } catch { return reply(503, 'Recebimento ainda não configurado.'); }
 
