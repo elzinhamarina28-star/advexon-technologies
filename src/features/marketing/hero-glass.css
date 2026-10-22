@@ -72,17 +72,9 @@
 #produto.hero > .hero-intro-stage + .container {
   position: relative;
 }
-#produto.hero > .hero-intro-stage + .container::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 100vw;
-  height: 140px;
-  transform: translateX(-50%);
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(180deg, var(--background) 0%, color-mix(in srgb, var(--background) 0%, transparent) 100%);
+#produto.hero > .hero-intro-stage + .container {
+  /* Full-bleed fade painted outside the container box (border-image outset), no extra element. */
+  border-image: linear-gradient(180deg, var(--background) 0, var(--background) 24px, color-mix(in srgb, var(--background) 0%, transparent) 220px) fill 0 / 0 / 0 100vw;
 }
 #produto.hero { overflow-x: clip; }
 
