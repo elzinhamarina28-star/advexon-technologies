@@ -72,8 +72,13 @@ export function toBillingCommand(
   config: KiwifyProductPlanConfig,
   now = Date.now(),
 ): BillingCommand | null {
-  const status = events[value.webhook_event_type];
-  if (!status) return null;
+  const mappedStatus = events[value.webhook_event_type];
+  if (!mappedStatus) return null;
+  // Kiwify can send subscription_canceled for a refund as well. Distinguish it
+  // from an ordinary cancellation so refunded orders lose access immediately.
+  const status = value.webhook_event_type === 'subscription_canceled' && value.order_status === 'refunded'
+    ? 'refunded'
+    : mappedStatus;
 
   if (value.Product.product_id !== config.product_id) {
     throw new Error('Produto Kiwify não corresponde ao produto configurado.');
