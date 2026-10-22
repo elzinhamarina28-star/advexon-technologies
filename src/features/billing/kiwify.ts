@@ -167,7 +167,7 @@ export async function handleKiwify(
     return difference === 0;
   };
   const rawBody = new TextDecoder().decode(bytes);
-  const normalizedBody = JSON.stringify(payload);
+  const normalizedBody = JSON.stringify(payload) ?? '';
   const [normalizedSignature, rawSignature] = await Promise.all([
     hmacSha1(normalizedBody),
     hmacSha1(rawBody),
