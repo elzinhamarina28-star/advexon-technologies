@@ -18,6 +18,7 @@
   background: var(--hero-surface);
 }
 
+#produto.hero > .hero-intro-stage > .hero-static-bg,
 #produto.hero > .hero-intro-stage > .hero-video-bg {
   position: absolute;
   inset: 0;
@@ -29,14 +30,22 @@
   pointer-events: none;
 }
 
+#produto.hero > .hero-intro-stage > .hero-video-bg {
+  opacity: 0;
+}
+
+#produto.hero > .hero-intro-stage > .hero-video-bg.is-playing {
+  opacity: 1;
+}
+
 #produto.hero > .hero-intro-stage > .hero-intro-shade {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 70% 50% at 50% 45%, rgba(8, 13, 25, 0.2), rgba(8, 13, 25, 0.4) 80%),
-    linear-gradient(180deg, rgba(8, 13, 25, 0.3) 0%, rgba(8, 13, 25, 0.44) 54%, rgba(8, 13, 25, 0.66) 100%);
+    radial-gradient(ellipse 70% 50% at 50% 45%, color-mix(in srgb, var(--background) 20%, transparent), color-mix(in srgb, var(--background) 40%, transparent) 80%),
+    linear-gradient(180deg, color-mix(in srgb, var(--background) 30%, transparent) 0%, color-mix(in srgb, var(--background) 44%, transparent) 54%, color-mix(in srgb, var(--background) 66%, transparent) 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -143,8 +152,8 @@
 
   #produto.hero > .hero-intro-stage > .hero-intro-shade {
     background:
-      radial-gradient(ellipse 75% 50% at 50% 42%, rgba(8, 13, 25, 0.08), rgba(8, 13, 25, 0.24) 82%),
-      linear-gradient(180deg, rgba(8, 13, 25, 0.2) 0%, rgba(8, 13, 25, 0.4) 60%, rgba(8, 13, 25, 0.64) 100%);
+      radial-gradient(ellipse 75% 50% at 50% 42%, color-mix(in srgb, var(--background) 20%, transparent), color-mix(in srgb, var(--background) 40%, transparent) 82%),
+      linear-gradient(180deg, color-mix(in srgb, var(--background) 30%, transparent) 0%, color-mix(in srgb, var(--background) 44%, transparent) 60%, color-mix(in srgb, var(--background) 66%, transparent) 100%);
   }
 
   #produto.hero .hero-glass-ribbons path.glass-ribbon-blur { stroke-width: 70; opacity: 0.14; }

@@ -10,6 +10,7 @@ import { Agents } from '../agents/Agents';
 import { Diagnostic } from '../diagnostic/Diagnostic';
 import { Pricing } from '../pricing/Pricing';
 import { TeamDemo } from '../team-demo/TeamDemo';
+import heroPoster from '@/assets/advexon-hero-poster.jpg.asset.json';
 const faqs=[
  {q:'Preciso entender de IA para usar a ADVEXON?',a:'Não. A ADVEXON transforma IA em ferramentas práticas. Você não precisa dominar tecnologia para começar.'},
  {q:'A ADVEXON substitui minha equipe?',a:'Não. A proposta é trabalhar junto com sua equipe, reduzindo tarefas repetitivas e aumentando a capacidade da operação.'},
@@ -19,43 +20,59 @@ const faqs=[
 ];
 function HeroVideoBackground() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [motionAllowed, setMotionAllowed] = useState(false);
+  const [mediaFailed, setMediaFailed] = useState(false);
+  const [playing, setPlaying] = useState(false);
+
+  useEffect(() => {
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const syncMotion = () => setMotionAllowed(!motionQuery.matches);
+    syncMotion();
+    motionQuery.addEventListener('change', syncMotion);
+    return () => motionQuery.removeEventListener('change', syncMotion);
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const syncPlayback = () => {
-      if (motionQuery.matches || document.hidden) {
+      if (document.hidden) {
         video.pause();
         return;
       }
-      video.play().catch(() => undefined);
+      video.play().catch(() => setPlaying(false));
     };
 
     syncPlayback();
     document.addEventListener('visibilitychange', syncPlayback);
-    motionQuery.addEventListener('change', syncPlayback);
 
     return () => {
+      video.pause();
       document.removeEventListener('visibilitychange', syncPlayback);
-      motionQuery.removeEventListener('change', syncPlayback);
     };
-  }, []);
+  }, [motionAllowed, mediaFailed]);
 
   return (
-    <video
+    <>
+    <img className="hero-static-bg" src={heroPoster.url} alt="" aria-hidden="true" fetchPriority="high" />
+    {motionAllowed && !mediaFailed && <video
       ref={videoRef}
-      className="hero-video-bg"
+      className={`hero-video-bg${playing ? ' is-playing' : ''}`}
+      autoPlay
       muted
       loop
       playsInline
       preload="metadata"
+      poster={heroPoster.url}
       disablePictureInPicture
       aria-hidden="true"
       tabIndex={-1}
+      onPlaying={() => setPlaying(true)}
+      onError={() => { setPlaying(false); setMediaFailed(true); }}
       src="/advexon-hero-bg-loop.mp4"
-    />
+    />}
+    </>
   );
 }
 export function MarketingPage() {
