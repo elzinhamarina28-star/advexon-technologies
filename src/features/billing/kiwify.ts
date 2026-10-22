@@ -49,8 +49,8 @@ export type BillingCommand = {
   subscription_id: string | null; period_end: string | null;
 };
 
-// The product ID only verifies which product generated the event. The subscription
-// plan ID (Subscription.plan.id) selects START/GROWTH/PRO for a single product.
+// The three ADVEXON plans have separate Kiwify products. Product.product_id
+// selects START/GROWTH/PRO directly, avoiding dependence on a nested plan ID.
 export function parseProductMap(raw: string): KiwifyProductPlanConfig {
   const parsed = z.object({
     products: z.record(id, planId),
