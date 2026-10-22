@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowRight, Sparkles, Menu, X, MessageSquare, TrendingUp, Repeat2, FolderOpen, Plus, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Brand } from '../shared/Brand';
@@ -19,6 +19,35 @@ const faqs=[
 function HeroRibbon(){return <svg className="hero-ribbon" viewBox="0 0 1440 760" preserveAspectRatio="xMidYMin slice" aria-hidden="true"><defs><linearGradient id="hr" x1="0" x2="1"><stop stopColor="var(--violet)" stopOpacity="0"/><stop offset=".3" stopColor="var(--violet)" stopOpacity=".55"/><stop offset=".65" stopColor="var(--primary)" stopOpacity=".5"/><stop offset="1" stopColor="var(--cyan)" stopOpacity="0"/></linearGradient></defs><path className="thin" d="M-40 560C260 520 380 180 620 210S980 560 1480 300"/><path className="thin" d="M-40 610C300 570 420 240 640 260S1000 600 1480 360"/><path d="M-40 585C280 545 400 210 630 235S990 580 1480 330" stroke="url(#hr)" strokeWidth="2"/><circle cx="630" cy="235" r="3" fill="var(--success)" opacity=".7"/><circle cx="1210" cy="440" r="2.5" fill="var(--cyan)" opacity=".7"/><path className="thin" d="M1120 80 1380 340M60 120 260 320"/></svg>;}
 export function MarketingPage() {
  const [menu,setMenu]=useState(false);
+
+ useEffect(() => {
+   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+   const targets = document.querySelectorAll<HTMLElement>(
+     '#conteudo .product-strip, #conteudo .agents-heading, #conteudo .agent-card, #conteudo .team-flow, #conteudo .editorial-heading, #conteudo .step, #conteudo .diagnostic-intro, #conteudo .diagnostic-tool, #conteudo .pricing-header, #conteudo .plan-card, #conteudo .comparison, #conteudo .faq-layout > div, #conteudo .final-cta .container, #conteudo .demo-flow li, #conteudo .demo-agent, #conteudo .demo-chat-wrap, #conteudo .central-panel, #conteudo .demo-final-cta, .footer .footer-main, .footer .footer-bottom, .footer .footer-links .nav-link'
+   );
+
+   if (reduceMotion || !('IntersectionObserver' in window)) {
+     targets.forEach((target) => target.classList.add('is-visible'));
+     return;
+   }
+
+   const observer = new IntersectionObserver((entries) => {
+     entries.forEach((entry) => {
+       if (!entry.isIntersecting) return;
+       entry.target.classList.add('is-visible');
+       observer.unobserve(entry.target);
+     });
+   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+   targets.forEach((target, index) => {
+     target.classList.add('scroll-reveal');
+     target.style.setProperty('--reveal-delay', `${(index % 4) * 85}ms`);
+     observer.observe(target);
+   });
+
+   return () => observer.disconnect();
+ }, []);
+
  return <><a className="skip-link" href="#conteudo">Pular para o conteúdo</a><header className="header"><div className="container header-inner"><a href="#produto" aria-label="ADVEXON início"><Brand/></a><nav className="desktop-nav" aria-label="Navegação principal"><Link to="/auth" className="nav-link">Entrar</Link>{navigation.map(item=><a key={item.id} className="nav-link" href={`#${item.id}`}>{item.label}</a>)}</nav><Button variant="nexa" className="header-cta" asChild><Link to="/auth">Começar agora<ArrowRight/></Link></Button><Button variant="ghost" size="icon" className="menu-toggle" aria-expanded={menu} aria-controls="mobile-navigation" aria-label={menu?'Fechar menu':'Abrir menu'} onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</Button></div>{menu&&<nav id="mobile-navigation" className="mobile-nav" aria-label="Navegação móvel"><Link to="/auth" className="nav-link" onClick={()=>setMenu(false)}>Entrar</Link><Link to="/auth" className="nav-link" onClick={()=>setMenu(false)}>Começar agora</Link>{navigation.map(item=><a key={item.id} className="nav-link" href={`#${item.id}`} onClick={()=>setMenu(false)}>{item.label}</a>)}</nav>}</header>
  <main id="conteudo"><section id="produto" className="hero"><HeroRibbon/><div className="container"><div className="hero-label"><Sparkles/>ADVEXON · Inteligência aplicada à sua operação</div><h1 className="reveal">Sua equipe IA<br/><em className="gradient-text">em ação.</em></h1><p className="hero-support">Você não precisa entender de IA.<br/>Precisa saber onde ela pode ajudar.</p><p className="hero-sub">Atendimento, vendas, follow-up e organização trabalhando juntos para sua empresa.</p><div className="hero-actions"><Button variant="ghost" asChild><Link to="/auth">Começar agora<ArrowRight/></Link></Button><Button variant="nexa" className="nexa-button-lg" asChild><a href="#diagnostico">Fazer meu diagnóstico<ArrowRight/></a></Button></div><p className="microcopy">Gratuito. Leva cerca de 2 minutos.</p><div className="hero-mockup reveal"><Dashboard/><p className="mockup-caption"><ShieldCheck size={11}/>Dados demonstrativos.</p></div><div className="product-strip"><span><MessageSquare/>Atendimento</span><span><TrendingUp/>Vendas</span><span><Repeat2/>Follow-up</span><span><FolderOpen/>Organização</span></div></div></section>
  <Agents/>
