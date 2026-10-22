@@ -1,0 +1,208 @@
+/* ADVEXON hero-only glass-ribbon motion. Scoped to the introductory block so
+   the dashboard, navigation, pricing, and every following section remain untouched. */
+#produto.hero {
+  padding-top: 0;
+}
+
+/* Hide the older flat capsule so the glass material remains the single hero motif. */
+#produto.hero::before {
+  display: none;
+}
+
+#produto.hero > .hero-intro-stage {
+  position: relative;
+  isolation: isolate;
+  z-index: 1;
+  overflow: hidden;
+  padding-top: 128px;
+  padding-bottom: 10px;
+  background: var(--hero-surface);
+}
+
+#produto.hero > .hero-intro-stage > .hero-static-bg,
+#produto.hero > .hero-intro-stage > .hero-video-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
+#produto.hero > .hero-intro-stage > .hero-video-bg {
+  opacity: 0;
+}
+
+#produto.hero > .hero-intro-stage > .hero-video-bg.is-playing {
+  opacity: 1;
+}
+
+#produto.hero > .hero-intro-stage > .hero-intro-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 45%, color-mix(in srgb, var(--background) 20%, transparent), color-mix(in srgb, var(--background) 40%, transparent) 80%),
+    linear-gradient(180deg, color-mix(in srgb, var(--background) 30%, transparent) 0%, color-mix(in srgb, var(--background) 44%, transparent) 54%, color-mix(in srgb, var(--background) 66%, transparent) 100%);
+}
+
+/* Soft bottom blend: dissolves the video/poster into the page background so the
+   intro flows into the product preview without a straight edge. Static, no motion. */
+#produto.hero > .hero-intro-stage::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(96px, 22%, 200px);
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--background) 45%, transparent) 45%,
+    color-mix(in srgb, var(--background) 85%, transparent) 78%,
+    var(--background) 100%
+  );
+}
+
+/* Continue the same tone just below the stage, then let the section surface return gradually. */
+#produto.hero > .hero-intro-stage + .container {
+  position: relative;
+}
+#produto.hero > .hero-intro-stage + .container {
+  /* Full-bleed fade painted outside the container box (border-image outset), no extra element. */
+  border-image: linear-gradient(180deg, var(--background) 0, var(--background) 40px, color-mix(in srgb, var(--background) 0%, transparent) 320px) fill 0 / 0 / 0 100vw;
+  display: flow-root;
+}
+#produto.hero { overflow-x: clip; }
+
+@media (prefers-reduced-motion: reduce) {
+
+  #produto.hero > .hero-intro-stage > .hero-video-bg {
+    display: none;
+  }
+}
+
+#produto.hero > .hero-intro-stage > .hero-ribbon.intro-ribbon {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  opacity: 1;
+  overflow: hidden;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+#produto.hero .hero-intro-container {
+  position: relative;
+  z-index: 2;
+}
+
+#produto.hero .hero-glass-ribbons .glass-ribbon-group {
+  transform-box: view-box;
+  transform-origin: center;
+  animation: advexon-glass-ribbon-drift 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+#produto.hero .hero-glass-ribbons .glass-ribbon-middle {
+  animation-duration: 34s;
+  animation-delay: -13s;
+}
+
+#produto.hero .hero-glass-ribbons .glass-ribbon-lower {
+  animation-duration: 38s;
+  animation-delay: -19s;
+}
+
+#produto.hero .hero-glass-ribbons path.glass-ribbon-blur {
+  fill: none;
+  stroke-width: 84;
+  opacity: 0.18;
+  filter: url(#hero-glass-blur);
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+  animation: none !important;
+}
+
+#produto.hero .hero-glass-ribbons path.glass-ribbon-body {
+  fill: none;
+  stroke-width: 56;
+  opacity: 0.38;
+  filter: drop-shadow(0 12px 14px rgba(25, 48, 119, 0.16));
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+  animation: none !important;
+}
+
+#produto.hero .hero-glass-ribbons path.glass-ribbon-edge {
+  fill: none;
+  stroke-width: 2;
+  opacity: 0.44;
+  stroke-dasharray: 45 120 !important;
+  stroke-dashoffset: 0;
+  animation: advexon-glass-ribbon-shimmer 26s linear infinite !important;
+  filter: drop-shadow(0 0 5px rgba(92, 103, 255, 0.2));
+}
+
+#produto.hero .hero-glass-ribbons path.glass-ribbon-specular {
+  fill: none;
+  stroke: rgba(226, 237, 255, 0.58);
+  stroke-width: 1.25;
+  opacity: 0.24;
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+  animation: none !important;
+}
+
+@keyframes advexon-glass-ribbon-drift {
+  from { transform: translate3d(-0.7%, -0.4%, 0) rotate(-0.25deg); }
+  to { transform: translate3d(0.8%, 0.7%, 0) rotate(0.35deg); }
+}
+
+@keyframes advexon-glass-ribbon-shimmer {
+  0% { stroke-dashoffset: 0; opacity: 0.22; }
+  50% { stroke-dashoffset: -180; opacity: 0.48; }
+  100% { stroke-dashoffset: -360; opacity: 0.22; }
+}
+
+@media (max-width: 1100px) {
+  #produto.hero > .hero-intro-stage { padding-top: 88px; }
+}
+
+@media (max-width: 600px) {
+  #produto.hero > .hero-intro-stage {
+    padding-top: 80px;
+    padding-bottom: 8px;
+  }
+
+  #produto.hero > .hero-intro-stage > .hero-intro-shade {
+    background:
+      radial-gradient(ellipse 75% 50% at 50% 42%, color-mix(in srgb, var(--background) 20%, transparent), color-mix(in srgb, var(--background) 40%, transparent) 82%),
+      linear-gradient(180deg, color-mix(in srgb, var(--background) 30%, transparent) 0%, color-mix(in srgb, var(--background) 44%, transparent) 60%, color-mix(in srgb, var(--background) 66%, transparent) 100%);
+  }
+
+  #produto.hero .hero-glass-ribbons path.glass-ribbon-blur { stroke-width: 70; opacity: 0.14; }
+  #produto.hero .hero-glass-ribbons path.glass-ribbon-body { stroke-width: 46; opacity: 0.3; }
+  #produto.hero .hero-glass-ribbons path.glass-ribbon-edge { stroke-width: 1.6; opacity: 0.38; }
+  #produto.hero .hero-glass-ribbons path.glass-ribbon-specular { opacity: 0.18; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #produto.hero .hero-glass-ribbons .glass-ribbon-group,
+  #produto.hero .hero-glass-ribbons path.glass-ribbon-edge {
+    animation: none !important;
+    transform: none !important;
+    will-change: auto;
+  }
+
+  #produto.hero .hero-glass-ribbons path.glass-ribbon-blur { filter: none; opacity: 0.07; }
+  #produto.hero .hero-glass-ribbons path.glass-ribbon-edge { stroke-dasharray: none !important; opacity: 0.2; }
+}
