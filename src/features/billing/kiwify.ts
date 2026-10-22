@@ -24,7 +24,7 @@ export const webhookSchema = z.object({
       access_until: z.string().max(80).optional(),
     }).optional(),
     plan: z.object({
-      id,
+      id: id.optional(),
       name: z.string().max(200).optional(),
       frequency: z.string().max(80).optional(),
       qty_charges: z.number().int().nonnegative().optional(),
