@@ -12,6 +12,7 @@
 #produto.hero > .hero-intro-stage {
   position: relative;
   isolation: isolate;
+  z-index: 1;
   overflow: hidden;
   padding-top: 128px;
   padding-bottom: 10px;
