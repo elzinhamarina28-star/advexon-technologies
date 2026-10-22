@@ -40,8 +40,7 @@ const events: Record<string, string> = {
 };
 
 export type KiwifyProductPlanConfig = {
-  product_id: string;
-  subscription_plans: Record<string, 'start' | 'growth' | 'pro'>;
+  products: Record<string, 'start' | 'growth' | 'pro'>;
 };
 
 export type BillingCommand = {
@@ -54,11 +53,10 @@ export type BillingCommand = {
 // plan ID (Subscription.plan.id) selects START/GROWTH/PRO for a single product.
 export function parseProductMap(raw: string): KiwifyProductPlanConfig {
   const parsed = z.object({
-    product_id: id,
-    subscription_plans: z.record(id, planId),
+    products: z.record(id, planId),
   }).parse(JSON.parse(raw));
 
-  const mappedPlans = new Set(Object.values(parsed.subscription_plans));
+  const mappedPlans = new Set(Object.values(parsed.products));
   for (const required of ['start', 'growth', 'pro'] as const) {
     if (!mappedPlans.has(required)) {
       throw new Error('Configuração precisa mapear START, GROWTH e PRO.');
@@ -80,14 +78,9 @@ export function toBillingCommand(
     ? 'refunded'
     : mappedStatus;
 
-  if (value.Product.product_id !== config.product_id) {
-    throw new Error('Produto Kiwify não corresponde ao produto configurado.');
-  }
-
-  const subscriptionPlanId = value.Subscription?.plan?.id;
-  const plan = subscriptionPlanId ? config.subscription_plans[subscriptionPlanId] : undefined;
+  const plan = config.products[value.Product.product_id];
   if (!plan) {
-    throw new Error('Plano de assinatura Kiwify não configurado.');
+    throw new Error('Produto/plano Kiwify não configurado.');
   }
 
   // Kiwify documents customer_access.access_until as the access expiry. It is
