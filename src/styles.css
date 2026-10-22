@@ -1,3 +1,4 @@
+@import './features/shared/brand-tokens.css';
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -1038,6 +1039,729 @@ h1,h2,h3,p { margin: 0; letter-spacing: 0; }
 }
 
 
+/* Scroll-triggered reveal — keeps the original ADVEXON homepage layout intact. */
+.scroll-reveal {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  filter: blur(3px);
+  transition:
+    opacity 720ms cubic-bezier(.2,.7,.2,1),
+    transform 720ms cubic-bezier(.2,.7,.2,1),
+    filter 720ms cubic-bezier(.2,.7,.2,1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
+}
+.hero .hero-label.scroll-reveal { transform: translate3d(0, 16px, 0); }
+.hero .hero-label.scroll-reveal.is-visible { transform: translate3d(0, 0, 0); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .scroll-reveal,
+  .scroll-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+    will-change: auto;
+  }
+}
+
+
+/* ADVEXON authentication — premium split layout, retaining real Supabase flows. */
+.auth-page { min-height:100vh; overflow:hidden; background:radial-gradient(ellipse at 17% 35%,color-mix(in srgb,var(--violet) 16%,transparent),transparent 38%),radial-gradient(ellipse at 85% 70%,color-mix(in srgb,var(--cyan) 9%,transparent),transparent 34%),var(--background); }
+.auth-top { position:relative; z-index:2; }
+.auth-layout { min-height:calc(100vh - 100px); display:grid; grid-template-columns:minmax(0,1fr) minmax(360px,480px); gap:clamp(34px,7vw,100px); align-items:center; padding-top:35px; padding-bottom:70px; }
+.auth-story { position:relative; min-height:500px; display:flex; flex-direction:column; justify-content:center; padding:45px clamp(10px,4vw,55px); isolation:isolate; }
+.auth-story:before { content:""; position:absolute; inset:10% 0 6%; z-index:-1; background:linear-gradient(130deg,color-mix(in srgb,var(--violet) 10%,transparent),transparent 60%),radial-gradient(ellipse at 35% 45%,color-mix(in srgb,var(--primary) 10%,transparent),transparent 65%); border:1px solid color-mix(in srgb,var(--violet) 18%,transparent); border-radius:28px; transform:skewY(-2deg); }
+.auth-orbit { position:relative; width:142px; height:142px; display:grid; place-items:center; margin-bottom:35px; }
+.auth-orbit:before,.auth-orbit:after { content:""; position:absolute; inset:4px; border:1px solid color-mix(in srgb,var(--violet) 60%,transparent); border-radius:50%; animation:auth-orbit-spin 18s linear infinite; }
+.auth-orbit:after { inset:19px -8px; transform:rotate(55deg); border-color:color-mix(in srgb,var(--cyan) 48%,transparent); animation-duration:24s; }
+.auth-orbit-core { width:82px; height:82px; display:grid; place-items:center; color:#fff; border-radius:24px; background:linear-gradient(140deg,var(--violet),var(--primary) 60%,var(--cyan)); box-shadow:0 0 55px color-mix(in srgb,var(--violet) 40%,transparent); }
+.auth-orbit > span { position:absolute; width:7px; height:7px; border-radius:50%; background:var(--cyan); box-shadow:0 0 15px var(--cyan); }
+.auth-orbit > span:nth-of-type(1) { top:13px; right:18px; }.auth-orbit > span:nth-of-type(2) { bottom:12px; left:20px; background:var(--magenta); }.auth-orbit > span:nth-of-type(3) { top:60px; right:-4px; }
+.auth-kicker,.auth-eyebrow { display:flex; align-items:center; gap:9px; font-size:10px; font-weight:600; letter-spacing:1.8px; color:var(--cyan); }
+.auth-live-dot { width:7px; height:7px; border-radius:50%; background:var(--success); box-shadow:0 0 12px var(--success); }
+.auth-story h1 { font-family:var(--font-display); font-size:clamp(42px,5.4vw,72px); line-height:1.05; letter-spacing:-2px; font-weight:650; margin:22px 0; }
+.auth-story h1 em { font-style:normal; background:var(--brand-gradient); background-clip:text; -webkit-text-fill-color:transparent; }
+.auth-story-copy { max-width:480px; color:var(--muted-foreground); font-size:15px; line-height:1.9; }
+.auth-benefit { display:flex; align-items:center; gap:11px; color:var(--muted-foreground); margin-top:28px; font-size:12px; }.auth-benefit svg { color:var(--success); }
+.auth-story-foot { display:flex; align-items:center; gap:11px; color:var(--muted-foreground); font-size:9px; letter-spacing:1.4px; margin-top:55px; }.auth-story-foot i { width:4px; height:4px; border-radius:50%; background:var(--cyan); }
+.auth-card { padding:clamp(25px,3.5vw,40px); border:1px solid color-mix(in srgb,var(--violet) 28%,var(--border)); border-radius:20px; background:linear-gradient(150deg,color-mix(in srgb,var(--card) 94%,var(--violet)),color-mix(in srgb,var(--background) 93%,var(--primary))); box-shadow:0 30px 100px #0005,0 0 60px color-mix(in srgb,var(--violet) 8%,transparent); }
+.auth-card-top { display:flex; gap:15px; align-items:flex-start; margin-bottom:27px; }.auth-mini-mark { display:grid; place-items:center; width:39px; height:39px; flex:0 0 auto; border:1px solid color-mix(in srgb,var(--violet) 48%,transparent); border-radius:12px; color:var(--cyan); background:color-mix(in srgb,var(--violet) 15%,transparent); }
+.auth-eyebrow { font-size:9px; margin:1px 0 8px; }.auth-card h2 { font-size:24px; font-weight:600; line-height:1.25; letter-spacing:-.5px; }.auth-card-sub { color:var(--muted-foreground); font-size:12px; line-height:1.7; margin-top:8px; }
+.auth-tabs { margin-bottom:24px; padding:4px; background:color-mix(in srgb,var(--background) 75%,transparent); border:1px solid var(--border); border-radius:10px; }.auth-tabs button { border-radius:7px; padding:11px; }.auth-tabs button.active { background:linear-gradient(110deg,color-mix(in srgb,var(--violet) 25%,var(--card)),color-mix(in srgb,var(--primary) 20%,var(--card))); box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--violet) 30%,transparent); color:var(--foreground); }
+.auth-form { gap:16px; }.auth-form label { display:grid; gap:8px; color:var(--foreground); font-size:11px; font-weight:500; }.auth-form input { width:100%; border:1px solid color-mix(in srgb,var(--muted-foreground) 23%,transparent); border-radius:9px; background:color-mix(in srgb,var(--background) 84%,transparent); padding:13px 14px; min-height:47px; color:var(--foreground); font-size:12px; outline:none; transition:border-color .2s,box-shadow .2s; }.auth-form input::placeholder { color:color-mix(in srgb,var(--muted-foreground) 75%,transparent); }.auth-form input:focus { border-color:var(--violet); box-shadow:0 0 0 3px color-mix(in srgb,var(--violet) 15%,transparent); }
+.auth-form-options { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:-3px; color:var(--muted-foreground); font-size:9px; }.auth-text-button { display:inline-flex; align-items:center; justify-content:center; gap:6px; border:0; padding:0; background:none; color:var(--cyan); font:inherit; cursor:pointer; }.auth-text-button:hover { color:var(--foreground); text-decoration:underline; }
+.auth-submit { width:100%; min-height:49px; display:flex; align-items:center; justify-content:center; gap:9px; margin-top:4px; font-size:12px; font-weight:600; }.auth-terms { color:var(--muted-foreground); font-size:10px; line-height:1.7; }.auth-back-login { align-self:center; margin-top:4px; }
+.auth-secure-note { display:flex; justify-content:center; align-items:center; gap:7px; color:var(--muted-foreground); font-size:9px; margin-top:25px; padding-top:18px; border-top:1px solid var(--border); }.auth-secure-note svg { color:var(--success); }
+.auth-success { color:var(--success); font-size:11px; line-height:1.7; padding:12px; border:1px solid color-mix(in srgb,var(--success) 30%,transparent); border-radius:8px; background:color-mix(in srgb,var(--success) 7%,transparent); }
+.auth-recovery-empty { padding:20px 0 5px; display:grid; justify-items:start; gap:16px; }.auth-recovery-empty p { color:var(--muted-foreground); font-size:12px; line-height:1.8; }.auth-recovery-icon { display:grid; place-items:center; width:55px; height:55px; border:1px solid color-mix(in srgb,var(--cyan) 30%,transparent); color:var(--cyan); background:color-mix(in srgb,var(--cyan) 8%,transparent); border-radius:16px; }.auth-recovery-link { display:inline-flex; align-items:center; gap:9px; padding:12px 16px; font-size:11px; }
+@keyframes auth-orbit-spin { to { rotate:360deg; } }
+@media(max-width:850px) { .auth-layout { grid-template-columns:1fr; gap:22px; max-width:560px; padding-top:20px; }.auth-story { min-height:0; padding:30px 22px; }.auth-story:before { inset:0; }.auth-orbit { width:92px; height:92px; margin-bottom:22px; }.auth-orbit-core { width:58px; height:58px; border-radius:18px; }.auth-story h1 { font-size:45px; margin:16px 0; }.auth-story-copy { font-size:13px; }.auth-story-foot { margin-top:25px; }.auth-card { padding:24px; } }
+@media(max-width:480px) { .auth-layout { width:calc(100% - 28px); }.auth-story { padding:25px 16px; }.auth-story h1 { font-size:39px; }.auth-card { padding:21px 18px; }.auth-card h2 { font-size:21px; }.auth-form-options { align-items:flex-start; flex-direction:column; gap:7px; } }
+@media(prefers-reduced-motion:reduce) { .auth-orbit:before,.auth-orbit:after { animation:none; } }
+
+
+/* Cinematic first-load sequence: draw the background geometry, then reveal the site. */
+.hero-ribbon.intro-ribbon path {
+  stroke-dasharray: 2200;
+  stroke-dashoffset: 2200;
+  animation: advexon-line-draw 1.65s cubic-bezier(.45,0,.25,1) forwards;
+}
+.hero-ribbon.intro-ribbon path:nth-of-type(2) { animation-delay: .16s; }
+.hero-ribbon.intro-ribbon path:nth-of-type(3) { animation-delay: .3s; }
+.hero-ribbon.intro-ribbon path:nth-of-type(4) { animation-delay: .42s; }
+.hero-ribbon.intro-ribbon circle { opacity: 0; animation: advexon-node-appear .5s ease-out 1.25s forwards; }
+.header.intro-header { opacity:0; transform:translateY(-16px); animation:advexon-header-enter .72s cubic-bezier(.2,.75,.2,1) .62s forwards; }
+.hero .intro-label,
+.hero .intro-title,
+.hero .intro-support,
+.hero .intro-sub,
+.hero .intro-actions,
+.hero .intro-microcopy,
+.hero .intro-mockup {
+  opacity:0;
+  animation:advexon-content-enter .8s cubic-bezier(.2,.75,.2,1) forwards;
+}
+.hero .intro-label { animation-delay:.92s; }
+.hero .intro-title { animation-delay:1.12s; }
+.hero .intro-support { animation-delay:1.34s; }
+.hero .intro-sub { animation-delay:1.49s; }
+.hero .intro-actions { animation-delay:1.65s; }
+.hero .intro-microcopy { animation-delay:1.78s; }
+.hero .intro-mockup { animation-delay:1.92s; }
+@keyframes advexon-line-draw { to { stroke-dashoffset:0; } }
+@keyframes advexon-node-appear { to { opacity:.75; } }
+@keyframes advexon-header-enter { to { opacity:1; transform:translateY(0); } }
+@keyframes advexon-content-enter { from { opacity:0; transform:translateY(22px); filter:blur(5px); } to { opacity:1; transform:translateY(0); filter:blur(0); } }
+@media (prefers-reduced-motion:reduce) {
+ .hero-ribbon.intro-ribbon path,.hero-ribbon.intro-ribbon circle,.header.intro-header,
+ .hero .intro-label,.hero .intro-title,.hero .intro-support,.hero .intro-sub,
+ .hero .intro-actions,.hero .intro-microcopy,.hero .intro-mockup {
+   animation:none!important; opacity:1!important; transform:none!important; filter:none!important; stroke-dashoffset:0!important;
+ }
+}
+
+/* Keep the existing ADVEXON theme colors while avoiding a white loading flash. */
+html, body, #root {
+  background-color: var(--background);
+}
+#root {
+  min-height: 100vh;
+  isolation: isolate;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* Subtle animated line flow in the dashboard preview chart. */
+.animated-chart .chart-grid {
+  stroke-dasharray: 3 7;
+  animation: advexon-grid-flow 12s linear infinite;
+}
+.animated-chart .chart-line,
+.animated-chart .chart-line-secondary {
+  stroke-dasharray: 620;
+  stroke-dashoffset: 0;
+  animation: advexon-chart-trace 3.2s cubic-bezier(.4,0,.2,1) both;
+}
+.animated-chart .chart-line-secondary { animation-delay: .22s; }
+.animated-chart .chart-area {
+  animation: advexon-area-breathe 5s ease-in-out infinite alternate;
+}
+@keyframes advexon-grid-flow { to { stroke-dashoffset: -100; } }
+@keyframes advexon-chart-trace { from { stroke-dashoffset: 620; opacity:.25; } to { stroke-dashoffset:0; opacity:1; } }
+@keyframes advexon-area-breathe { from { opacity:.07; } to { opacity:.17; } }
+@media (prefers-reduced-motion:reduce) {
+ .animated-chart .chart-grid,.animated-chart .chart-line,.animated-chart .chart-line-secondary,.animated-chart .chart-area { animation:none!important; }
+}
+
+/* Footer motion: use the existing theme colors and a visible but restrained sweep. */
+.footer::after {
+  background: linear-gradient(90deg, transparent, var(--violet), var(--cyan), transparent);
+  background-size: 220% 100%;
+  animation: advexon-footer-light-sweep 5.5s ease-in-out infinite;
+}
+.footer .brand-full {
+  transition: filter .35s ease, transform .35s ease;
+}
+.footer .brand-full:hover {
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--cyan) 26%, transparent));
+  transform: translateY(-2px);
+}
+.footer .footer-links .nav-link {
+  transition: color .25s ease, transform .25s ease;
+}
+.footer .footer-links .nav-link:hover {
+  transform: translateY(-3px);
+}
+@keyframes advexon-footer-light-sweep {
+  0%, 100% { background-position: 100% 0; opacity: .4; }
+  50% { background-position: 0 0; opacity: .9; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer::after { animation: none; }
+  .footer .brand-full, .footer .footer-links .nav-link { transition: none; }
+  .footer .brand-full:hover, .footer .footer-links .nav-link:hover { transform: none; }
+}
+
+/* Refined hero geometry: hide the capsule's side edges and keep background lines barely visible in motion. */
+.hero::before {
+  border-color: transparent;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 13%, #000 87%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 13%, #000 87%, transparent 100%);
+}
+.hero-ribbon.intro-ribbon {
+  opacity: .22;
+}
+.hero-ribbon.intro-ribbon path.thin {
+  stroke: var(--geometry-line);
+  stroke-width: 1;
+  stroke-dasharray: 5 18;
+  stroke-dashoffset: 0;
+  opacity: .13;
+  animation:
+    advexon-bg-line-drift 28s linear infinite,
+    advexon-bg-line-breathe 7s ease-in-out infinite alternate;
+}
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(2) {
+  animation-duration: 34s, 9s;
+  animation-delay: -8s, -3s;
+}
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(4) {
+  animation-duration: 39s, 8s;
+  animation-delay: -13s, -2s;
+}
+.hero-ribbon.intro-ribbon path:not(.thin) {
+  animation:
+    advexon-line-draw 1.65s cubic-bezier(.45,0,.25,1) forwards,
+    advexon-bg-line-breathe 8s ease-in-out 1.8s infinite alternate;
+}
+@keyframes advexon-bg-line-drift {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -460; }
+}
+@keyframes advexon-bg-line-breathe {
+  0%, 100% { opacity: .06; }
+  50% { opacity: .2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-ribbon.intro-ribbon path.thin,
+  .hero-ribbon.intro-ribbon path:not(.thin) {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+  .hero-ribbon.intro-ribbon path.thin { opacity: .1; }
+}
+
+/* Final hero geometry adjustment: original capsule fill, wider footprint, animated fine curves. */
+.hero::before {
+  width: min(1560px, 112vw);
+  height: 520px;
+  top: 108px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-24deg);
+  background: var(--geometry-surface);
+  border: 1px solid transparent;
+  -webkit-mask-image: none;
+  mask-image: none;
+  opacity: .55;
+  z-index: 0;
+  -webkit-mask-image: linear-gradient(#000, #000);
+  mask-image: linear-gradient(#000, #000);
+  clip-path: inset(0 0 0 0 round 180px);
+}
+.hero-ribbon.intro-ribbon {
+  z-index: 1;
+  inset: 0;
+  height: 100%;
+  min-height: 900px;
+  opacity: 1;
+  overflow: visible;
+}
+.hero-ribbon.intro-ribbon path.thin {
+  stroke: var(--geometry-line);
+  stroke-width: 1.2;
+  stroke-dasharray: 2 12;
+  stroke-dashoffset: 0;
+  opacity: .09;
+  animation: advexon-bg-line-drift 22s linear infinite, advexon-bg-line-breathe 6.5s ease-in-out infinite;
+}
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(2) {
+  animation-duration: 30s, 8s;
+  animation-delay: -9s, -2s;
+}
+.hero-ribbon.intro-ribbon path:not(.thin) {
+  stroke: url(#hr);
+  stroke-width: 1.4;
+  stroke-dasharray: 1800;
+  stroke-dashoffset: 1800;
+  opacity: .2;
+  animation: advexon-line-draw 3.8s ease-in-out .35s forwards, advexon-bg-line-breathe 8s ease-in-out 4s infinite alternate;
+}
+.hero-ribbon.intro-ribbon circle {
+  opacity: .16;
+  animation: advexon-node-appear .8s ease-out 2.4s forwards;
+}
+.hero > .container {
+  position: relative;
+  z-index: 2;
+}
+@keyframes advexon-bg-line-drift {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -320; }
+}
+@media (max-width: 800px) {
+  .hero::before { width: 125vw; height: 420px; top: 100px; }
+  .hero-ribbon.intro-ribbon { min-height: 720px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-ribbon.intro-ribbon path.thin,
+  .hero-ribbon.intro-ribbon path:not(.thin) {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+  .hero-ribbon.intro-ribbon path.thin { opacity: .08; }
+  .hero::before { opacity: .45; }
+}
+
+/* Hero: more fine animated curves behind the capsule, preserving original theme colors. */
+.hero-ribbon.intro-ribbon path.thin {
+  stroke: var(--geometry-line);
+  stroke-width: 1.15;
+  stroke-dasharray: 2 15;
+  stroke-linecap: round;
+  animation: advexon-bg-line-drift 22s linear infinite, advexon-bg-line-breathe 6.5s ease-in-out infinite;
+}
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(2) { animation-duration: 29s, 8s; }
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(3) { animation-duration: 34s, 7.5s; animation-delay: -11s, -2s; }
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(4) { animation-duration: 38s, 9s; animation-delay: -17s, -4s; }
+.hero-ribbon.intro-ribbon path:not(.thin) {
+  stroke: var(--geometry-line);
+  stroke-width: 1.25;
+  stroke-dasharray: 1800;
+  stroke-dashoffset: 1800;
+  opacity: .13;
+  animation: advexon-line-draw 4.5s ease-in-out .2s forwards, advexon-bg-line-breathe 7s ease-in-out 4.8s infinite alternate;
+}
+.hero-ribbon.intro-ribbon path:nth-of-type(5),
+.hero-ribbon.intro-ribbon path:nth-of-type(6),
+.hero-ribbon.intro-ribbon path:nth-of-type(7) {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  opacity: .08;
+  animation: advexon-line-draw 5s ease-in-out .65s forwards, advexon-bg-line-breathe 8s ease-in-out 5.6s infinite alternate;
+}
+@keyframes advexon-bg-line-breathe {
+  0%, 100% { opacity: .035; }
+  50% { opacity: .16; }
+}
+/* Operation chart: the two colored data lines travel continuously, not just draw once. */
+.animated-chart .chart-line,
+.animated-chart .chart-line-secondary {
+  stroke-dasharray: 14 7;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  animation: advexon-data-line-travel 3.4s linear infinite, advexon-data-line-glow 3.8s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 3px currentColor);
+}
+.animated-chart .chart-line { stroke: var(--primary); }
+.animated-chart .chart-line-secondary { stroke: var(--cyan); animation-duration: 4.2s, 4.5s; animation-delay: -.8s, -.5s; }
+.animated-chart .chart-grid { stroke-dasharray: 2 9; animation: advexon-chart-grid-travel 16s linear infinite; }
+.animated-chart .chart-area { animation: advexon-chart-area-pulse 4s ease-in-out infinite alternate; }
+@keyframes advexon-data-line-travel { to { stroke-dashoffset: -84; } }
+@keyframes advexon-data-line-glow { from { opacity:.8; } to { opacity:1; } }
+@keyframes advexon-chart-grid-travel { to { stroke-dashoffset:-44; } }
+@keyframes advexon-chart-area-pulse { from { opacity:.06; } to { opacity:.16; } }
+@media (prefers-reduced-motion: reduce) {
+ .hero-ribbon.intro-ribbon path, .animated-chart .chart-line, .animated-chart .chart-line-secondary, .animated-chart .chart-grid, .animated-chart .chart-area { animation:none!important; stroke-dashoffset:0!important; }
+}
+
+/* Ensure hero background curves are visible, layered behind text, and softly animated. */
+.hero-ribbon.intro-ribbon { z-index: 1; opacity: 1; }
+.hero-ribbon.intro-ribbon path.thin {
+  stroke: var(--cyan);
+  stroke-width: 1;
+  stroke-dasharray: 3 13;
+  stroke-dashoffset: 0;
+  opacity: .12;
+  animation: advexon-bg-line-drift 24s linear infinite, advexon-bg-line-breathe 6s ease-in-out infinite alternate;
+}
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(2n) {
+  stroke: var(--violet);
+  animation-duration: 31s, 8s;
+}
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(3n) {
+  animation-delay: -12s, -2s;
+}
+.hero-ribbon.intro-ribbon path:not(.thin) {
+  stroke-dasharray: 1800;
+  stroke-dashoffset: 1800;
+  opacity: .2;
+  animation: advexon-line-draw 4.2s ease-in-out .2s forwards, advexon-bg-line-breathe 7s ease-in-out 4.5s infinite alternate;
+}
+.hero-ribbon.intro-ribbon circle { opacity: .25; }
+.hero .container { position: relative; z-index: 2; }
+@media (prefers-reduced-motion: reduce) {
+ .hero-ribbon.intro-ribbon path { animation:none!important; stroke-dashoffset:0!important; opacity:.1; }
+}
+
+/* Hero background curves: draw each complete curve, hold briefly, fade out, then redraw. */
+.hero-ribbon.intro-ribbon path {
+  stroke-linecap: round;
+}
+.hero-ribbon.intro-ribbon path:not(.thin) {
+  stroke: url(#hr);
+  stroke-width: 1.5;
+  stroke-dasharray: 1900 1900;
+  stroke-dashoffset: 1900;
+  opacity: 0;
+  animation: advexon-curve-cycle 8s ease-in-out infinite;
+}
+.hero-ribbon.intro-ribbon path:not(.thin):nth-of-type(2) { animation-delay: 1.2s; }
+.hero-ribbon.intro-ribbon path:not(.thin):nth-of-type(3) { animation-delay: 2.4s; }
+.hero-ribbon.intro-ribbon path:not(.thin):nth-of-type(4) { animation-delay: 3.6s; }
+.hero-ribbon.intro-ribbon path:not(.thin):nth-of-type(5) { animation-delay: 4.8s; }
+.hero-ribbon.intro-ribbon path:not(.thin):nth-of-type(6) { animation-delay: 6s; }
+.hero-ribbon.intro-ribbon path.thin {
+  stroke-width: 1;
+  stroke-dasharray: 1900 1900;
+  stroke-dashoffset: 1900;
+  opacity: 0;
+  animation: advexon-curve-cycle 10s ease-in-out infinite;
+}
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(2n) { animation-delay: 2s; }
+.hero-ribbon.intro-ribbon path.thin:nth-of-type(3n) { animation-delay: 4s; }
+@keyframes advexon-curve-cycle {
+  0% { stroke-dashoffset: 1900; opacity: 0; }
+  8% { opacity: .14; }
+  42% { stroke-dashoffset: 0; opacity: .14; }
+  65% { stroke-dashoffset: 0; opacity: .14; }
+  82% { opacity: 0; }
+  100% { stroke-dashoffset: -1900; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+ .hero-ribbon.intro-ribbon path { animation:none!important; stroke-dashoffset:0!important; opacity:.1; }
+}
+
+/* Stagger hero curves so only a small number draw at once. */
+.hero-ribbon.intro-ribbon path {
+  animation-duration: 18s !important;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+.hero-ribbon.intro-ribbon path:nth-of-type(6n + 1) { animation-delay: 0s !important; }
+.hero-ribbon.intro-ribbon path:nth-of-type(6n + 2) { animation-delay: 3s !important; }
+.hero-ribbon.intro-ribbon path:nth-of-type(6n + 3) { animation-delay: 6s !important; }
+.hero-ribbon.intro-ribbon path:nth-of-type(6n + 4) { animation-delay: 9s !important; }
+.hero-ribbon.intro-ribbon path:nth-of-type(6n + 5) { animation-delay: 12s !important; }
+.hero-ribbon.intro-ribbon path:nth-of-type(6n) { animation-delay: 15s !important; }
+@keyframes advexon-curve-cycle {
+  0% { stroke-dashoffset: 1900; opacity: 0; }
+  6% { opacity: .12; }
+  24% { stroke-dashoffset: 0; opacity: .12; }
+  31% { stroke-dashoffset: 0; opacity: .12; }
+  39% { opacity: 0; }
+  100% { stroke-dashoffset: -1900; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+ .hero-ribbon.intro-ribbon path { animation:none!important; stroke-dashoffset:0!important; opacity:.1; }
+}
+
+/* ADVEXON integration center */
+.cd-integration-icon {
+  display: flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(86, 190, 255, .28);
+  border-radius: .9rem;
+  color: #55d9ff;
+  background: linear-gradient(145deg, rgba(52, 115, 210, .18), rgba(110, 66, 190, .12));
+}
+
+
+/* Mobile layout hardening: keep demo metric cards inside the viewport. */
+.central-panel,
+.central-grid,
+.central-metrics,
+.central-metrics > div {
+  min-width: 0;
+  max-width: 100%;
+}
+.central-panel { box-sizing: border-box; }
+.central-metrics > div { overflow-wrap: anywhere; }
+.central-metrics span { display: block; line-height: 1.55; overflow-wrap: anywhere; }
+@media (max-width: 640px) {
+  .central-panel {
+    width: 100%;
+    padding: clamp(14px, 4vw, 22px);
+    overflow: hidden;
+  }
+  .central-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px;
+    width: 100%;
+  }
+  .central-metrics > div {
+    min-width: 0;
+    padding: clamp(14px, 4vw, 20px);
+  }
+  .central-metrics strong {
+    font-size: clamp(28px, 8vw, 40px);
+    line-height: 1.2;
+  }
+  .central-metrics span {
+    font-size: clamp(12px, 3.5vw, 15px);
+  }
+  .central-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .central-list li {
+    min-width: 0;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .central-list li > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+
+
+/* One source of truth for the hero's animated nascent curves.
+   Animated properties intentionally do not use !important; that would freeze
+   stroke-dashoffset/opacity and prevent the keyframes from ever taking effect. */
+.hero-ribbon.intro-ribbon {
+  opacity: 1;
+}
+.hero-ribbon.intro-ribbon path.nascent-line {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 1000 1000;
+  stroke-dashoffset: 1000;
+  opacity: 0;
+  animation: advexon-nascent-draw 12s linear infinite !important;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 3px rgba(74, 190, 255, .24));
+}
+.hero-ribbon.intro-ribbon path.nascent-line:nth-of-type(1) { animation-delay: 0s !important; }
+.hero-ribbon.intro-ribbon path.nascent-line:nth-of-type(2) { animation-delay: 3s !important; }
+.hero-ribbon.intro-ribbon path.nascent-line:nth-of-type(3) { animation-delay: 6s !important; }
+.hero-ribbon.intro-ribbon path.nascent-line:nth-of-type(4) { animation-delay: 9s !important; }
+.hero-ribbon.intro-ribbon path.nascent-line.from-right {
+  transform-box: view-box;
+  transform-origin: center;
+  transform: scaleX(-1);
+}
+@keyframes advexon-nascent-draw {
+  0%, 6% { stroke-dashoffset: 1000; opacity: 0; }
+  12% { stroke-dashoffset: 1000; opacity: .74; }
+  44% { stroke-dashoffset: 0; opacity: .74; }
+  51% { stroke-dashoffset: 0; opacity: .62; }
+  61% { stroke-dashoffset: 0; opacity: 0; }
+  62%, 100% { stroke-dashoffset: 1000; opacity: 0; }
+}
+@media (max-width: 640px) {
+  .hero-ribbon.intro-ribbon { height: 760px !important; }
+  .hero-ribbon.intro-ribbon path.nascent-line { stroke-width: 2.2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-ribbon.intro-ribbon path.nascent-line {
+    animation: none !important;
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: .34 !important;
+    transform: none !important;
+    filter: none;
+  }
+}
+
+
+
+/* Keep the prior hero backplate geometry; only tighten the nascent-line timing. */
+.hero-ribbon.intro-ribbon path.nascent-line {
+  animation-duration: 12s !important;
+}
+.hero-ribbon.intro-ribbon path.nascent-line:nth-of-type(1) { animation-delay: 0s !important; }
+.hero-ribbon.intro-ribbon path.nascent-line:nth-of-type(2) { animation-delay: 1.6s !important; }
+.hero-ribbon.intro-ribbon path.nascent-line:nth-of-type(3) { animation-delay: 6s !important; }
+.hero-ribbon.intro-ribbon path.nascent-line:nth-of-type(4) { animation-delay: 7.6s !important; }
+
+
+/* ADVEXON brand palette details — restrained accents; retain the existing app foundations. */
+.ops-app {
+  --ops-divider: color-mix(in srgb, var(--advexon-light-gray) 15%, transparent);
+}
+
+/* The lime rail is an active-state cue, not a new global theme. */
+.ops-navigation .app-active {
+  background: color-mix(in srgb, var(--advexon-lime) 8%, var(--surface-inset));
+  box-shadow: inset 2px 0 var(--advexon-lime);
+}
+
+.ops-nav-company {
+  border-bottom-color: color-mix(in srgb, var(--advexon-lime) 18%, transparent);
+}
+.ops-avatar {
+  color: var(--advexon-lime);
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--advexon-purple) 20%, var(--advexon-graphite)),
+    var(--surface-inset)
+  );
+  border-color: color-mix(in srgb, var(--advexon-lime) 28%, var(--ops-divider));
+}
+.ops-nav-footer .status-dot {
+  background: var(--advexon-lime);
+  box-shadow: 0 0 9px color-mix(in srgb, var(--advexon-lime) 32%, transparent);
+}
+
+/* Slight graphite tint and violet icon cues; no layout or card redesign. */
+.ops-app .cd-card {
+  background: color-mix(in srgb, var(--surface-product) 88%, var(--advexon-graphite));
+  border-color: color-mix(in srgb, var(--advexon-light-gray) 10%, var(--ops-divider));
+}
+.ops-app .cd-card h2 > svg {
+  color: var(--advexon-purple);
+}
+.ops-app .cd-big.gradient-text {
+  background-image: linear-gradient(105deg, var(--advexon-lime), var(--advexon-purple) 82%);
+}
+.ops-app .cd-bar i {
+  background: linear-gradient(90deg, var(--advexon-purple-deep), var(--advexon-purple), var(--advexon-lime));
+}
+.ops-app .ops-kpi svg,
+.ops-app .ops-agent .ops-section-heading > svg {
+  color: var(--advexon-lime);
+}
+
+/* Integration tiles are a key brand touchpoint, kept low-contrast at rest. */
+.ops-app .cd-integration-icon {
+  color: var(--advexon-lime);
+  border-color: color-mix(in srgb, var(--advexon-lime) 24%, var(--ops-divider));
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--advexon-purple) 18%, var(--surface-inset)),
+    color-mix(in srgb, var(--advexon-lime) 7%, var(--advexon-graphite))
+  );
+}
+
+/* Existing keyboard focus treatment remains bright and easy to see. */
+.ops-app :is(a, button, input, select, textarea):focus-visible {
+  outline-color: var(--advexon-lime);
+}
+
+.ops-app .ops-status-brand {
+  color: var(--advexon-lime);
+  background: color-mix(in srgb, var(--advexon-lime) 7%, transparent);
+  border-color: color-mix(in srgb, var(--advexon-lime) 24%, transparent);
+}
+
+
+/* ADVEXON motion polish — preserve the existing palette and component layout. */
+/* The scroll observer already reveals primary sections; include the demo's sub-steps. */
+.demo-flow li.scroll-reveal,
+.demo-agent.scroll-reveal {
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* A short, staggered signal communicates the hand-off between agents without perpetual motion. */
+.team-flow.is-visible > svg {
+  animation: advexon-flow-arrive 900ms cubic-bezier(.2,.7,.2,1) both;
+}
+.team-flow.is-visible > svg:nth-of-type(2) { animation-delay: 120ms; }
+.team-flow.is-visible > svg:nth-of-type(3) { animation-delay: 240ms; }
+.team-flow.is-visible > svg:nth-of-type(4) { animation-delay: 360ms; }
+
+.demo-flow li.scroll-reveal.is-visible:not(:last-child)::after {
+  animation: advexon-flow-arrow-arrive 650ms ease-out both;
+}
+.demo-flow li:nth-child(2).scroll-reveal.is-visible::after { animation-delay: 90ms; }
+.demo-flow li:nth-child(3).scroll-reveal.is-visible::after { animation-delay: 180ms; }
+.demo-flow li:nth-child(4).scroll-reveal.is-visible::after { animation-delay: 270ms; }
+
+@keyframes advexon-flow-arrive {
+  0% { opacity: .35; filter: none; }
+  58% { opacity: 1; filter: drop-shadow(0 0 7px color-mix(in srgb, var(--cyan) 45%, transparent)); }
+  100% { opacity: .9; filter: none; }
+}
+@keyframes advexon-flow-arrow-arrive {
+  0% { color: var(--primary); opacity: .5; }
+  55% { color: var(--cyan); opacity: 1; text-shadow: 0 0 8px color-mix(in srgb, var(--cyan) 45%, transparent); }
+  100% { color: var(--primary); opacity: 1; text-shadow: none; }
+}
+
+/* Message entry is tied to each explicit user-controlled demo step. */
+.demo-msg.reveal {
+  animation: advexon-chat-message-in 420ms cubic-bezier(.2,.7,.2,1) both;
+}
+@keyframes advexon-chat-message-in {
+  from { opacity: 0; transform: translateY(10px) scale(.99); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Restrained depth on mouse/trackpad devices; touch users do not get sticky hover effects. */
+.agent-card,
+.demo-agent,
+.plan-card {
+  transition:
+    transform 280ms cubic-bezier(.2,.7,.2,1),
+    border-color 280ms ease,
+    box-shadow 280ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .agent-card:hover,
+  .demo-agent:hover,
+  .plan-card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--primary) 48%, var(--line));
+    box-shadow:
+      0 22px 48px -34px color-mix(in srgb, var(--violet) 55%, transparent),
+      var(--card-shadow);
+  }
+}
+
+/* Switching dashboard tabs has a small, content-only transition (no layout motion). */
+.dashboard-content-switch {
+  animation: advexon-dashboard-panel-in 320ms cubic-bezier(.2,.7,.2,1) both;
+}
+@keyframes advexon-dashboard-panel-in {
+  from { opacity: .65; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Motion settings take precedence over every enhancement above. */
+@media (prefers-reduced-motion: reduce) {
+  .team-flow.is-visible > svg,
+  .demo-flow li.scroll-reveal.is-visible:not(:last-child)::after,
+  .demo-msg.reveal,
+  .dashboard-content-switch {
+    animation: none !important;
+  }
+  .agent-card,
+  .demo-agent,
+  .plan-card {
+    transition: none !important;
+  }
+  .agent-card:hover,
+  .demo-agent:hover,
+  .plan-card:hover {
+    transform: none !important;
+    box-shadow: var(--card-shadow);
+  }
+}
+
+
+/* Latest main-branch refinements retained after the cinematic redesign. */
 /* ADVEXON landing-page refinement: controlled scroll reveals, keeping existing layouts. */
 .scroll-reveal {
   opacity: 0;
