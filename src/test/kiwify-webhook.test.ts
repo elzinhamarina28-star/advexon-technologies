@@ -72,6 +72,14 @@ describe('Kiwify segura', () => {
     expect(toBillingCommand(value, parseProductMap(config.products))?.plan_id).toBe(expectedPlan);
   });
 
+  it('não exige o ID interno de plano da assinatura quando o produto já identifica o plano ADVEXON', () => {
+    const value = webhookSchema.parse({
+      ...base,
+      Subscription: { ...base.Subscription, plan: { name: 'Mensal', frequency: 'monthly', qty_charges: 0 } },
+    });
+    expect(toBillingCommand(value, parseProductMap(config.products))?.plan_id).toBe('growth');
+  });
+
   it('rejeita produto sem mapeamento', async () => {
     const process = vi.fn();
     expect((await handleKiwify(request({
