@@ -4,7 +4,6 @@ const id = z.string().trim().min(1).max(200);
 const planId = z.enum(['start', 'growth', 'pro']);
 
 export const webhookSchema = z.object({
-  token: z.string().min(1).max(512),
   order_id: id,
   webhook_event_type: z.string().min(1).max(100),
   order_status: z.string().max(50),
@@ -141,16 +140,47 @@ export async function handleKiwify(
 
   let payload: unknown;
   try { payload = JSON.parse(new TextDecoder().decode(bytes)); } catch { return reply(400, 'Conteúdo inválido.'); }
+  // Kiwify signs deliveries with HMAC-SHA1 and sends the hex digest in ?signature=.
+  // Its documented JSON example has no token field. Verify both the documented
+  // re-serialized JSON and raw bytes to tolerate harmless whitespace differences.
+  const signature = new URL(request.url).searchParams.get('signature')?.trim().toLowerCase();
+  if (!signature || !/^[a-f0-9]{40}$/.test(signature)) return reply(401, 'Não autorizado.');
+
+  const encoder = new TextEncoder();
+  const hmacSha1 = async (message: string) => {
+    const key = await crypto.subtle.importKey(
+      'raw',
+      encoder.encode(config.token!),
+      { name: 'HMAC', hash: 'SHA-1' },
+      false,
+      ['sign'],
+    );
+    const result = new Uint8Array(await crypto.subtle.sign('HMAC', key, encoder.encode(message)));
+    return Array.from(result, byte => byte.toString(16).padStart(2, '0')).join('');
+  };
+  const safeEqual = (expected: string, actual: string) => {
+    let difference = expected.length ^ actual.length;
+    const maxLength = Math.max(expected.length, actual.length);
+    for (let index = 0; index < maxLength; index++) {
+      difference |= (expected.charCodeAt(index) || 0) ^ (actual.charCodeAt(index) || 0);
+    }
+    return difference === 0;
+  };
+  const rawBody = new TextDecoder().decode(bytes);
+  const normalizedBody = JSON.stringify(payload);
+  const [normalizedSignature, rawSignature] = await Promise.all([
+    hmacSha1(normalizedBody),
+    hmacSha1(rawBody),
+  ]);
+  const validNormalized = safeEqual(normalizedSignature, signature);
+  const validRaw = safeEqual(rawSignature, signature);
+  if (!(validNormalized || validRaw)) return reply(401, 'Não autorizado.');
+
   const parsed = webhookSchema.safeParse(payload);
   if (!parsed.success) return reply(400, 'Evento inválido.');
 
-  // Kiwify's product webhook payload contains a configured token. Hash both values
-  // to fixed-length digests before comparing; never treat a public body hash as auth.
-  const digest = async (text: string) => new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)));
-  const [expected, actual] = await Promise.all([digest(config.token), digest(parsed.data.token)]);
-  let difference = 0;
-  expected.forEach((byte, index) => { difference |= byte ^ (actual[index] ?? 0); });
-  if (difference !== 0) return reply(401, 'Não autorizado.');
+  const parsed = webhookSchema.safeParse(payload);
+  if (!parsed.success) return reply(400, 'Evento inválido.');
 
   let products: KiwifyProductPlanConfig;
   try { products = parseProductMap(config.products); } catch { return reply(503, 'Recebimento ainda não configurado.'); }
