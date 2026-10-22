@@ -1808,3 +1808,38 @@ html, body, #root {
     transition: none;
   }
 }
+
+
+/* ADVEXON — live-flow motion for the operation chart. Decorative only: data and series remain unchanged. */
+.dashboard .chart-panel .chart.animated-chart .chart-line,
+.dashboard .chart-panel .chart.animated-chart .chart-line-secondary {
+  stroke-dasharray: 9 7;
+  stroke-dashoffset: 0;
+  animation: advexon-chart-flow 3.8s linear infinite;
+  will-change: stroke-dashoffset;
+}
+.dashboard .chart-panel .chart.animated-chart .chart-line-secondary {
+  animation-duration: 4.8s;
+  animation-direction: reverse;
+}
+.dashboard .chart-panel .chart.animated-chart .chart-area {
+  transform-origin: center;
+  animation: advexon-chart-glow 4s ease-in-out infinite alternate;
+}
+@keyframes advexon-chart-flow {
+  to { stroke-dashoffset: -64; }
+}
+@keyframes advexon-chart-glow {
+  from { opacity: .45; }
+  to { opacity: .72; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dashboard .chart-panel .chart.animated-chart .chart-line,
+  .dashboard .chart-panel .chart.animated-chart .chart-line-secondary,
+  .dashboard .chart-panel .chart.animated-chart .chart-area {
+    animation: none !important;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    will-change: auto;
+  }
+}
