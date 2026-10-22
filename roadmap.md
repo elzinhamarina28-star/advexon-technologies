@@ -1,4 +1,5 @@
-- [ ] Verify hero-only existing MP4 playback, static fallback, reduced-motion, visibility pause and mobile layout; no publication.
+- [x] Harden hero-only existing MP4 with autoplay and frame-derived static fallback; verify HTTP 200 (2,252,449 bytes), desktop/mobile layout, reduced-motion, media-failure fallback, 171 tests and automatic build OK; no publication.
+- [ ] Verify hero MP4 playback and background-tab pause in an H.264-capable browser (blocked: bundled test Chromium reports H.264 unsupported; static fallback verified).
 - [x] Owner decisions applied: START basic AI (ATHENA, 100/mês, server-side), "Em breve" on unimplemented GROWTH/PRO items, canceled keeps access until paid period end, stale AI reservations expire after 2 min, reset form only via recovery link. 97 local tests pass.
 - [ ] Kiwify date/payload format and cancellation flow (blocked: no real payload, token or product IDs).
 - [x] Add missing official support email locally, PWA manifest/icons and network-only offline notice; improve real dashboard retry/mobile/focus. Public browser checks and 91 local tests passed; no publication.
