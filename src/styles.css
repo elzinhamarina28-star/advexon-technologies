@@ -1843,3 +1843,36 @@ html, body, #root {
     will-change: auto;
   }
 }
+
+
+
+/* ADVEXON — animated recent activity feed for the operational dashboard. */
+.dashboard .activity-panel {
+  overflow: hidden;
+}
+.dashboard .activity-panel .activity-item {
+  position: relative;
+  animation: advexon-activity-enter 680ms cubic-bezier(.2,.7,.2,1) both;
+  animation-delay: var(--activity-delay, 0ms);
+}
+.dashboard .activity-panel .activity-item:nth-of-type(2) { --activity-delay: 140ms; }
+.dashboard .activity-panel .activity-item:nth-of-type(3) { --activity-delay: 280ms; }
+.dashboard .activity-panel .activity-item:nth-of-type(4) { --activity-delay: 420ms; }
+.dashboard .activity-panel .activity-item .activity-icon {
+  transition: box-shadow 260ms ease, border-color 260ms ease;
+}
+.dashboard .activity-panel .activity-item:first-of-type .activity-icon {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--violet) 28%, transparent), 0 0 18px color-mix(in srgb, var(--violet) 16%, transparent);
+}
+@keyframes advexon-activity-enter {
+  0% { opacity: 0; transform: translateY(18px); }
+  70% { opacity: 1; transform: translateY(-2px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dashboard .activity-panel .activity-item {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+}
