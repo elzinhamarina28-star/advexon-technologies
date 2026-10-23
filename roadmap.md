@@ -36,3 +36,5 @@
 - [x] Dedicated agents page (/agentes); links from diagnostic result and footer.
 - [ ] Live ATHENA reply via Gemini (blocked: Gemini returned 503 "high demand"; retry later).
 - [x] /planos route; integration flags in shared/integrations.ts (auth, database, Kiwify, WhatsApp off).
+- [ ] WhatsApp Business connection: user is filling the connect card; guide fields, do not auto-connect; confirm activation only with explicit approval.
+- [ ] Per-client connections (Google Drive, Excel, Outlook): no workspace OAuth clients exist yet; user must create them in workspace App User Connectors settings before the "connect your account" buttons work for clients.
