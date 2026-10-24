@@ -50,6 +50,13 @@
       "when": 1792374484333,
       "tag": "0006_start_ai_cancel_grace_stale_reservations",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1792878071635,
+      "tag": "0007_companies_and_whatsapp_inbox",
+      "breakpoints": true
     }
   ]
 }
