@@ -14,7 +14,7 @@ export const Route = createFileRoute('/_authenticated/app')({ head: pageHead('Á
 const nav = [
   { to: '/app', label: 'Dashboard' }, { to: '/app/diagnostico', label: 'Diagnóstico' }, { to: '/app/equipe', label: 'Equipe IA' },
   { to: '/app/agentes/athena' as '/app', label: 'ATHENA' }, { to: '/app/agentes/ethan' as '/app', label: 'ETHAN' }, { to: '/app/agentes/follow-up' as '/app', label: 'FOLLOW-UP' },
-  { to: '/app/vendas', label: 'Vendas' }, { to: '/app/organizacao', label: 'Organização' }, { to: '/app/assinatura', label: 'Assinatura' },
+  { to: '/app/atendimento' as '/app', label: 'Atendimento WhatsApp' }, { to: '/app/vendas', label: 'Vendas' }, { to: '/app/organizacao', label: 'Organização' }, { to: '/app/assinatura', label: 'Assinatura' },
   { to: '/app/conta', label: 'Minha conta' }, { to: '/app/configuracoes', label: 'Configurações' },
 ] as const;
 

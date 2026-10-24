@@ -4,7 +4,7 @@ export const integrations = {
   auth: { enabled: true, note: 'Autenticação configurada no Lovable Cloud; fluxos reais ainda não integralmente verificados.' },
   database: { enabled: true, note: 'Banco e persistência da conta configurados; fluxos reais ainda não integralmente verificados.' },
   checkout: { enabled: false, note: 'Links oficiais cadastrados. Liberação automática ainda não validada; faltam token, IDs dos produtos e entrega oficial do webhook.' },
-  whatsapp: { enabled: false, note: 'Canal de atendimento da ATHENA — futuro.' },
+  whatsapp: { enabled: false, note: 'Caixa de entrada e atendente existem em modo simulado. Webhook oficial preparado, mas a conexão, a resposta real e o envio pela Graph API continuam desativados até configuração e aprovação da Meta.' },
   sheets: { enabled: false, note: 'Planejado para START, GROWTH e PRO. Falta conectar a conta Google e autorizar acesso às planilhas.' },
   gmail: { enabled: false, note: 'Planejado para GROWTH e PRO. Falta autorização Google para o Gmail e validação da integração.' },
   excel: { enabled: false, note: 'Planejado para PRO. Falta autorização Microsoft e validação de acesso aos arquivos.' },
