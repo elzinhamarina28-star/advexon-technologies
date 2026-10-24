@@ -33,6 +33,7 @@ export const featurePlans = {
   pipeline: ['growth', 'pro'],
   organization: ['growth', 'pro'],
   'dashboard:operational': ['growth', 'pro'],
+  'whatsapp:attendant': ['growth', 'pro'],
 } as const satisfies Record<string, readonly string[]>;
 export type PaidFeature = keyof typeof featurePlans;
 

@@ -77,11 +77,62 @@ export type Database = {
         }
         Relationships: []
       }
+      companies: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          id?: string
+          name?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      company_members: {
+        Row: {
+          company_id: string
+          created_at: string
+          role: Database["public"]["Enums"]["company_role"]
+          user_id: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          role?: Database["public"]["Enums"]["company_role"]
+          user_id: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          role?: Database["public"]["Enums"]["company_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_members_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       diagnostics: {
         Row: {
           answers: Json
           categories: Json
           classification: string
+          company_id: string | null
           created_at: string
           first_agent: string
           id: string
@@ -92,6 +143,7 @@ export type Database = {
           answers: Json
           categories: Json
           classification: string
+          company_id?: string | null
           created_at?: string
           first_agent: string
           id?: string
@@ -102,13 +154,22 @@ export type Database = {
           answers?: Json
           categories?: Json
           classification?: string
+          company_id?: string | null
           created_at?: string
           first_agent?: string
           id?: string
           score?: number
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "diagnostics_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       internal_test_accounts: {
         Row: {
@@ -133,6 +194,7 @@ export type Database = {
       }
       opportunities: {
         Row: {
+          company_id: string | null
           contact: string | null
           created_at: string
           id: string
@@ -144,6 +206,7 @@ export type Database = {
           value: number | null
         }
         Insert: {
+          company_id?: string | null
           contact?: string | null
           created_at?: string
           id?: string
@@ -155,6 +218,7 @@ export type Database = {
           value?: number | null
         }
         Update: {
+          company_id?: string | null
           contact?: string | null
           created_at?: string
           id?: string
@@ -165,7 +229,15 @@ export type Database = {
           user_id?: string
           value?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "opportunities_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -244,6 +316,7 @@ export type Database = {
       }
       tasks: {
         Row: {
+          company_id: string | null
           created_at: string
           done: boolean
           due_date: string | null
@@ -252,6 +325,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          company_id?: string | null
           created_at?: string
           done?: boolean
           due_date?: string | null
@@ -260,6 +334,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          company_id?: string | null
           created_at?: string
           done?: boolean
           due_date?: string | null
@@ -267,15 +342,202 @@ export type Database = {
           title?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "tasks_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wa_channels: {
+        Row: {
+          ai_enabled: boolean
+          business_hours: string
+          company_id: string
+          display_phone: string | null
+          handoff_message: string
+          phone_number_id: string | null
+          prompt: string
+          status: string
+          updated_at: string
+          waba_id: string | null
+        }
+        Insert: {
+          ai_enabled?: boolean
+          business_hours?: string
+          company_id: string
+          display_phone?: string | null
+          handoff_message?: string
+          phone_number_id?: string | null
+          prompt?: string
+          status?: string
+          updated_at?: string
+          waba_id?: string | null
+        }
+        Update: {
+          ai_enabled?: boolean
+          business_hours?: string
+          company_id?: string
+          display_phone?: string | null
+          handoff_message?: string
+          phone_number_id?: string | null
+          prompt?: string
+          status?: string
+          updated_at?: string
+          waba_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wa_channels_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: true
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wa_contacts: {
+        Row: {
+          company_id: string
+          created_at: string
+          id: string
+          name: string | null
+          wa_id: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          id?: string
+          name?: string | null
+          wa_id: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          name?: string | null
+          wa_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wa_contacts_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wa_conversations: {
+        Row: {
+          ai_paused: boolean
+          company_id: string
+          contact_id: string
+          created_at: string
+          id: string
+          last_message_at: string
+        }
+        Insert: {
+          ai_paused?: boolean
+          company_id: string
+          contact_id: string
+          created_at?: string
+          id?: string
+          last_message_at?: string
+        }
+        Update: {
+          ai_paused?: boolean
+          company_id?: string
+          contact_id?: string
+          created_at?: string
+          id?: string
+          last_message_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wa_conversations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wa_conversations_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "wa_contacts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wa_messages: {
+        Row: {
+          body: string
+          company_id: string
+          conversation_id: string
+          created_at: string
+          direction: string
+          external_id: string | null
+          id: string
+          sender: string
+        }
+        Insert: {
+          body: string
+          company_id: string
+          conversation_id: string
+          created_at?: string
+          direction: string
+          external_id?: string | null
+          id?: string
+          sender: string
+        }
+        Update: {
+          body?: string
+          company_id?: string
+          conversation_id?: string
+          created_at?: string
+          direction?: string
+          external_id?: string | null
+          id?: string
+          sender?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wa_messages_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wa_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "wa_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      ensure_company_for: { Args: { _user: string }; Returns: string }
       get_effective_subscription: { Args: never; Returns: Json }
+      has_company_role: {
+        Args: {
+          _company: string
+          _role: Database["public"]["Enums"]["company_role"]
+        }
+        Returns: boolean
+      }
       has_operational_access: { Args: never; Returns: boolean }
+      is_company_member: { Args: { _company: string }; Returns: boolean }
+      my_company_id: { Args: never; Returns: string }
       process_kiwify_webhook: { Args: { command: Json }; Returns: Json }
       reserve_ai_interaction: {
         Args: { content_hash: string; request_key: string }
@@ -284,7 +546,7 @@ export type Database = {
       set_internal_test_plan: { Args: { selected_plan: string }; Returns: Json }
     }
     Enums: {
-      [_ in never]: never
+      company_role: "owner" | "agent"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -411,6 +673,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      company_role: ["owner", "agent"],
+    },
   },
 } as const

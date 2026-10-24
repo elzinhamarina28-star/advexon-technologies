@@ -1,40 +1,16 @@
+- [ ] Multiempresa + atendente WhatsApp (plano aprovado 24/10): etapas 1, 3, 4 e 5 em implementação; etapa 2 (cotas por empresa) pendente até existir convite de membros; etapas 6–7 bloqueadas por app/revisão Meta e autorização de publicação.
 - [x] Owner decisions applied: START basic AI (ATHENA, 100/mês, server-side), "Em breve" on unimplemented GROWTH/PRO items, canceled keeps access until paid period end, stale AI reservations expire after 2 min, reset form only via recovery link. 97 local tests pass.
 - [ ] Kiwify date/payload format and cancellation flow (blocked: no real payload, token or product IDs).
-- [x] Add missing official support email locally, PWA manifest/icons and network-only offline notice; improve real dashboard retry/mobile/focus. Public browser checks and 91 local tests passed; no publication.
 - [ ] Verify PWA installation/offline on served production assets (blocked: preview offline navigation was blank; no publication authorized). Do not advertise offline functionality.
-- [ ] Honest integration availability: Sheets/Gmail/WhatsApp/Excel/Instagram need credentials and approvals; GitHub Actions pending outside environment.
+- [ ] Honest integration availability: Sheets/Gmail/Excel/Instagram need credentials and approvals; GitHub Actions pending outside environment.
 - [ ] Finalize existing Kiwify receiving and checkout links; verify official payload/auth contract, subscription lifecycle and safe pre-signup association.
-- [x] Implement owner-bound atomic monthly AI reservations (GROWTH 1000/PRO 5000), replay without provider calls, failure release and opportunity caps (500/2000); local unit tests passed.
-- [ ] Verify real database quota concurrency and billing transitions (blocked: rollback SQL session lacks permissions); company membership and START basic AI still missing.
+- [ ] Verify real database quota concurrency and billing transitions (blocked: rollback SQL session lacks permissions).
 - [ ] Verify diagnostic reuse, auth and public navigation; authenticated checks require an authorized account.
 - [ ] Validate recurring products, official payment deliveries, Gemini and production release (blocked until external configuration and critical checks).
-- [x] Implement Kiwify webhook routes and service-only atomic order processing; verify 34 focused tests, database grants and local fail-closed response; keep checkout off.
-- [ ] Activate/verify Kiwify deliveries (blocked: no publication, shared webhook token/product IDs or confirmed official delivery payload); transactional SQL regression remains unexecuted.
-- [x] Fix synchronous diagnostic completion persistence and integration metadata; verify local regression tests and same-tab reload without external calls.
 - [ ] Rebuild focused executive diagnostic report and verify diagnostic rules, CTAs and desktop/mobile rendering without external calls.
-# ADVEXON Technologies
-- [x] Apply ADVEXON branding across existing screens, metadata and icons; 84 regression tests passed, automatic build OK, eight public screens verified at desktop/mobile with no runtime errors. Authenticated screens inherit shared branding but were not exercised signed in.
 - [ ] Replace provisional recreated ADVEXON logo with exact approved artwork (blocked: original asset not supplied).
-- [ ] Localize authentication errors and accessible validation to PT-BR; verify focused tests and browser flow without external calls.
-- [x] Add secure internal plan switching and align implemented paid features; entitlement tests and deployed grants/policies verified without external calls.
-- [ ] Verify signed-in internal plan switching end-to-end (blocked: owner account not yet identified; sandbox SQL connection cannot execute authenticated functions).
+- [ ] Localize authentication errors and accessible validation to PT-BR; verify focused tests and browser flow.
+- [ ] Verify signed-in internal plan switching end-to-end (blocked: owner account not yet identified).
 - [ ] Link owner's internal account (blocked until owner creates/signs into her account).
-- [x] Deepen isolated /previa operational views and shared real-app presentation, preserving landing, access rules and real data.
-- [x] Verify preview navigation, mobile layout, changed route tests and compilation without model calls.
-- [x] Connect public sign-in/start links and a navigable, isolated app preview; verify changed routes without model calls.
-- [x] Increase surface contrast, editorial spacing and agent presence without touching the current logo, copy or logic.
-- [x] Verify 21 tests, successful preview compilation, five viewport widths and desktop/mobile interactions after the new aesthetic pass.
-- [x] Refine surfaces, spacing, hero, cards, agents, pricing, dashboard and footer while preserving current logo and functionality.
-- [x] Verify 21 passing tests, clean build/runtime signals, five viewport widths, dashboard controls, plan dialog, full diagnostic results and reset.
-- [x] Replace reconstructed logos with the supplied official asset without unrelated changes.
-- [x] Verify header, footer, dashboard and favicon rendering with original proportions.
-- [x] Confirm responsive rendering at 1440, 1280, 1024, 390 and 360 pixels, passing tests and clean build/runtime signals.- [x] ATHENA V1 playground (/athena) with server-side model call and session-only history.
-- [x] OPENAI_API_KEY secret saved.
-- [ ] Live ATHENA reply test (blocked: OpenAI account has no credits).
-
-- [x] Client dashboard page (/painel) with session score, demo indicators, agents, opportunities.
-- [x] Dedicated agents page (/agentes); links from diagnostic result and footer.
-- [ ] Live ATHENA reply via Gemini (blocked: Gemini returned 503 "high demand"; retry later).
-- [x] /planos route; integration flags in shared/integrations.ts (auth, database, Kiwify, WhatsApp off).
-- [ ] WhatsApp Business connection: user is filling the connect card; guide fields, do not auto-connect; confirm activation only with explicit approval.
-- [ ] Per-client connections (Google Drive, Excel, Outlook): no workspace OAuth clients exist yet; user must create them in workspace App User Connectors settings before the "connect your account" buttons work for clients.
+- [ ] Live ATHENA reply via Gemini (blocked: earlier 503 "high demand"; retry later).
+- [ ] Per-client connections (Google Drive, Excel, Outlook): workspace OAuth clients must be created first.
