@@ -1876,3 +1876,83 @@ html, body, #root {
     transform: none;
   }
 }
+
+
+/* Mobile responsiveness fix: keep the marketing hero title and copy inside the viewport. */
+@media (max-width: 640px) {
+  #produto.hero > .hero-intro-stage {
+    width: 100%;
+    max-width: 100%;
+    overflow: clip;
+  }
+
+  #produto.hero .hero-intro-container {
+    width: calc(100% - 36px);
+    max-width: 100%;
+    min-width: 0;
+    padding-inline: 0;
+  }
+
+  #produto.hero .intro-title,
+  #produto.hero .hero-intro-container h1 {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    font-size: clamp(2.7rem, 11.4vw, 4.15rem);
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    hyphens: auto;
+  }
+
+  #produto.hero .intro-title em,
+  #produto.hero .hero-intro-container h1 em {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  #produto.hero .intro-label {
+    max-width: 100%;
+    white-space: normal;
+    text-align: left;
+    line-height: 1.5;
+    letter-spacing: 0.08em;
+  }
+
+  #produto.hero .intro-support,
+  #produto.hero .intro-sub {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  #produto.hero .intro-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  #produto.hero .intro-actions > * {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  #produto.hero .hero-intro-stage .hero-static-bg,
+  #produto.hero .hero-intro-stage .hero-video-bg {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  #produto.hero .hero-intro-container {
+    width: calc(100% - 28px);
+  }
+
+  #produto.hero .intro-title,
+  #produto.hero .hero-intro-container h1 {
+    font-size: clamp(2.35rem, 10.8vw, 2.7rem);
+    letter-spacing: -0.045em;
+  }
+}
