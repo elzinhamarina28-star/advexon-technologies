@@ -206,3 +206,101 @@
   #produto.hero .hero-glass-ribbons path.glass-ribbon-blur { filter: none; opacity: 0.07; }
   #produto.hero .hero-glass-ribbons path.glass-ribbon-edge { stroke-dasharray: none !important; opacity: 0.2; }
 }
+
+
+/* Intentional motion polish: staged hero entrance, depth and tactile hover states. */
+#produto.hero .intro-label,
+#produto.hero .intro-title,
+#produto.hero .intro-support,
+#produto.hero .intro-sub,
+#produto.hero .intro-actions,
+#produto.hero .intro-microcopy {
+  animation: advexon-hero-enter 820ms cubic-bezier(.2,.72,.2,1) both;
+}
+#produto.hero .intro-label { animation-delay: 80ms; }
+#produto.hero .intro-title { animation-delay: 170ms; }
+#produto.hero .intro-support { animation-delay: 270ms; }
+#produto.hero .intro-sub { animation-delay: 340ms; }
+#produto.hero .intro-actions { animation-delay: 420ms; }
+#produto.hero .intro-microcopy { animation-delay: 500ms; }
+
+#produto.hero .hero-static-bg {
+  transform: scale(1.035);
+  animation: advexon-hero-image-settle 1.8s cubic-bezier(.16,.7,.24,1) both;
+}
+#produto.hero .hero-intro-shade {
+  animation: advexon-hero-shade-in 1.2s ease-out both;
+}
+#produto.hero .hero-mockup {
+  transform-origin: center top;
+  transition: transform 500ms cubic-bezier(.2,.7,.2,1), filter 500ms ease;
+}
+#produto.hero .hero-mockup:hover {
+  transform: translateY(-5px);
+  filter: drop-shadow(0 22px 36px color-mix(in srgb, var(--primary) 12%, transparent));
+}
+#produto.hero .product-strip span {
+  transition: transform 240ms ease, color 240ms ease, border-color 240ms ease;
+}
+#produto.hero .product-strip span:hover {
+  transform: translateY(-3px);
+  color: var(--foreground);
+}
+#produto.hero .product-strip span svg {
+  transition: transform 240ms ease, filter 240ms ease;
+}
+#produto.hero .product-strip span:hover svg {
+  transform: scale(1.12);
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--cyan) 40%, transparent));
+}
+#produto.hero .hero-actions a,
+#produto.hero .hero-actions button {
+  transition: transform 220ms ease, filter 220ms ease, box-shadow 220ms ease;
+}
+#produto.hero .hero-actions a:hover,
+#produto.hero .hero-actions button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+
+@keyframes advexon-hero-enter {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes advexon-hero-image-settle {
+  from { opacity: .45; transform: scale(1.075); }
+  to { opacity: 1; transform: scale(1.035); }
+}
+@keyframes advexon-hero-shade-in {
+  from { opacity: .65; }
+  to { opacity: 1; }
+}
+
+@media (hover: none) {
+  #produto.hero .hero-mockup:hover,
+  #produto.hero .product-strip span:hover {
+    transform: none;
+    filter: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #produto.hero .intro-label,
+  #produto.hero .intro-title,
+  #produto.hero .intro-support,
+  #produto.hero .intro-sub,
+  #produto.hero .intro-actions,
+  #produto.hero .intro-microcopy,
+  #produto.hero .hero-static-bg,
+  #produto.hero .hero-intro-shade {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  #produto.hero .hero-mockup,
+  #produto.hero .product-strip span,
+  #produto.hero .product-strip span svg,
+  #produto.hero .hero-actions a,
+  #produto.hero .hero-actions button {
+    transition: none !important;
+  }
+}
